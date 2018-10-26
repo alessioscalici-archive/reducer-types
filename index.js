@@ -1,1 +1,1 @@
-module.exports = require('./src/redux-modules');
+module.exports = require('./src/redules');

@@ -1,5 +1,5 @@
 
-const { DEFAULT_ACTION_MAP, POP } = require('../../src/redux-modules.js');
+const { DEFAULT_ACTION_MAP, POP } = require('../../index');
 
 
 const actionReducer = DEFAULT_ACTION_MAP[POP];

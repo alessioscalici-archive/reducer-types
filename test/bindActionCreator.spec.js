@@ -1,7 +1,7 @@
 
 const {
   bindActionCreator,
-} = require('../src/redux-modules.js');
+} = require('../index');
 
 
 const TARGET_ID = 'TARGET_ID';

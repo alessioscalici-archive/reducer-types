@@ -1,7 +1,7 @@
 
 const {
   multiAction, MULTIACTION,
-} = require('../src/redux-modules.js');
+} = require('../index');
 
 
 const TARGET_ID_1 = 'TARGET_ID_1';

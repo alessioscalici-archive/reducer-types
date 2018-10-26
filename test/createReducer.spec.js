@@ -2,7 +2,7 @@
 const {
   createReducer,
   SET, ENTRY, REMOVE, PUSH, POP, SHIFT, UNSHIFT,
-} = require('../src/redux-modules.js');
+} = require('../index');
 
 
 const TARGET_ID = 'TARGET_ID';

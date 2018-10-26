@@ -1,5 +1,5 @@
 
-const { DEFAULT_ACTION_MAP, SHIFT } = require('../../src/redux-modules.js');
+const { DEFAULT_ACTION_MAP, SHIFT } = require('../../index');
 
 
 const actionReducer = DEFAULT_ACTION_MAP[SHIFT];

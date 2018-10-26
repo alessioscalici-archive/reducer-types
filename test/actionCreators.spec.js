@@ -8,7 +8,7 @@ const {
   pop, POP,
   shift, SHIFT,
   compose, COMPOSE,
-} = require('../src/redux-modules.js');
+} = require('../index');
 
 
 const KEY = 'someKey';
