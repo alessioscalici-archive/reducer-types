@@ -1,7 +1,7 @@
 
 const {
   createReducer,
-  SET, ENTRY, REMOVE, PUSH, POP, SHIFT, UNSHIFT,
+  SET, ENTRY, REMOVE, PUSH, POP, SHIFT, UNSHIFT, COMPOSE, MULTIACTION,
 } = require('../index');
 
 
@@ -250,6 +250,94 @@ describe('reducer receiving the SHIFT action', () => {
         type: SHIFT,
         meta: {
           reduxId: 'some-other-id'
+        },
+      });
+    expect(newState).toBe(oldState);
+  });
+});
+
+
+describe('reducer receiving a COMPOSE action', () => {
+
+  const reducer = createReducer()([11])(TARGET_ID);
+  const oldState = reducer();
+
+  it('reacts if reduxId equals its target', () => {
+    const newState = reducer(
+      oldState,
+      {
+        type: COMPOSE,
+        payload: {
+          actions: [
+            { type: PUSH, payload: { value: 22 } },
+            { type: PUSH, payload: { value: 33 } }
+          ],
+        },
+        meta: {
+          reduxId: TARGET_ID
+        },
+      });
+    expect(newState).toEqual([11, 22, 33]);
+  });
+
+  it('does not react if reduxId differs from its target', () => {
+    const newState = reducer(
+      oldState,
+      {
+        type: COMPOSE,
+        payload: {
+          actions: [
+            { type: PUSH, payload: { value: 22 } },
+            { type: PUSH, payload: { value: 33 } }
+          ],
+        },
+        meta: {
+          reduxId: 'some-other-id'
+        },
+      });
+    expect(newState).toBe(oldState);
+  });
+});
+
+
+describe('reducer receiving a MULTIACTION action', () => {
+
+  const reducer = createReducer()([11])(TARGET_ID);
+  const oldState = reducer();
+
+  it('reacts if one of the actions reduxId equals its target', () => {
+    const newState = reducer(
+      oldState,
+      {
+        type: MULTIACTION,
+        payload: {
+          actionsMap: {
+            [TARGET_ID]: [
+              { type: PUSH, payload: { value: 22 } }
+            ],
+            'some-other-target': [
+              { type: PUSH, payload: { value: 99 } }
+            ],
+          },
+        },
+      });
+    expect(newState).toEqual([11, 22]);
+  });
+
+  it('does not react if reduxId differs from its target', () => {
+    const newState = reducer(
+      oldState,
+      {
+        type: MULTIACTION,
+        payload: {
+          actionsMap: {
+            'some-other-target': [
+              { type: PUSH, payload: { value: 22 } }
+            ],
+            'some-other-target-2': [
+              { type: PUSH, payload: { value: 99 } }
+            ],
+          },
         },
       });
     expect(newState).toBe(oldState);
