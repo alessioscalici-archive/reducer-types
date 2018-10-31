@@ -21,6 +21,14 @@ const TYPE_ARRAY = 'array';
 
 const descr = (type, initialValue) => ({ type, initialValue, isLeaf: true });
 
+const type = {
+  string: val => descr(TYPE_STRING, val),
+  number: val => descr(TYPE_NUMBER, val),
+  boolean: val => descr(TYPE_BOOLEAN, val),
+  object: val => descr(TYPE_OBJECT, val),
+  array: val => descr(TYPE_ARRAY, val),
+};
+
 
 
 // Generate ids tree (exercise)
@@ -96,7 +104,7 @@ const getSelectors = (descr, path = []) => {
   }, {});
 };
 
-// Generate selectors NAMES tree
+// Generate selectors NAMES tree (for static generation)
 
 const getSelectorNames = (descr, path = []) => {
   if (descr.isLeaf) {
@@ -110,17 +118,36 @@ const getSelectorNames = (descr, path = []) => {
 
 
 
+const generateStateCode = (descr, path = []) => {
+  if (descr.isLeaf) {
+
+    const relativePath = path.join('/');
+
+    console.log(`${relativePath}/selectors.js`);
+    console.log(`${relativePath}/reducer.js`);
+    console.log(`${relativePath}/actions.js`);
+
+    return relativePath;
+  }
+  return Object.keys(descr).reduce((acc, key) => {
+    acc[key] = generateStateCode(descr[key], [...path, key]);
+    return acc;
+  }, {});
+};
+
+
+
 
 const { push, unshift, shift, entry, multiAction } = require('./src/redules');
 // import also types: TYPE_BOOLEAN, TYPE_STRING, TYPE_ARRAY, TYPE_OBJECT
 
 
 const descriptor = {
-  loading: descr(TYPE_BOOLEAN, true),
+  loading: type.boolean(true),
   articles: {
-    curId: descr(TYPE_STRING, null),
-    ids: descr(TYPE_ARRAY, []),
-    byId: descr(TYPE_OBJECT, {}),
+    curId: type.string(null),
+    ids: type.array([]),
+    byId: type.object({}),
   }
 };
 
@@ -131,6 +158,8 @@ const actions = getActions(descriptor);
 const reducer = getReducer(descriptor);
 const selectors = getSelectors(descriptor);
 const selectorNames = getSelectorNames(descriptor);
+
+generateStateCode(descriptor);
 
 
 const setLoading = actions.loading.set;

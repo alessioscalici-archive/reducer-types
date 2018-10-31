@@ -80,6 +80,9 @@ const compose = (...actions) => ({ type: RM_COMPOSED, payload: { actions } });
 
 const multiAction = (...actions) => {
     const actionsMap = actions.reduce((acc, act) => {
+        if (!act) {
+          return acc;
+        }
         if (act && act.meta && act.meta.reduxId) {
             if(!acc[act.meta.reduxId]) {
                 acc[act.meta.reduxId] = [];
@@ -99,8 +102,14 @@ const multiAction = (...actions) => {
 };
 
 
+
+
 const DEFAULT_ACTION_MAP = {
+
+    // TODO: att type check to set?
     [RM_SET]: (state, action) => action.payload.value,
+
+    // Object
     [RM_ENTRY]: (state, action) => {
       const { key, value } = action.payload;
       return (!state || state[key] === value) ? state : { ...state, [key]: value };
@@ -113,11 +122,13 @@ const DEFAULT_ACTION_MAP = {
       return res;
     },
 
+    // Array
     [RM_PUSH]: (state, action) => (state && Array.isArray(state) ? [ ...state, action.payload.value ] : state),
     [RM_UNSHIFT]: (state, action) => (state && Array.isArray(state) ? [ action.payload.value, ...state ] : state),
     [RM_POP]: state => state && Array.isArray(state) ? state.slice(0, state.length-1) : state,
     [RM_SHIFT]: state => state && Array.isArray(state) ? state.slice(1) : state,
 
+    // Number
     [RM_ADD]: (state, action) => state + action.payload.value,
     [RM_SUBTRACT]: (state, action) => state - action.payload.value,
     [RM_MULTIPLY]: (state, action) => state * action.payload.value,
@@ -128,11 +139,13 @@ const DEFAULT_ACTION_MAP = {
     [RM_BW_OR]: (state, action) => state | action.payload.value,
     [RM_BW_XOR]: (state, action) => state ^ action.payload.value,
 
+    // Boolean
     [RM_AND]: (state, action) => state && action.payload.value,
     [RM_OR]: (state, action) => state || action.payload.value,
     [RM_XOR]: (state, action) => action.payload.value ? !state : state,
     [RM_NOT]: state => !state,
 
+    // Boolean
     [RM_UPPERCASE]: state => state && state.toUpperCase(),
     [RM_LOWERCASE]: state => state && state.toLowerCase(),
 };
@@ -163,6 +176,7 @@ const createReducer = (customActionMap = null) => {
 
     const defaultReducer = (state, action) => {
 
+        // TODO: Unify composed to multiaction?
         if (action.type === RM_COMPOSED) {
             return action.payload.actions.reduce((acc, act) => {
                 if (actionMap[act.type]) {
@@ -193,7 +207,6 @@ const createReducer = (customActionMap = null) => {
             return state;
         }
 
-
         return defaultReducer(state, action);
     };
 
@@ -222,35 +235,7 @@ const bindStringActions = reduxId => bindActions(reduxId, { uppercase, lowercase
 
 
 
-// Factory
-class ReduxType {
-    constructor(initialValue = null, actionMap = null) {
-        this.initialValue = initialValue;
-        this.actionMap = actionMap;
-    }
-
-    get reducerFactory () {
-        return createReducer(this.actionMap)(this.initialValue);
-    }
-
-
-    create(reduxId) {
-        const wrap = bindActionCreator(reduxId);
-        const includedActions = { set, entry, remove, push, unshift, pop, shift, compose };
-        const actionCreators = Object.keys(includedActions).reduce((acc, key) => {
-            acc[key] = wrap(includedActions[key]);
-            return acc;
-        }, {});
-
-        return {
-            ...actionCreators,
-            reducer: this.reducerFactory(reduxId),
-        }
-    }
-}
-
 module.exports = {
-    ReduxType,
 
     // Generic set action
     SET: RM_SET,
