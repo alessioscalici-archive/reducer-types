@@ -78,12 +78,12 @@ const getActions = (descr, path = []) => {
 
 // Generate reducers tree
 
-// const customCreateReducer = createReducer( /* no custom action map */ ); // TODO: CUSTOM MAP!!
+const customCreateReducer = createReducer( /* no custom action map */ ); // TODO: CUSTOM MAP!!
 
 const getReducer = (descr, path = []) => {
   if (descr.isLeaf) {
     const id = path.join('.');
-    return createReducer(null, descr.type)(descr.initialValue)(id);
+    return customCreateReducer(descr.type, descr.initialValue)(id);
   }
   return (state, action) => Object.keys(descr).reduce((acc, key) => {
     acc[key] = getReducer(descr[key], [...path, key])(state && state[key], action);

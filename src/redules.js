@@ -117,47 +117,80 @@ const multiAction = (...actions) => {
 
 // TODO: bind only actions for the target type
 
+const ahEntry = (state, action) => {
+  const { key, value } = action.payload;
+  return (!state || state[key] === value) ? state : { ...state, [key]: value };
+};
+const ahRemove = (state, action) => {
+  if (!state || !state.hasOwnProperty(action.payload.key)) {
+    return state;
+  }
+  const { [action.payload.key]: val, ...res } = state;
+  return res;
+};
+
+// Array
+const ahPush = (state, action) => (state && Array.isArray(state) ? [ ...state, action.payload.value ] : state);
+const ahUnshift = (state, action) => (state && Array.isArray(state) ? [ action.payload.value, ...state ] : state);
+const ahPop = state => state && Array.isArray(state) ? state.slice(0, state.length-1) : state;
+const ahShift = state => state && Array.isArray(state) ? state.slice(1) : state;
+
+// FIXME number can be null
+// Number
+const ahAdd = (state, action) => state + action.payload.value;
+const ahSubtract = (state, action) => state - action.payload.value;
+const ahMultiply = (state, action) => state * action.payload.value;
+const ahDivide = (state, action) => state / action.payload.value;
+const ahMod = (state, action) => state % action.payload.value;
+const ahNegate = state => -state;
+const ahBwAnd = (state, action) => state & action.payload.value;
+const ahBwOr = (state, action) => state | action.payload.value;
+const ahBwXor = (state, action) => state ^ action.payload.value;
+
+// Boolean
+const ahAnd = (state, action) => (state === null ? state : state && action.payload.value);
+const ahOr = (state, action) => (state === null ? state : state || action.payload.value);
+const ahXor = (state, action) => (state === null ? state : (action.payload.value ? !state : state));
+const ahNot = state => (state === null ? state : !state);
+
+// String
+const ahUppercase = state => state && state.toUpperCase();
+const ahLowercase = state => state && state.toLowerCase();
+
+
+
 const DEFAULT_ACTION_MAP = {
-
-    // Object
-    [RM_ENTRY]: (state, action) => {
-      const { key, value } = action.payload;
-      return (!state || state[key] === value) ? state : { ...state, [key]: value };
+    [TYPE_ARRAY]: {
+        [RM_PUSH]: ahPush,
+        [RM_UNSHIFT]: ahUnshift,
+        [RM_POP]: ahPop,
+        [RM_SHIFT]: ahShift,
     },
-    [RM_REMOVE]: (state, action) => {
-      if (!state || !state.hasOwnProperty(action.payload.key)) {
-        return state;
-      }
-      const { [action.payload.key]: val, ...res } = state;
-      return res;
+    [TYPE_OBJECT]: {
+        [RM_ENTRY]: ahEntry,
+        [RM_REMOVE]: ahRemove,
     },
-
-    // Array
-    [RM_PUSH]: (state, action) => (state && Array.isArray(state) ? [ ...state, action.payload.value ] : state),
-    [RM_UNSHIFT]: (state, action) => (state && Array.isArray(state) ? [ action.payload.value, ...state ] : state),
-    [RM_POP]: state => state && Array.isArray(state) ? state.slice(0, state.length-1) : state,
-    [RM_SHIFT]: state => state && Array.isArray(state) ? state.slice(1) : state,
-
-    // Number
-    [RM_ADD]: (state, action) => state + action.payload.value,
-    [RM_SUBTRACT]: (state, action) => state - action.payload.value,
-    [RM_MULTIPLY]: (state, action) => state * action.payload.value,
-    [RM_DIVIDE]: (state, action) => state / action.payload.value,
-    [RM_MOD]: (state, action) => state % action.payload.value,
-    [RM_NEGATE]: state => -state,
-    [RM_BW_AND]: (state, action) => state & action.payload.value,
-    [RM_BW_OR]: (state, action) => state | action.payload.value,
-    [RM_BW_XOR]: (state, action) => state ^ action.payload.value,
-
-    // Boolean
-    [RM_AND]: (state, action) => state && action.payload.value,
-    [RM_OR]: (state, action) => state || action.payload.value,
-    [RM_XOR]: (state, action) => action.payload.value ? !state : state,
-    [RM_NOT]: state => !state,
-
-    // Boolean
-    [RM_UPPERCASE]: state => state && state.toUpperCase(),
-    [RM_LOWERCASE]: state => state && state.toLowerCase(),
+    [TYPE_BOOLEAN]: {
+        [RM_AND]: ahAnd,
+        [RM_OR]: ahOr,
+        [RM_XOR]: ahXor,
+        [RM_NOT]: ahNot,
+    },
+    [TYPE_NUMBER]: {
+        [RM_ADD]: ahAdd,
+        [RM_SUBTRACT]: ahSubtract,
+        [RM_MULTIPLY]: ahMultiply,
+        [RM_DIVIDE]: ahDivide,
+        [RM_MOD]: ahMod,
+        [RM_NEGATE]: ahNegate,
+        [RM_BW_AND]: ahBwAnd,
+        [RM_BW_OR]: ahBwOr,
+        [RM_BW_XOR]: ahBwXor,
+    },
+    [TYPE_STRING]: {
+        [RM_UPPERCASE]: ahUppercase,
+        [RM_LOWERCASE]: ahLowercase,
+    },
 };
 
 
@@ -184,67 +217,82 @@ const isNullOrBoolean = val => (val === null || typeof val === TYPE_BOOLEAN);
 const isNullOrNumber = val => (val === null || (typeof val === TYPE_NUMBER && val !== NaN));
 const isNullOrString = val => (val === null || typeof val === TYPE_STRING);
 
-const getTypeChecker = (type) => (({
+const typeCheckerMap = {
     [TYPE_ARRAY]: isNullOrArray,
     [TYPE_OBJECT]: isNullOrObject,
     [TYPE_BOOLEAN]: isNullOrBoolean,
     [TYPE_NUMBER]: isNullOrNumber,
     [TYPE_STRING]: isNullOrString,
-})[type]);
+};
+
+const isValidType = type => [TYPE_STRING, TYPE_NUMBER, TYPE_BOOLEAN, TYPE_OBJECT, TYPE_ARRAY].includes(type);
 
 
 
 
-// createReducer : ActionMap -> _ -> string -> ((State, Action) -> State)
-const createReducer = (customActionMap = null, type = TYPE_STRING) => {
+const createReducer = (customActionMap = null) => {
 
-    const actionMap = typeof customActionMap === TYPE_OBJECT ?
-        { ...DEFAULT_ACTION_MAP, ...customActionMap } :
-        DEFAULT_ACTION_MAP;
+    
+    return (type = TYPE_STRING, initialValue = null) => {
+        if (!isValidType(type)) {
+            throw new Error(`Type "${type}" is not supported!`);
+        }
 
-    const defaultReducer = (state, action) => {
 
-        // TODO: Unify composed to multiaction?
-        if (action.type === RM_COMPOSED) {
-            return action.payload.actions.reduce((acc, act) => {
-                if (actionMap[act.type]) {
-                    return actionMap[act.type](acc, act);
+        // TODO: bind only functions for the given type
+        const typeActionMap = DEFAULT_ACTION_MAP[type];
+        const actionMap = typeof customActionMap === TYPE_OBJECT ?
+            { ...typeActionMap, ...customActionMap } :
+            typeActionMap;
+
+
+        const defaultReducer = (state, action) => {
+
+            // TODO: Unify composed to multiaction?
+            if (action.type === RM_COMPOSED) {
+                return action.payload.actions.reduce((acc, act) => {
+                    if (actionMap[act.type]) {
+                        return actionMap[act.type](acc, act);
+                    }
+                    return acc;
+                }, state);
+            } else if (action.type === RM_SET) {
+
+                if (typeCheckerMap[type](action.payload.value)) {
+                    return action.payload.value;
+                } else {
+                    // FIXME: effect! 
+                    console.warn(`${action.meta.reduxDebug}: Value ${action.payload.value} is not a valid "${type}" value`);
                 }
-                return acc;
-            }, state);
-        } else if (action.type === RM_SET) {
 
-            if (getTypeChecker(type)(action.payload.value)) {
-                return action.payload.value;
-            } else {
-                // FIXME: effect! 
-                console.warn(`${action.meta.reduxDebug}: Value ${action.payload.value} is not a valid "${type}" value`);
             }
-            
-        }
 
 
-        if (actionMap[action.type]) {
-            return actionMap[action.type](state, action);
-        }
-        return state;
-    };
-
-    return (initialValue = null) => (reduxId) => (state = initialValue, action) => {
-
-        if (!action) return state;
-
-        if (action.type === RM_MULTIACTION) {
-            if (action.payload.actionsMap[reduxId]) {
-                return action.payload.actionsMap[reduxId].reduce(defaultReducer, state);
+            if (actionMap[action.type]) {
+                return actionMap[action.type](state, action);
             }
-        }
-
-        if (!action.meta || action.meta.reduxId !== reduxId) {
             return state;
-        }
+        };
 
-        return defaultReducer(state, action);
+
+
+
+        return (reduxId) => (state = initialValue, action) => {
+
+            if (!action) return state;
+
+            if (action.type === RM_MULTIACTION) {
+                if (action.payload.actionsMap[reduxId]) {
+                    return action.payload.actionsMap[reduxId].reduce(defaultReducer, state);
+                }
+            }
+
+            if (!action.meta || action.meta.reduxId !== reduxId) {
+                return state;
+            }
+
+            return defaultReducer(state, action);
+        };
     };
 
 }
