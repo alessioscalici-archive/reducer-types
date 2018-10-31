@@ -1,3 +1,16 @@
+
+const {
+    TYPE_STRING,
+    TYPE_NUMBER,
+    TYPE_BOOLEAN,
+    TYPE_OBJECT,
+    TYPE_ARRAY,
+} = require('./types');
+
+
+
+
+
 const PREFIX = 'rd:';
 
 
@@ -102,12 +115,9 @@ const multiAction = (...actions) => {
 };
 
 
-
+// TODO: bind only actions for the target type
 
 const DEFAULT_ACTION_MAP = {
-
-    // TODO: att type check to set?
-    [RM_SET]: (state, action) => action.payload.value,
 
     // Object
     [RM_ENTRY]: (state, action) => {
@@ -160,17 +170,35 @@ const bindActionCreator = (reduxId) => (actionCreator) => (...args) => {
     if (!action) return action;
     if (!action.meta) action.meta = {};
     action.meta.reduxId = reduxId;
+    action.meta.reduxDebug = `${action.type}{${reduxId}}`; // TODO: move descriptive text to action type
     return action;
 };
 
 
 
+// ============ TYPE CHECK ============ //
+
+const isNullOrArray = val => (val === null || Array.isArray(val));
+const isNullOrObject = val => (val === null || (typeof val === TYPE_OBJECT && val.constructor === Object));
+const isNullOrBoolean = val => (val === null || typeof val === TYPE_BOOLEAN);
+const isNullOrNumber = val => (val === null || (typeof val === TYPE_NUMBER && val !== NaN));
+const isNullOrString = val => (val === null || typeof val === TYPE_STRING);
+
+const getTypeChecker = (type) => (({
+    [TYPE_ARRAY]: isNullOrArray,
+    [TYPE_OBJECT]: isNullOrObject,
+    [TYPE_BOOLEAN]: isNullOrBoolean,
+    [TYPE_NUMBER]: isNullOrNumber,
+    [TYPE_STRING]: isNullOrString,
+})[type]);
+
+
 
 
 // createReducer : ActionMap -> _ -> string -> ((State, Action) -> State)
-const createReducer = (customActionMap = null) => {
+const createReducer = (customActionMap = null, type = TYPE_STRING) => {
 
-    const actionMap = typeof customActionMap === 'object' ?
+    const actionMap = typeof customActionMap === TYPE_OBJECT ?
         { ...DEFAULT_ACTION_MAP, ...customActionMap } :
         DEFAULT_ACTION_MAP;
 
@@ -184,6 +212,15 @@ const createReducer = (customActionMap = null) => {
                 }
                 return acc;
             }, state);
+        } else if (action.type === RM_SET) {
+
+            if (getTypeChecker(type)(action.payload.value)) {
+                return action.payload.value;
+            } else {
+                // FIXME: effect! 
+                console.warn(`${action.meta.reduxDebug}: Value ${action.payload.value} is not a valid "${type}" value`);
+            }
+            
         }
 
 

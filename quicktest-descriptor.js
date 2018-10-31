@@ -11,11 +11,13 @@ const {
 
 
 
-const TYPE_STRING = 'string';
-const TYPE_NUMBER = 'number';
-const TYPE_BOOLEAN = 'boolean';
-const TYPE_OBJECT = 'object';
-const TYPE_ARRAY = 'array';
+const {
+    TYPE_STRING,
+    TYPE_NUMBER,
+    TYPE_BOOLEAN,
+    TYPE_OBJECT,
+    TYPE_ARRAY,
+} = require('./src/types');
 
 
 
@@ -76,12 +78,12 @@ const getActions = (descr, path = []) => {
 
 // Generate reducers tree
 
-const customCreateReducer = createReducer( /* no custom action map */ ); // TODO: CUSTOM MAP!!
+// const customCreateReducer = createReducer( /* no custom action map */ ); // TODO: CUSTOM MAP!!
 
 const getReducer = (descr, path = []) => {
   if (descr.isLeaf) {
     const id = path.join('.');
-    return customCreateReducer(descr.initialValue)(id);
+    return createReducer(null, descr.type)(descr.initialValue)(id);
   }
   return (state, action) => Object.keys(descr).reduce((acc, key) => {
     acc[key] = getReducer(descr[key], [...path, key])(state && state[key], action);
