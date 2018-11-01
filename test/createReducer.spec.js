@@ -3,6 +3,7 @@ const {
   createReducer,
   SET, ENTRY, REMOVE, PUSH, POP, SHIFT, UNSHIFT, COMPOSE, MULTIACTION,
 } = require('../index');
+const { TYPE_OBJECT, TYPE_ARRAY, TYPE_NUMBER, TYPE_STRING, TYPE_BOOLEAN } = require('../src/types');
 
 
 const TARGET_ID = 'TARGET_ID';
@@ -10,7 +11,7 @@ const TARGET_ID = 'TARGET_ID';
 
 describe('reducer receiving the SET action', () => {
 
-  const reducer = createReducer()(5)(TARGET_ID);
+  const reducer = createReducer(TYPE_NUMBER, 5)(TARGET_ID);
   const oldState = reducer();
 
   it('reacts if reduxId equals its target', () => {
@@ -47,7 +48,7 @@ describe('reducer receiving the SET action', () => {
 
 describe('reducer receiving the ENTRY action', () => {
 
-  const reducer = createReducer()({})(TARGET_ID);
+  const reducer = createReducer(TYPE_OBJECT, {})(TARGET_ID);
   const oldState = reducer();
 
   it('reacts if reduxId equals its target', () => {
@@ -86,7 +87,7 @@ describe('reducer receiving the ENTRY action', () => {
 
 describe('reducer receiving the REMOVE action', () => {
 
-  const reducer = createReducer()({ someKey: 'someValue', removeMe: 100 })(TARGET_ID);
+  const reducer = createReducer(TYPE_OBJECT, { someKey: 'someValue', removeMe: 100 })(TARGET_ID);
   const oldState = reducer();
 
   it('reacts if reduxId equals its target', () => {
@@ -123,7 +124,7 @@ describe('reducer receiving the REMOVE action', () => {
 
 describe('reducer receiving the PUSH action', () => {
 
-  const reducer = createReducer()([11])(TARGET_ID);
+  const reducer = createReducer(TYPE_ARRAY, [11])(TARGET_ID);
   const oldState = reducer();
 
   it('reacts if reduxId equals its target', () => {
@@ -160,7 +161,7 @@ describe('reducer receiving the PUSH action', () => {
 
 describe('reducer receiving the UNSHIFT action', () => {
 
-  const reducer = createReducer()([11])(TARGET_ID);
+  const reducer = createReducer(TYPE_ARRAY, [11])(TARGET_ID);
   const oldState = reducer();
 
   it('reacts if reduxId equals its target', () => {
@@ -197,7 +198,7 @@ describe('reducer receiving the UNSHIFT action', () => {
 
 describe('reducer receiving the POP action', () => {
 
-  const reducer = createReducer()([11, 22, 33])(TARGET_ID);
+  const reducer = createReducer(TYPE_ARRAY, [11, 22, 33])(TARGET_ID);
   const oldState = reducer();
 
   it('reacts if reduxId equals its target', () => {
@@ -228,7 +229,7 @@ describe('reducer receiving the POP action', () => {
 
 describe('reducer receiving the SHIFT action', () => {
 
-  const reducer = createReducer()([11, 22, 33])(TARGET_ID);
+  const reducer = createReducer(TYPE_ARRAY, [11, 22, 33])(TARGET_ID);
   const oldState = reducer();
 
   it('reacts if reduxId equals its target', () => {
@@ -259,7 +260,7 @@ describe('reducer receiving the SHIFT action', () => {
 
 describe('reducer receiving a COMPOSE action', () => {
 
-  const reducer = createReducer()([11])(TARGET_ID);
+  const reducer = createReducer(TYPE_ARRAY, [11])(TARGET_ID);
   const oldState = reducer();
 
   it('reacts if reduxId equals its target', () => {
@@ -302,7 +303,7 @@ describe('reducer receiving a COMPOSE action', () => {
 
 describe('reducer receiving a MULTIACTION action', () => {
 
-  const reducer = createReducer()([11])(TARGET_ID);
+  const reducer = createReducer(TYPE_ARRAY, [11])(TARGET_ID);
   const oldState = reducer();
 
   it('reacts if one of the actions reduxId equals its target', () => {

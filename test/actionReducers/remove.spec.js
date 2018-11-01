@@ -1,8 +1,9 @@
 
 const { DEFAULT_ACTION_MAP, REMOVE } = require('../../index');
+const { TYPE_OBJECT } = require('../../src/types');
 
 
-const actionReducer = DEFAULT_ACTION_MAP[REMOVE];
+const actionReducer = DEFAULT_ACTION_MAP[TYPE_OBJECT][REMOVE];
 
 const KEY = 'someKey';
 

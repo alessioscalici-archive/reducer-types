@@ -115,7 +115,6 @@ const multiAction = (...actions) => {
 };
 
 
-// TODO: bind only actions for the target type
 
 const ahEntry = (state, action) => {
   const { key, value } = action.payload;
@@ -225,24 +224,29 @@ const typeCheckerMap = {
     [TYPE_STRING]: isNullOrString,
 };
 
-const isValidType = type => [TYPE_STRING, TYPE_NUMBER, TYPE_BOOLEAN, TYPE_OBJECT, TYPE_ARRAY].includes(type);
+const isValidType = type => !!typeCheckerMap[type];
 
 
 
-
-const createReducer = (customActionMap = null) => {
+const createCustomCreateReducer = (customActionMap = null) => {
 
     
-    return (type = TYPE_STRING, initialValue = null) => {
+    return (type, initialValue = null) => {
         if (!isValidType(type)) {
             throw new Error(`Type "${type}" is not supported!`);
         }
 
+        // check the type of the initial value
+        if (!typeCheckerMap[type](initialValue)) {
+            // FIXME: effects
+            console.warn(`"${initialValue}" is not a valid value for type "${type}"`);
+            initialValue = null;
+        }
 
-        // TODO: bind only functions for the given type
+
         const typeActionMap = DEFAULT_ACTION_MAP[type];
-        const actionMap = typeof customActionMap === TYPE_OBJECT ?
-            { ...typeActionMap, ...customActionMap } :
+        const actionMap = customActionMap && customActionMap[type] ?
+            { ...typeActionMap, ...customActionMap[type] } :
             typeActionMap;
 
 
@@ -295,7 +299,9 @@ const createReducer = (customActionMap = null) => {
         };
     };
 
-}
+};
+
+const createReducer = createCustomCreateReducer();
 
 
 

@@ -22,6 +22,7 @@ describe('with an action creator which creates an action with no meta', () => {
       type: 'do-something',
       meta: {
         reduxId: TARGET_ID,
+        reduxDebug: `do-something{${TARGET_ID}}`,
       },
     });
   });
@@ -45,6 +46,7 @@ describe('with an action creator which creates an action with meta', () => {
       meta: {
         some: 'metadata',
         reduxId: TARGET_ID,
+        reduxDebug: `do-something{${TARGET_ID}}`,
       },
     });
   });
@@ -69,6 +71,7 @@ describe('with an action creator which creates an action with meta and reduxId',
       meta: {
         some: 'metadata',
         reduxId: TARGET_ID,
+        reduxDebug: `do-something{${TARGET_ID}}`,
       },
     });
   });

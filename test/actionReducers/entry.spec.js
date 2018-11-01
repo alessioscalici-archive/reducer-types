@@ -1,8 +1,9 @@
 
 const { DEFAULT_ACTION_MAP, ENTRY } = require('../../index');
+const { TYPE_OBJECT } = require('../../src/types');
 
 
-const actionReducer = DEFAULT_ACTION_MAP[ENTRY];
+const actionReducer = DEFAULT_ACTION_MAP[TYPE_OBJECT][ENTRY];
 
 const KEY = 'someKey';
 const VALUE = { hello: 'world' };

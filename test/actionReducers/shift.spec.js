@@ -1,8 +1,9 @@
 
 const { DEFAULT_ACTION_MAP, SHIFT } = require('../../index');
+const { TYPE_ARRAY } = require('../../src/types');
 
 
-const actionReducer = DEFAULT_ACTION_MAP[SHIFT];
+const actionReducer = DEFAULT_ACTION_MAP[TYPE_ARRAY][SHIFT];
 
 const oldState = [ { key: 'value' }, { newKey: 'newValue' } ];
 

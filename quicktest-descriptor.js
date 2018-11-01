@@ -78,7 +78,7 @@ const getActions = (descr, path = []) => {
 
 // Generate reducers tree
 
-const customCreateReducer = createReducer( /* no custom action map */ ); // TODO: CUSTOM MAP!!
+const customCreateReducer = createReducer; // TODO: CUSTOM MAP!!
 
 const getReducer = (descr, path = []) => {
   if (descr.isLeaf) {

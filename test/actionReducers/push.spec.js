@@ -1,8 +1,9 @@
 
 const { DEFAULT_ACTION_MAP, PUSH } = require('../../index');
+const { TYPE_ARRAY } = require('../../src/types');
 
 
-const actionReducer = DEFAULT_ACTION_MAP[PUSH];
+const actionReducer = DEFAULT_ACTION_MAP[TYPE_ARRAY][PUSH];
 
 const VALUE = { newKey: 'newValue' };
 const oldState = [ { key: 'value' } ];
