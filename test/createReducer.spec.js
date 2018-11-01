@@ -1,8 +1,8 @@
 
+const { createReducer } = require('../src/redules');
 const {
-  createReducer,
-  SET, ENTRY, REMOVE, PUSH, POP, SHIFT, UNSHIFT, COMPOSE, MULTIACTION,
-} = require('../index');
+  ACTION_TYPE_SET, ACTION_TYPE_ENTRY, ACTION_TYPE_REMOVE, ACTION_TYPE_PUSH, ACTION_TYPE_POP, ACTION_TYPE_SHIFT, ACTION_TYPE_UNSHIFT, ACTION_TYPE_COMPOSED, ACTION_TYPE_MULTIACTION,
+} = require('../src/actions');
 const { TYPE_OBJECT, TYPE_ARRAY, TYPE_NUMBER, TYPE_STRING, TYPE_BOOLEAN } = require('../src/types');
 
 
@@ -18,7 +18,7 @@ describe('reducer receiving the SET action', () => {
     const newState = reducer(
       oldState,
       {
-        type: SET,
+        type: ACTION_TYPE_SET,
         meta: {
           reduxId: TARGET_ID
         },
@@ -33,7 +33,7 @@ describe('reducer receiving the SET action', () => {
     const newState = reducer(
       oldState,
       {
-        type: SET,
+        type: ACTION_TYPE_SET,
         meta: {
           reduxId: 'some-other-id'
         },
@@ -55,7 +55,7 @@ describe('reducer receiving the ENTRY action', () => {
     const newState = reducer(
       oldState,
       {
-        type: ENTRY,
+        type: ACTION_TYPE_ENTRY,
         meta: {
           reduxId: TARGET_ID
         },
@@ -71,7 +71,7 @@ describe('reducer receiving the ENTRY action', () => {
     const newState = reducer(
       oldState,
       {
-        type: ENTRY,
+        type: ACTION_TYPE_ENTRY,
         meta: {
           reduxId: 'some-other-id'
         },
@@ -94,7 +94,7 @@ describe('reducer receiving the REMOVE action', () => {
     const newState = reducer(
       oldState,
       {
-        type: REMOVE,
+        type: ACTION_TYPE_REMOVE,
         meta: {
           reduxId: TARGET_ID
         },
@@ -109,7 +109,7 @@ describe('reducer receiving the REMOVE action', () => {
     const newState = reducer(
       oldState,
       {
-        type: REMOVE,
+        type: ACTION_TYPE_REMOVE,
         meta: {
           reduxId: 'some-other-id'
         },
@@ -131,7 +131,7 @@ describe('reducer receiving the PUSH action', () => {
     const newState = reducer(
       oldState,
       {
-        type: PUSH,
+        type: ACTION_TYPE_PUSH,
         meta: {
           reduxId: TARGET_ID
         },
@@ -146,7 +146,7 @@ describe('reducer receiving the PUSH action', () => {
     const newState = reducer(
       oldState,
       {
-        type: PUSH,
+        type: ACTION_TYPE_PUSH,
         meta: {
           reduxId: 'some-other-id'
         },
@@ -168,7 +168,7 @@ describe('reducer receiving the UNSHIFT action', () => {
     const newState = reducer(
       oldState,
       {
-        type: UNSHIFT,
+        type: ACTION_TYPE_UNSHIFT,
         meta: {
           reduxId: TARGET_ID
         },
@@ -183,7 +183,7 @@ describe('reducer receiving the UNSHIFT action', () => {
     const newState = reducer(
       oldState,
       {
-        type: UNSHIFT,
+        type: ACTION_TYPE_UNSHIFT,
         meta: {
           reduxId: 'some-other-id'
         },
@@ -205,7 +205,7 @@ describe('reducer receiving the POP action', () => {
     const newState = reducer(
       oldState,
       {
-        type: POP,
+        type: ACTION_TYPE_POP,
         meta: {
           reduxId: TARGET_ID
         },
@@ -217,7 +217,7 @@ describe('reducer receiving the POP action', () => {
     const newState = reducer(
       oldState,
       {
-        type: POP,
+        type: ACTION_TYPE_POP,
         meta: {
           reduxId: 'some-other-id'
         },
@@ -236,7 +236,7 @@ describe('reducer receiving the SHIFT action', () => {
     const newState = reducer(
       oldState,
       {
-        type: SHIFT,
+        type: ACTION_TYPE_SHIFT,
         meta: {
           reduxId: TARGET_ID
         },
@@ -248,7 +248,7 @@ describe('reducer receiving the SHIFT action', () => {
     const newState = reducer(
       oldState,
       {
-        type: SHIFT,
+        type: ACTION_TYPE_SHIFT,
         meta: {
           reduxId: 'some-other-id'
         },
@@ -267,11 +267,11 @@ describe('reducer receiving a COMPOSE action', () => {
     const newState = reducer(
       oldState,
       {
-        type: COMPOSE,
+        type: ACTION_TYPE_COMPOSED,
         payload: {
           actions: [
-            { type: PUSH, payload: { value: 22 } },
-            { type: PUSH, payload: { value: 33 } }
+            { type: ACTION_TYPE_PUSH, payload: { value: 22 } },
+            { type: ACTION_TYPE_PUSH, payload: { value: 33 } }
           ],
         },
         meta: {
@@ -285,11 +285,11 @@ describe('reducer receiving a COMPOSE action', () => {
     const newState = reducer(
       oldState,
       {
-        type: COMPOSE,
+        type: ACTION_TYPE_COMPOSED,
         payload: {
           actions: [
-            { type: PUSH, payload: { value: 22 } },
-            { type: PUSH, payload: { value: 33 } }
+            { type: ACTION_TYPE_PUSH, payload: { value: 22 } },
+            { type: ACTION_TYPE_PUSH, payload: { value: 33 } }
           ],
         },
         meta: {
@@ -310,14 +310,14 @@ describe('reducer receiving a MULTIACTION action', () => {
     const newState = reducer(
       oldState,
       {
-        type: MULTIACTION,
+        type: ACTION_TYPE_MULTIACTION,
         payload: {
           actionsMap: {
             [TARGET_ID]: [
-              { type: PUSH, payload: { value: 22 } }
+              { type: ACTION_TYPE_PUSH, payload: { value: 22 } }
             ],
             'some-other-target': [
-              { type: PUSH, payload: { value: 99 } }
+              { type: ACTION_TYPE_PUSH, payload: { value: 99 } }
             ],
           },
         },
@@ -329,14 +329,14 @@ describe('reducer receiving a MULTIACTION action', () => {
     const newState = reducer(
       oldState,
       {
-        type: MULTIACTION,
+        type: ACTION_TYPE_MULTIACTION,
         payload: {
           actionsMap: {
             'some-other-target': [
-              { type: PUSH, payload: { value: 22 } }
+              { type: ACTION_TYPE_PUSH, payload: { value: 22 } }
             ],
             'some-other-target-2': [
-              { type: PUSH, payload: { value: 99 } }
+              { type: ACTION_TYPE_PUSH, payload: { value: 99 } }
             ],
           },
         },

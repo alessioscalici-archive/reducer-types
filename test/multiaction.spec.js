@@ -1,7 +1,7 @@
 
 const {
-  multiAction, MULTIACTION,
-} = require('../index');
+  multiAction, ACTION_TYPE_MULTIACTION,
+} = require('../src/actions');
 
 
 const TARGET_ID_1 = 'TARGET_ID_1';
@@ -22,7 +22,7 @@ describe('multiAction(...) creates an action', () => {
 
   it('with the correct type', () => {
     expect(action).toBeTruthy();
-    expect(action.type).toBe(MULTIACTION);
+    expect(action.type).toBe(ACTION_TYPE_MULTIACTION);
   });
 
   it('with a map of actions in the payload', () => {

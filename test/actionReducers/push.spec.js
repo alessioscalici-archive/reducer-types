@@ -1,9 +1,10 @@
 
-const { DEFAULT_ACTION_MAP, PUSH } = require('../../index');
+const { DEFAULT_ACTION_MAP } = require('../../index');
+const { ACTION_TYPE_PUSH } = require('../../src/actions');
 const { TYPE_ARRAY } = require('../../src/types');
 
 
-const actionReducer = DEFAULT_ACTION_MAP[TYPE_ARRAY][PUSH];
+const actionReducer = DEFAULT_ACTION_MAP[TYPE_ARRAY][ACTION_TYPE_PUSH];
 
 const VALUE = { newKey: 'newValue' };
 const oldState = [ { key: 'value' } ];
@@ -13,7 +14,7 @@ let newState;
 
 describe('when the state is null', () => {
   beforeEach(() => {
-    newState = actionReducer(null, { type: PUSH, payload: { value: VALUE } });
+    newState = actionReducer(null, { type: ACTION_TYPE_PUSH, payload: { value: VALUE } });
   });
 
   it('returns null (does not crash)', () => {
@@ -24,7 +25,7 @@ describe('when the state is null', () => {
 describe('when the state is not an array', () => {
   const notAnArray = { something: 'is wrong!' };
   beforeEach(() => {
-    newState = actionReducer(notAnArray, { type: PUSH, payload: { value: VALUE } });
+    newState = actionReducer(notAnArray, { type: ACTION_TYPE_PUSH, payload: { value: VALUE } });
   });
 
   it('returns the old state (does not crash)', () => {
@@ -35,7 +36,7 @@ describe('when the state is not an array', () => {
 
 describe('when state is an Array', () => {
   beforeEach(() => {
-    newState = actionReducer(oldState, { type: PUSH, payload: { value: VALUE } });
+    newState = actionReducer(oldState, { type: ACTION_TYPE_PUSH, payload: { value: VALUE } });
   });
 
   it('returns a new state (immutability)', () => {

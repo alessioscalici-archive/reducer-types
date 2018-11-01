@@ -1,9 +1,10 @@
 
-const { DEFAULT_ACTION_MAP, REMOVE } = require('../../index');
+const { DEFAULT_ACTION_MAP } = require('../../index');
+const { ACTION_TYPE_REMOVE } = require('../../src/actions');
 const { TYPE_OBJECT } = require('../../src/types');
 
 
-const actionReducer = DEFAULT_ACTION_MAP[TYPE_OBJECT][REMOVE];
+const actionReducer = DEFAULT_ACTION_MAP[TYPE_OBJECT][ACTION_TYPE_REMOVE];
 
 const KEY = 'someKey';
 
@@ -17,7 +18,7 @@ let newState;
 
 describe('when the key does not exist', () => {
   beforeEach(() => {
-    newState = actionReducer(oldState, { type: REMOVE, payload: { key: 'NOT_EXISTING' } });
+    newState = actionReducer(oldState, { type: ACTION_TYPE_REMOVE, payload: { key: 'NOT_EXISTING' } });
   });
 
   it('returns the old state (immutability)', () => {
@@ -27,7 +28,7 @@ describe('when the key does not exist', () => {
 
 describe('when the state is null', () => {
   beforeEach(() => {
-    newState = actionReducer(null, { type: REMOVE, payload: { key: 'NOT_EXISTING' } });
+    newState = actionReducer(null, { type: ACTION_TYPE_REMOVE, payload: { key: 'NOT_EXISTING' } });
   });
 
   it('returns the old state (immutability)', () => {
@@ -38,7 +39,7 @@ describe('when the state is null', () => {
 
 describe('when the key does exist', () => {
   beforeEach(() => {
-    newState = actionReducer(oldState, { type: REMOVE, payload: { key: KEY } });
+    newState = actionReducer(oldState, { type: ACTION_TYPE_REMOVE, payload: { key: KEY } });
   });
 
   it('returns a new state (immutability)', () => {

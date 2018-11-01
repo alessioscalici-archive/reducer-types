@@ -1,9 +1,10 @@
 
-const { DEFAULT_ACTION_MAP, SHIFT } = require('../../index');
+const { DEFAULT_ACTION_MAP } = require('../../index');
+const { ACTION_TYPE_SHIFT } = require('../../src/actions');
 const { TYPE_ARRAY } = require('../../src/types');
 
 
-const actionReducer = DEFAULT_ACTION_MAP[TYPE_ARRAY][SHIFT];
+const actionReducer = DEFAULT_ACTION_MAP[TYPE_ARRAY][ACTION_TYPE_SHIFT];
 
 const oldState = [ { key: 'value' }, { newKey: 'newValue' } ];
 
@@ -12,7 +13,7 @@ let newState;
 
 describe('when the state is null', () => {
   beforeEach(() => {
-    newState = actionReducer(null, { type: SHIFT });
+    newState = actionReducer(null, { type: ACTION_TYPE_SHIFT });
   });
 
   it('returns null (does not crash)', () => {
@@ -23,7 +24,7 @@ describe('when the state is null', () => {
 describe('when the state is not an Array', () => {
   const notAnArray = { something: 'is wrong!' };
   beforeEach(() => {
-    newState = actionReducer(notAnArray, { type: SHIFT });
+    newState = actionReducer(notAnArray, { type: ACTION_TYPE_SHIFT });
   });
 
   it('returns the old state (does not crash)', () => {
@@ -34,7 +35,7 @@ describe('when the state is not an Array', () => {
 
 describe('when state is an Array', () => {
   beforeEach(() => {
-    newState = actionReducer(oldState, { type: SHIFT });
+    newState = actionReducer(oldState, { type: ACTION_TYPE_SHIFT });
   });
 
   it('returns a new state (immutability)', () => {

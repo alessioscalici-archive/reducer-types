@@ -9,110 +9,22 @@ const {
 
 
 
+const {
+    ACTION_TYPE_SET, ACTION_TYPE_COMPOSED, ACTION_TYPE_MULTIACTION,
+    ACTION_TYPE_ENTRY, ACTION_TYPE_REMOVE,
+    ACTION_TYPE_PUSH, ACTION_TYPE_POP, ACTION_TYPE_UNSHIFT, ACTION_TYPE_SHIFT, ACTION_TYPE_ADD, ACTION_TYPE_SUBTRACT,
+    ACTION_TYPE_MULTIPLY, ACTION_TYPE_DIVIDE, ACTION_TYPE_MOD, ACTION_TYPE_NEGATE, ACTION_TYPE_BW_AND, ACTION_TYPE_BW_OR, ACTION_TYPE_BW_XOR,
+    ACTION_TYPE_AND, ACTION_TYPE_OR, ACTION_TYPE_XOR, ACTION_TYPE_NOT,
+    ACTION_TYPE_UPPERCASE, ACTION_TYPE_LOWERCASE,
 
+    set, compose, multiAction,
+    entry, remove,
+    push, pop, unshift, shift,
+    add, subtract, multiply, divide, mod, negate, bitwiseAnd, bitwiseOr, bitwiseXor,
+    and, or, xor, not,
+    uppercase, lowercase,
+} = require('./actions');
 
-const PREFIX = 'rd:';
-
-
-// ============ ACTIONS ============ //
-
-// Generic
-const RM_SET = `${PREFIX}set`;
-
-// Object
-const RM_ENTRY = `${PREFIX}entry`;
-const RM_REMOVE = `${PREFIX}remove`;
-
-// Array
-const RM_PUSH = `${PREFIX}push`;
-const RM_POP = `${PREFIX}pop`;
-const RM_UNSHIFT = `${PREFIX}unshift`;
-const RM_SHIFT = `${PREFIX}shift`;
-
-// Number
-const RM_ADD = `${PREFIX}add`;
-const RM_SUBTRACT = `${PREFIX}subtract`;
-const RM_MULTIPLY = `${PREFIX}multiply`;
-const RM_DIVIDE = `${PREFIX}divide`;
-const RM_MOD = `${PREFIX}mod`;
-const RM_NEGATE = `${PREFIX}negate`;
-const RM_BW_AND = `${PREFIX}bw_and`;
-const RM_BW_OR = `${PREFIX}bw_or`;
-const RM_BW_XOR = `${PREFIX}bw_xor`;
-
-// Boolean
-const RM_AND = `${PREFIX}and`;
-const RM_OR = `${PREFIX}or`;
-const RM_XOR = `${PREFIX}xor`;
-const RM_NOT = `${PREFIX}not`;
-
-// String
-const RM_UPPERCASE = `${PREFIX}uppercase`;
-const RM_LOWERCASE = `${PREFIX}lowercase`;
-
-
-
-// Compose
-const RM_COMPOSED = `${PREFIX}composed`;
-
-// Multiaction
-const RM_MULTIACTION = `${PREFIX}multiaction`;
-
-
-const set = value => ({ type: RM_SET, payload: { value } });
-
-const entry = (key, value) => ({ type: RM_ENTRY, payload: { key, value } });
-const remove = key => ({ type: RM_REMOVE, payload: { key } });
-
-const push = value => ({ type: RM_PUSH, payload: { value } });
-const unshift = value => ({ type: RM_UNSHIFT, payload: { value } });
-const pop = () => ({ type: RM_POP });
-const shift = () => ({ type: RM_SHIFT });
-
-
-const add = value => ({ type: RM_ADD, payload: { value } });
-const subtract = value => ({ type: RM_SUBTRACT, payload: { value } });
-const multiply = value => ({ type: RM_MULTIPLY, payload: { value } });
-const divide = value => ({ type: RM_DIVIDE, payload: { value } });
-const mod = value => ({ type: RM_MOD, payload: { value } });
-const negate = value => ({ type: RM_NEGATE, payload: { value } });
-const bitwiseAnd = value => ({ type: RM_BW_AND, payload: { value } });
-const bitwiseOr = value => ({ type: RM_BW_OR, payload: { value } });
-const bitwiseXor = value => ({ type: RM_BW_XOR, payload: { value } });
-
-const and = value => ({ type: RM_AND, payload: { value } });
-const or = value => ({ type: RM_OR, payload: { value } });
-const xor = value => ({ type: RM_XOR, payload: { value } });
-const not = value => ({ type: RM_NOT });
-
-const uppercase = value => ({ type: RM_UPPERCASE });
-const lowercase = value => ({ type: RM_LOWERCASE });
-
-
-const compose = (...actions) => ({ type: RM_COMPOSED, payload: { actions } });
-
-const multiAction = (...actions) => {
-    const actionsMap = actions.reduce((acc, act) => {
-        if (!act) {
-          return acc;
-        }
-        if (act && act.meta && act.meta.reduxId) {
-            if(!acc[act.meta.reduxId]) {
-                acc[act.meta.reduxId] = [];
-            }
-            acc[act.meta.reduxId].push(act);
-        } else if (act && act.type === RM_MULTIACTION) {
-            Object.keys(act.payload.actionsMap).forEach((reduxId) => {
-                if(!acc[reduxId]) {
-                    acc[reduxId] = [];
-                }
-                acc[reduxId] = acc[reduxId].concat(act.payload.actionsMap[reduxId]);
-            });
-        }
-        return acc;
-    }, {});
-    return { type: RM_MULTIACTION, payload: { actionsMap } };
-};
 
 
 
@@ -160,35 +72,35 @@ const ahLowercase = state => state && state.toLowerCase();
 
 const DEFAULT_ACTION_MAP = {
     [TYPE_ARRAY]: {
-        [RM_PUSH]: ahPush,
-        [RM_UNSHIFT]: ahUnshift,
-        [RM_POP]: ahPop,
-        [RM_SHIFT]: ahShift,
+        [ACTION_TYPE_PUSH]: ahPush,
+        [ACTION_TYPE_UNSHIFT]: ahUnshift,
+        [ACTION_TYPE_POP]: ahPop,
+        [ACTION_TYPE_SHIFT]: ahShift,
     },
     [TYPE_OBJECT]: {
-        [RM_ENTRY]: ahEntry,
-        [RM_REMOVE]: ahRemove,
+        [ACTION_TYPE_ENTRY]: ahEntry,
+        [ACTION_TYPE_REMOVE]: ahRemove,
     },
     [TYPE_BOOLEAN]: {
-        [RM_AND]: ahAnd,
-        [RM_OR]: ahOr,
-        [RM_XOR]: ahXor,
-        [RM_NOT]: ahNot,
+        [ACTION_TYPE_AND]: ahAnd,
+        [ACTION_TYPE_OR]: ahOr,
+        [ACTION_TYPE_XOR]: ahXor,
+        [ACTION_TYPE_NOT]: ahNot,
     },
     [TYPE_NUMBER]: {
-        [RM_ADD]: ahAdd,
-        [RM_SUBTRACT]: ahSubtract,
-        [RM_MULTIPLY]: ahMultiply,
-        [RM_DIVIDE]: ahDivide,
-        [RM_MOD]: ahMod,
-        [RM_NEGATE]: ahNegate,
-        [RM_BW_AND]: ahBwAnd,
-        [RM_BW_OR]: ahBwOr,
-        [RM_BW_XOR]: ahBwXor,
+        [ACTION_TYPE_ADD]: ahAdd,
+        [ACTION_TYPE_SUBTRACT]: ahSubtract,
+        [ACTION_TYPE_MULTIPLY]: ahMultiply,
+        [ACTION_TYPE_DIVIDE]: ahDivide,
+        [ACTION_TYPE_MOD]: ahMod,
+        [ACTION_TYPE_NEGATE]: ahNegate,
+        [ACTION_TYPE_BW_AND]: ahBwAnd,
+        [ACTION_TYPE_BW_OR]: ahBwOr,
+        [ACTION_TYPE_BW_XOR]: ahBwXor,
     },
     [TYPE_STRING]: {
-        [RM_UPPERCASE]: ahUppercase,
-        [RM_LOWERCASE]: ahLowercase,
+        [ACTION_TYPE_UPPERCASE]: ahUppercase,
+        [ACTION_TYPE_LOWERCASE]: ahLowercase,
     },
 };
 
@@ -230,7 +142,7 @@ const isValidType = type => !!typeCheckerMap[type];
 
 const createCustomCreateReducer = (customActionMap = null) => {
 
-    
+
     return (type, initialValue = null) => {
         if (!isValidType(type)) {
             throw new Error(`Type "${type}" is not supported!`);
@@ -253,19 +165,19 @@ const createCustomCreateReducer = (customActionMap = null) => {
         const defaultReducer = (state, action) => {
 
             // TODO: Unify composed to multiaction?
-            if (action.type === RM_COMPOSED) {
+            if (action.type === ACTION_TYPE_COMPOSED) {
                 return action.payload.actions.reduce((acc, act) => {
                     if (actionMap[act.type]) {
                         return actionMap[act.type](acc, act);
                     }
                     return acc;
                 }, state);
-            } else if (action.type === RM_SET) {
+            } else if (action.type === ACTION_TYPE_SET) {
 
                 if (typeCheckerMap[type](action.payload.value)) {
                     return action.payload.value;
                 } else {
-                    // FIXME: effect! 
+                    // FIXME: effect!
                     console.warn(`${action.meta.reduxDebug}: Value ${action.payload.value} is not a valid "${type}" value`);
                 }
 
@@ -285,7 +197,7 @@ const createCustomCreateReducer = (customActionMap = null) => {
 
             if (!action) return state;
 
-            if (action.type === RM_MULTIACTION) {
+            if (action.type === ACTION_TYPE_MULTIACTION) {
                 if (action.payload.actionsMap[reduxId]) {
                     return action.payload.actionsMap[reduxId].reduce(defaultReducer, state);
                 }
@@ -327,70 +239,6 @@ const bindStringActions = reduxId => bindActions(reduxId, { uppercase, lowercase
 
 
 module.exports = {
-
-    // Generic set action
-    SET: RM_SET,
-    set,
-
-    // Object actions
-    ENTRY: RM_ENTRY,
-    REMOVE: RM_REMOVE,
-    entry,
-    remove,
-
-    // Array actions
-    PUSH: RM_PUSH,
-    POP: RM_POP,
-    SHIFT: RM_SHIFT,
-    UNSHIFT: RM_UNSHIFT,
-    push,
-    pop,
-    shift,
-    unshift,
-
-    // Number actions
-    ADD: RM_ADD,
-    SUBTRACT: RM_SUBTRACT,
-    MULTIPLY: RM_MULTIPLY,
-    DIVIDE: RM_DIVIDE,
-    MOD: RM_MOD,
-    NEGATE: RM_NEGATE,
-    BW_AND: RM_BW_AND,
-    BW_OR: RM_BW_OR,
-    BW_XOR: RM_BW_XOR,
-    add,
-    subtract,
-    multiply,
-    divide,
-    mod,
-    negate,
-    bitwiseAnd,
-    bitwiseOr,
-    bitwiseXor,
-
-    // Boolean actions
-    AND: RM_AND,
-    OR: RM_OR,
-    XOR: RM_XOR,
-    NOT: RM_NOT,
-    and,
-    or,
-    xor,
-    not,
-
-    // String actions
-    UPPERCASE: RM_UPPERCASE,
-    LOWERCASE: RM_LOWERCASE,
-    uppercase,
-    lowercase,
-
-
-    // Action composition
-    COMPOSE: RM_COMPOSED,
-    MULTIACTION: RM_MULTIACTION,
-    compose,
-    multiAction,
-
 
     bindActionCreator, // TODO: rename
 

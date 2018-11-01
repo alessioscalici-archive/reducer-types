@@ -140,7 +140,7 @@ const generateStateCode = (descr, path = []) => {
 
 
 
-const { push, unshift, shift, entry, multiAction } = require('./src/redules');
+const { push, unshift, shift, entry, multiAction } = require('./src/actions');
 // import also types: TYPE_BOOLEAN, TYPE_STRING, TYPE_ARRAY, TYPE_OBJECT
 
 
