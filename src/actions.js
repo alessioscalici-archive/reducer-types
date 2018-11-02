@@ -39,10 +39,6 @@ const ACTION_TYPE_UPPERCASE = `${PREFIX}uppercase`;
 const ACTION_TYPE_LOWERCASE = `${PREFIX}lowercase`;
 
 
-
-// Compose
-const ACTION_TYPE_COMPOSED = `${PREFIX}composed`;
-
 // Multiaction
 const ACTION_TYPE_MULTIACTION = `${PREFIX}multiaction`;
 
@@ -77,7 +73,7 @@ const uppercase = value => ({ type: ACTION_TYPE_UPPERCASE });
 const lowercase = value => ({ type: ACTION_TYPE_LOWERCASE });
 
 
-const compose = (...actions) => ({ type: ACTION_TYPE_COMPOSED, payload: { actions } });
+// const compose = (...actions) => ({ type: ACTION_TYPE_COMPOSED, payload: { actions } });
 
 const multiAction = (...actions) => {
     const actionsMap = actions.reduce((acc, act) => {
@@ -105,14 +101,14 @@ const multiAction = (...actions) => {
 
 
 module.exports = {
-    ACTION_TYPE_SET, ACTION_TYPE_COMPOSED, ACTION_TYPE_MULTIACTION,
+    ACTION_TYPE_SET, ACTION_TYPE_MULTIACTION,
     ACTION_TYPE_ENTRY, ACTION_TYPE_REMOVE,
     ACTION_TYPE_PUSH, ACTION_TYPE_POP, ACTION_TYPE_UNSHIFT, ACTION_TYPE_SHIFT,
     ACTION_TYPE_ADD, ACTION_TYPE_SUBTRACT, ACTION_TYPE_MULTIPLY, ACTION_TYPE_DIVIDE, ACTION_TYPE_MOD, ACTION_TYPE_NEGATE, ACTION_TYPE_BW_AND, ACTION_TYPE_BW_OR, ACTION_TYPE_BW_XOR,
     ACTION_TYPE_AND, ACTION_TYPE_OR, ACTION_TYPE_XOR, ACTION_TYPE_NOT,
     ACTION_TYPE_UPPERCASE, ACTION_TYPE_LOWERCASE,
 
-    set, compose, multiAction,
+    set, multiAction,
     entry, remove,
     push, pop, unshift, shift,
     add, subtract, multiply, divide, mod, negate, bitwiseAnd, bitwiseOr, bitwiseXor,

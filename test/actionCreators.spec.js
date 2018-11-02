@@ -7,7 +7,6 @@ const {
   unshift, ACTION_TYPE_UNSHIFT,
   pop, ACTION_TYPE_POP,
   shift, ACTION_TYPE_SHIFT,
-  compose, ACTION_TYPE_COMPOSED,
 } = require('../src/actions');
 
 
@@ -118,26 +117,5 @@ describe('shift', () => {
     const action = shift();
     expect(action).toBeTruthy();
     expect(action.payload).toBeUndefined();
-  });
-});
-
-describe('compose', () => {
-  const ACTION_1 = { type: 'ACTION_1' };
-  const ACTION_2 = { type: 'ACTION_2' };
-  const ACTION_3 = { type: 'ACTION_3' };
-  let action = null;
-
-  beforeEach(() => {
-    action = compose(ACTION_1, ACTION_2, ACTION_3);
-  });
-
-  it('creates an action with the correct type', () => {
-    expect(action).toBeTruthy();
-    expect(action.type).toBe(ACTION_TYPE_COMPOSED);
-  });
-
-  it('creates an action with an array of actions in the payload', () => {
-    expect(action.payload).toBeTruthy();
-    expect(action.payload.actions).toEqual([ACTION_1, ACTION_2, ACTION_3]);
   });
 });

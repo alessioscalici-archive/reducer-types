@@ -1,7 +1,7 @@
 
 const { createReducer } = require('../src/redules');
 const {
-  ACTION_TYPE_SET, ACTION_TYPE_ENTRY, ACTION_TYPE_REMOVE, ACTION_TYPE_PUSH, ACTION_TYPE_POP, ACTION_TYPE_SHIFT, ACTION_TYPE_UNSHIFT, ACTION_TYPE_COMPOSED, ACTION_TYPE_MULTIACTION,
+  ACTION_TYPE_SET, ACTION_TYPE_ENTRY, ACTION_TYPE_REMOVE, ACTION_TYPE_PUSH, ACTION_TYPE_POP, ACTION_TYPE_SHIFT, ACTION_TYPE_UNSHIFT, ACTION_TYPE_MULTIACTION,
 } = require('../src/actions');
 const { TYPE_OBJECT, TYPE_ARRAY, TYPE_NUMBER, TYPE_STRING, TYPE_BOOLEAN } = require('../src/types');
 
@@ -249,49 +249,6 @@ describe('reducer receiving the SHIFT action', () => {
       oldState,
       {
         type: ACTION_TYPE_SHIFT,
-        meta: {
-          reduxId: 'some-other-id'
-        },
-      });
-    expect(newState).toBe(oldState);
-  });
-});
-
-
-describe('reducer receiving a COMPOSE action', () => {
-
-  const reducer = createReducer(TYPE_ARRAY, [11])(TARGET_ID);
-  const oldState = reducer();
-
-  it('reacts if reduxId equals its target', () => {
-    const newState = reducer(
-      oldState,
-      {
-        type: ACTION_TYPE_COMPOSED,
-        payload: {
-          actions: [
-            { type: ACTION_TYPE_PUSH, payload: { value: 22 } },
-            { type: ACTION_TYPE_PUSH, payload: { value: 33 } }
-          ],
-        },
-        meta: {
-          reduxId: TARGET_ID
-        },
-      });
-    expect(newState).toEqual([11, 22, 33]);
-  });
-
-  it('does not react if reduxId differs from its target', () => {
-    const newState = reducer(
-      oldState,
-      {
-        type: ACTION_TYPE_COMPOSED,
-        payload: {
-          actions: [
-            { type: ACTION_TYPE_PUSH, payload: { value: 22 } },
-            { type: ACTION_TYPE_PUSH, payload: { value: 33 } }
-          ],
-        },
         meta: {
           reduxId: 'some-other-id'
         },

@@ -17,7 +17,7 @@ const {
     ACTION_TYPE_AND, ACTION_TYPE_OR, ACTION_TYPE_XOR, ACTION_TYPE_NOT,
     ACTION_TYPE_UPPERCASE, ACTION_TYPE_LOWERCASE,
 
-    set, compose, multiAction,
+    set, multiAction,
     entry, remove,
     push, pop, unshift, shift,
     add, subtract, multiply, divide, mod, negate, bitwiseAnd, bitwiseOr, bitwiseXor,
@@ -164,15 +164,7 @@ const createCustomCreateReducer = (customActionMap = null) => {
 
         const defaultReducer = (state, action) => {
 
-            // TODO: Unify composed to multiaction?
-            if (action.type === ACTION_TYPE_COMPOSED) {
-                return action.payload.actions.reduce((acc, act) => {
-                    if (actionMap[act.type]) {
-                        return actionMap[act.type](acc, act);
-                    }
-                    return acc;
-                }, state);
-            } else if (action.type === ACTION_TYPE_SET) {
+            if (action.type === ACTION_TYPE_SET) {
 
                 if (typeCheckerMap[type](action.payload.value)) {
                     return action.payload.value;
@@ -227,12 +219,11 @@ const bindActions = (reduxId, arrayActions) => {
     }, {});
 };
 
-const bindGenericActions = reduxId => bindActions(reduxId, { set, compose });
-const bindArrayActions = reduxId => bindActions(reduxId, { push, unshift, pop, shift });
-const bindObjectActions = reduxId => bindActions(reduxId, { entry, remove });
-const bindNumberActions = reduxId => bindActions(reduxId, { add, subtract, multiply, divide, mod, negate, bitwiseAnd, bitwiseOr, bitwiseXor });
-const bindBooleanActions = reduxId => bindActions(reduxId, { and, or, xor, not });
-const bindStringActions = reduxId => bindActions(reduxId, { uppercase, lowercase });
+const bindArrayActions = reduxId => bindActions(reduxId, { set, push, unshift, pop, shift });
+const bindObjectActions = reduxId => bindActions(reduxId, { set, entry, remove });
+const bindNumberActions = reduxId => bindActions(reduxId, { set, add, subtract, multiply, divide, mod, negate, bitwiseAnd, bitwiseOr, bitwiseXor });
+const bindBooleanActions = reduxId => bindActions(reduxId, { set, and, or, xor, not });
+const bindStringActions = reduxId => bindActions(reduxId, { set, uppercase, lowercase });
 
 
 
@@ -242,7 +233,6 @@ module.exports = {
 
     bindActionCreator, // TODO: rename
 
-    bindGenericActions,
     bindArrayActions,
     bindObjectActions,
     bindNumberActions,

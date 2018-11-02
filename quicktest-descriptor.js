@@ -1,5 +1,4 @@
 const {
-  bindGenericActions,
   bindArrayActions,
   bindObjectActions,
   bindNumberActions,
@@ -62,10 +61,7 @@ const getActions = (descr, path = []) => {
   if (descr.isLeaf) {
     if (TYPE_ACTION_MAP[descr.type]) {
       const id = path.join('.');
-      return {
-        ...TYPE_ACTION_MAP[descr.type](id),
-        ...bindGenericActions(id),
-      };
+      return TYPE_ACTION_MAP[descr.type](id);
     }
   }
   return Object.keys(descr).reduce((acc, key) => {
@@ -141,7 +137,16 @@ const generateStateCode = (descr, path = []) => {
 
 
 const { push, unshift, shift, entry, multiAction } = require('./src/actions');
-// import also types: TYPE_BOOLEAN, TYPE_STRING, TYPE_ARRAY, TYPE_OBJECT
+// import also type
+
+
+// splitting descriptors
+const usersDescriptor = {
+  loading: type.boolean(true),
+  curId: type.string(null),
+  ids: type.array([]),
+  byId: type.object({}),
+};
 
 
 const descriptor = {
@@ -150,7 +155,8 @@ const descriptor = {
     curId: type.string(null),
     ids: type.array([]),
     byId: type.object({}),
-  }
+  },
+  users: usersDescriptor
 };
 
 
@@ -171,10 +177,17 @@ const addArticle = article => multiAction(
   setLoading(false),
 );
 
+const addUserIds = () => multiAction(
+  actions.users.ids.push(1),
+  actions.users.ids.push(2),
+  actions.users.ids.push(3),
+);
+
 // nesting multiActions
 const addArticleAndSelectIt = article => multiAction(
   addArticle(article),
   actions.articles.curId.set(article.id),
+  addUserIds(),
 );
 
 
