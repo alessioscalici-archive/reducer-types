@@ -109,12 +109,12 @@ const DEFAULT_ACTION_MAP = {
 // ============ BINDING ============ //
 
 
-const bindActionCreator = (reduxId) => (actionCreator) => (...args) => {
+const bindActionCreator = (targetId) => (actionCreator) => (...args) => {
     const action = actionCreator(...args);
     if (!action) return action;
     if (!action.meta) action.meta = {};
-    action.meta.reduxId = reduxId;
-    action.meta.reduxDebug = `${action.type}{${reduxId}}`; // TODO: move descriptive text to action type
+    action.meta.targetId = targetId;
+    action.meta.reduxDebug = `${action.type}{${targetId}}`; // TODO: move descriptive text to action type
     return action;
 };
 
@@ -185,17 +185,17 @@ const createCustomCreateReducer = (customActionMap = null) => {
 
 
 
-        return (reduxId) => (state = initialValue, action) => {
+        return (targetId) => (state = initialValue, action) => {
 
             if (!action) return state;
 
             if (action.type === ACTION_TYPE_MULTIACTION) {
-                if (action.payload.actionsMap[reduxId]) {
-                    return action.payload.actionsMap[reduxId].reduce(defaultReducer, state);
+                if (action.payload.actionsMap[targetId]) {
+                    return action.payload.actionsMap[targetId].reduce(defaultReducer, state);
                 }
             }
 
-            if (!action.meta || action.meta.reduxId !== reduxId) {
+            if (!action.meta || action.meta.targetId !== targetId) {
                 return state;
             }
 
@@ -211,19 +211,19 @@ const createReducer = createCustomCreateReducer();
 
 // ============ UTILS ============ //
 
-const bindActions = (reduxId, arrayActions) => {
-    const wrap = bindActionCreator(reduxId);
+const bindActions = (targetId, arrayActions) => {
+    const wrap = bindActionCreator(targetId);
     return Object.keys(arrayActions).reduce((acc, key) => {
         acc[key] = wrap(arrayActions[key]);
         return acc;
     }, {});
 };
 
-const bindArrayActions = reduxId => bindActions(reduxId, { set, push, unshift, pop, shift });
-const bindObjectActions = reduxId => bindActions(reduxId, { set, entry, remove });
-const bindNumberActions = reduxId => bindActions(reduxId, { set, add, subtract, multiply, divide, mod, negate, bitwiseAnd, bitwiseOr, bitwiseXor });
-const bindBooleanActions = reduxId => bindActions(reduxId, { set, and, or, xor, not });
-const bindStringActions = reduxId => bindActions(reduxId, { set, uppercase, lowercase });
+const bindArrayActions = targetId => bindActions(targetId, { set, push, unshift, pop, shift });
+const bindObjectActions = targetId => bindActions(targetId, { set, entry, remove });
+const bindNumberActions = targetId => bindActions(targetId, { set, add, subtract, multiply, divide, mod, negate, bitwiseAnd, bitwiseOr, bitwiseXor });
+const bindBooleanActions = targetId => bindActions(targetId, { set, and, or, xor, not });
+const bindStringActions = targetId => bindActions(targetId, { set, uppercase, lowercase });
 
 
 

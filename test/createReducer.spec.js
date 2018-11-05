@@ -14,13 +14,13 @@ describe('reducer receiving the SET action', () => {
   const reducer = createReducer(TYPE_NUMBER, 5)(TARGET_ID);
   const oldState = reducer();
 
-  it('reacts if reduxId equals its target', () => {
+  it('reacts if targetId equals its target', () => {
     const newState = reducer(
       oldState,
       {
         type: ACTION_TYPE_SET,
         meta: {
-          reduxId: TARGET_ID
+          targetId: TARGET_ID
         },
         payload: {
           value: 100,
@@ -29,13 +29,13 @@ describe('reducer receiving the SET action', () => {
     expect(newState).toBe(100);
   });
 
-  it('does not react if reduxId differs from its target', () => {
+  it('does not react if targetId differs from its target', () => {
     const newState = reducer(
       oldState,
       {
         type: ACTION_TYPE_SET,
         meta: {
-          reduxId: 'some-other-id'
+          targetId: 'some-other-id'
         },
         payload: {
           value: 100,
@@ -51,13 +51,13 @@ describe('reducer receiving the ENTRY action', () => {
   const reducer = createReducer(TYPE_OBJECT, {})(TARGET_ID);
   const oldState = reducer();
 
-  it('reacts if reduxId equals its target', () => {
+  it('reacts if targetId equals its target', () => {
     const newState = reducer(
       oldState,
       {
         type: ACTION_TYPE_ENTRY,
         meta: {
-          reduxId: TARGET_ID
+          targetId: TARGET_ID
         },
         payload: {
           key: 'myKey',
@@ -67,13 +67,13 @@ describe('reducer receiving the ENTRY action', () => {
     expect(newState).toEqual({ myKey: 100 });
   });
 
-  it('does not react if reduxId differs from its target', () => {
+  it('does not react if targetId differs from its target', () => {
     const newState = reducer(
       oldState,
       {
         type: ACTION_TYPE_ENTRY,
         meta: {
-          reduxId: 'some-other-id'
+          targetId: 'some-other-id'
         },
         payload: {
           key: 'myKey',
@@ -90,13 +90,13 @@ describe('reducer receiving the REMOVE action', () => {
   const reducer = createReducer(TYPE_OBJECT, { someKey: 'someValue', removeMe: 100 })(TARGET_ID);
   const oldState = reducer();
 
-  it('reacts if reduxId equals its target', () => {
+  it('reacts if targetId equals its target', () => {
     const newState = reducer(
       oldState,
       {
         type: ACTION_TYPE_REMOVE,
         meta: {
-          reduxId: TARGET_ID
+          targetId: TARGET_ID
         },
         payload: {
           key: 'removeMe',
@@ -105,13 +105,13 @@ describe('reducer receiving the REMOVE action', () => {
     expect(newState).toEqual({ someKey: 'someValue' });
   });
 
-  it('does not react if reduxId differs from its target', () => {
+  it('does not react if targetId differs from its target', () => {
     const newState = reducer(
       oldState,
       {
         type: ACTION_TYPE_REMOVE,
         meta: {
-          reduxId: 'some-other-id'
+          targetId: 'some-other-id'
         },
         payload: {
           key: 'removeMe',
@@ -127,13 +127,13 @@ describe('reducer receiving the PUSH action', () => {
   const reducer = createReducer(TYPE_ARRAY, [11])(TARGET_ID);
   const oldState = reducer();
 
-  it('reacts if reduxId equals its target', () => {
+  it('reacts if targetId equals its target', () => {
     const newState = reducer(
       oldState,
       {
         type: ACTION_TYPE_PUSH,
         meta: {
-          reduxId: TARGET_ID
+          targetId: TARGET_ID
         },
         payload: {
           value: 22,
@@ -142,13 +142,13 @@ describe('reducer receiving the PUSH action', () => {
     expect(newState).toEqual([11, 22]);
   });
 
-  it('does not react if reduxId differs from its target', () => {
+  it('does not react if targetId differs from its target', () => {
     const newState = reducer(
       oldState,
       {
         type: ACTION_TYPE_PUSH,
         meta: {
-          reduxId: 'some-other-id'
+          targetId: 'some-other-id'
         },
         payload: {
           value: 22,
@@ -164,13 +164,13 @@ describe('reducer receiving the UNSHIFT action', () => {
   const reducer = createReducer(TYPE_ARRAY, [11])(TARGET_ID);
   const oldState = reducer();
 
-  it('reacts if reduxId equals its target', () => {
+  it('reacts if targetId equals its target', () => {
     const newState = reducer(
       oldState,
       {
         type: ACTION_TYPE_UNSHIFT,
         meta: {
-          reduxId: TARGET_ID
+          targetId: TARGET_ID
         },
         payload: {
           value: 22,
@@ -179,13 +179,13 @@ describe('reducer receiving the UNSHIFT action', () => {
     expect(newState).toEqual([22, 11]);
   });
 
-  it('does not react if reduxId differs from its target', () => {
+  it('does not react if targetId differs from its target', () => {
     const newState = reducer(
       oldState,
       {
         type: ACTION_TYPE_UNSHIFT,
         meta: {
-          reduxId: 'some-other-id'
+          targetId: 'some-other-id'
         },
         payload: {
           value: 22,
@@ -201,25 +201,25 @@ describe('reducer receiving the POP action', () => {
   const reducer = createReducer(TYPE_ARRAY, [11, 22, 33])(TARGET_ID);
   const oldState = reducer();
 
-  it('reacts if reduxId equals its target', () => {
+  it('reacts if targetId equals its target', () => {
     const newState = reducer(
       oldState,
       {
         type: ACTION_TYPE_POP,
         meta: {
-          reduxId: TARGET_ID
+          targetId: TARGET_ID
         },
       });
     expect(newState).toEqual([11, 22]);
   });
 
-  it('does not react if reduxId differs from its target', () => {
+  it('does not react if targetId differs from its target', () => {
     const newState = reducer(
       oldState,
       {
         type: ACTION_TYPE_POP,
         meta: {
-          reduxId: 'some-other-id'
+          targetId: 'some-other-id'
         },
       });
     expect(newState).toBe(oldState);
@@ -232,25 +232,25 @@ describe('reducer receiving the SHIFT action', () => {
   const reducer = createReducer(TYPE_ARRAY, [11, 22, 33])(TARGET_ID);
   const oldState = reducer();
 
-  it('reacts if reduxId equals its target', () => {
+  it('reacts if targetId equals its target', () => {
     const newState = reducer(
       oldState,
       {
         type: ACTION_TYPE_SHIFT,
         meta: {
-          reduxId: TARGET_ID
+          targetId: TARGET_ID
         },
       });
     expect(newState).toEqual([22, 33]);
   });
 
-  it('does not react if reduxId differs from its target', () => {
+  it('does not react if targetId differs from its target', () => {
     const newState = reducer(
       oldState,
       {
         type: ACTION_TYPE_SHIFT,
         meta: {
-          reduxId: 'some-other-id'
+          targetId: 'some-other-id'
         },
       });
     expect(newState).toBe(oldState);
@@ -263,7 +263,7 @@ describe('reducer receiving a MULTIACTION action', () => {
   const reducer = createReducer(TYPE_ARRAY, [11])(TARGET_ID);
   const oldState = reducer();
 
-  it('reacts if one of the actions reduxId equals its target', () => {
+  it('reacts if one of the actions targetId equals its target', () => {
     const newState = reducer(
       oldState,
       {
@@ -282,7 +282,7 @@ describe('reducer receiving a MULTIACTION action', () => {
     expect(newState).toEqual([11, 22]);
   });
 
-  it('does not react if reduxId differs from its target', () => {
+  it('does not react if targetId differs from its target', () => {
     const newState = reducer(
       oldState,
       {

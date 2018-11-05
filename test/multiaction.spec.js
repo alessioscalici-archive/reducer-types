@@ -7,9 +7,9 @@ const {
 const TARGET_ID_1 = 'TARGET_ID_1';
 const TARGET_ID_2 = 'TARGET_ID_2';
 
-const ACTION_1 = { type: 'ACTION_1', meta: { reduxId: TARGET_ID_1 } };
-const ACTION_2 = { type: 'ACTION_2', meta: { reduxId: TARGET_ID_2 }  };
-const ACTION_3 = { type: 'ACTION_3', meta: { reduxId: TARGET_ID_1 }  };
+const ACTION_1 = { type: 'ACTION_1', meta: { targetId: TARGET_ID_1 } };
+const ACTION_2 = { type: 'ACTION_2', meta: { targetId: TARGET_ID_2 }  };
+const ACTION_3 = { type: 'ACTION_3', meta: { targetId: TARGET_ID_1 }  };
 
 
 describe('multiAction(...) creates an action', () => {

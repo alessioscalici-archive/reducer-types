@@ -80,17 +80,17 @@ const multiAction = (...actions) => {
         if (!act) {
           return acc;
         }
-        if (act && act.meta && act.meta.reduxId) {
-            if(!acc[act.meta.reduxId]) {
-                acc[act.meta.reduxId] = [];
+        if (act && act.meta && act.meta.targetId) {
+            if(!acc[act.meta.targetId]) {
+                acc[act.meta.targetId] = [];
             }
-            acc[act.meta.reduxId].push(act);
+            acc[act.meta.targetId].push(act);
         } else if (act && act.type === ACTION_TYPE_MULTIACTION) {
-            Object.keys(act.payload.actionsMap).forEach((reduxId) => {
-                if(!acc[reduxId]) {
-                    acc[reduxId] = [];
+            Object.keys(act.payload.actionsMap).forEach((targetId) => {
+                if(!acc[targetId]) {
+                    acc[targetId] = [];
                 }
-                acc[reduxId] = acc[reduxId].concat(act.payload.actionsMap[reduxId]);
+                acc[targetId] = acc[targetId].concat(act.payload.actionsMap[targetId]);
             });
         }
         return acc;
