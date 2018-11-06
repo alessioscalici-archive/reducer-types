@@ -1,5 +1,5 @@
 
-const { createReducer } = require('../src/redules');
+const { createCustomCreateReducer } = require('../src/redules');
 const {
   ACTION_TYPE_SET, ACTION_TYPE_ENTRY, ACTION_TYPE_REMOVE, ACTION_TYPE_PUSH, ACTION_TYPE_POP, ACTION_TYPE_SHIFT, ACTION_TYPE_UNSHIFT, ACTION_TYPE_MULTIACTION,
 } = require('../src/actions');
@@ -8,6 +8,7 @@ const { TYPE_OBJECT, TYPE_ARRAY, TYPE_NUMBER, TYPE_STRING, TYPE_BOOLEAN } = requ
 
 const TARGET_ID = 'TARGET_ID';
 
+const createReducer = createCustomCreateReducer();
 
 describe('reducer receiving the SET action', () => {
 

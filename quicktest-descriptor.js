@@ -5,7 +5,8 @@ const {
   bindBooleanActions,
   bindStringActions,
 
-  createReducer,
+  createCustomCreateReducer,
+  generateBindActions,
 } = require('./src/redules');
 
 
@@ -48,21 +49,24 @@ const getIds = (descr, path = []) => {
 
 // Generate actions tree
 
-const TYPE_ACTION_MAP = {
-  [TYPE_STRING]: bindStringActions,
-  [TYPE_NUMBER]: bindNumberActions,
-  [TYPE_BOOLEAN]: bindBooleanActions,
-  [TYPE_OBJECT]: bindObjectActions,
-  [TYPE_ARRAY]: bindArrayActions,
-
+const TEST_CUSTOM_CONFIG = {
+  [TYPE_STRING]: {
+    actionHandlers: {
+      CAPITALIZE: state => (state ? (state.charAt(0).toUpperCase() + state.slice(1)) : state),
+    },
+    actionCreators: {
+      capitalize: () => ({ type: 'CAPITALIZE' }),
+    },
+  },
 };
+
+const createReducer = createCustomCreateReducer(TEST_CUSTOM_CONFIG);
+const bindActions = generateBindActions(TEST_CUSTOM_CONFIG)
 
 const getActions = (descr, path = []) => {
   if (descr.isLeaf) {
-    if (TYPE_ACTION_MAP[descr.type]) {
-      const id = path.join('.');
-      return TYPE_ACTION_MAP[descr.type](id);
-    }
+    const id = path.join('.');
+    return bindActions(descr.type)(id);
   }
   return Object.keys(descr).reduce((acc, key) => {
     acc[key] = getActions(descr[key], [...path, key]);
@@ -188,6 +192,7 @@ const addArticleAndSelectIt = article => multiAction(
   addArticle(article),
   actions.articles.curId.set(article.id),
   addUserIds(),
+  actions.articles.curId.capitalize(),
 );
 
 

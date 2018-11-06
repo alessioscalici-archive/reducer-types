@@ -153,6 +153,29 @@ const DEFAULT_CONFIG = {
 };
 
 
+const mergeTypes = (...types) => types.reduce((acc, type) => {
+  if (type.validate) {
+    acc.validate = type.validate;
+  }
+  if (type.actionHandlers)
+  acc.actionHandlers = Object.assign({}, acc.actionHandlers, type.actionHandlers);
+  acc.actionCreators = Object.assign({}, acc.actionCreators, type.actionCreators);
+  return acc;
+}, { validate: () => true, actionHandlers: {}, actionCreators: {} });
+
+
+const mergeConfigs = (...configs) => configs.reduce((accConfig, config) => {
+  Object.keys(config).forEach((key) => {
+    if (accConfig[key]) {
+      accConfig[key] = mergeTypes(accConfig[key], config[key]);
+    } else {
+      accConfig[key] = config[key];
+    }
+  });
+  return accConfig;
+}, {});
+
+
 
 const generateIsValidType = typeConfig => type => !!typeConfig[type];
 const generateValidate = typeConfig => type => typeConfig[type].validate;
@@ -193,6 +216,10 @@ const generateCreateReducer = (defaultReducer, initialValue) => targetId => (sta
 
 const createCustomCreateReducer = (typeConfig = DEFAULT_CONFIG) => {
 
+    if (typeConfig !== DEFAULT_CONFIG) {
+        typeConfig = mergeConfigs(DEFAULT_CONFIG, typeConfig);
+    }
+
     const isValidType = generateIsValidType(typeConfig);
     const generateSpecificValidate = generateValidate(typeConfig);
     const generateSpecificHandleAction = generateHandleAction(typeConfig);
@@ -219,41 +246,35 @@ const createCustomCreateReducer = (typeConfig = DEFAULT_CONFIG) => {
 
 };
 
-const createReducer = createCustomCreateReducer();
+
+
 
 
 
 // ============ UTILS ============ //
 
-const bindActions = (targetId, arrayActions) => {
-    const wrap = bindActionCreator(targetId);
-    return Object.keys(arrayActions).reduce((acc, key) => {
-        acc[key] = wrap(arrayActions[key]);
-        return acc;
-    }, {});
+const generateBindActions = (typeConfig = DEFAULT_CONFIG) => type => targetId => {
+    if (typeConfig !== DEFAULT_CONFIG) {
+      typeConfig = mergeConfigs(DEFAULT_CONFIG, typeConfig);
+    }
+    if (typeConfig[type] && typeConfig[type].actionCreators) {
+      const wrap = bindActionCreator(targetId);
+      return Object.keys(typeConfig[type].actionCreators).reduce((acc, key) => {
+          acc[key] = wrap(typeConfig[type].actionCreators[key]);
+          return acc;
+      }, {});
+    }
+    return {};
 };
-
-const bindArrayActions = targetId => bindActions(targetId, { set, push, unshift, pop, shift });
-const bindObjectActions = targetId => bindActions(targetId, { set, entry, remove });
-const bindNumberActions = targetId => bindActions(targetId, { set, add, subtract, multiply, divide, mod, negate, bitwiseAnd, bitwiseOr, bitwiseXor });
-const bindBooleanActions = targetId => bindActions(targetId, { set, and, or, xor, not });
-const bindStringActions = targetId => bindActions(targetId, { set, uppercase, lowercase });
-
-
-
 
 
 module.exports = {
 
     bindActionCreator, // TODO: rename
 
-    bindArrayActions,
-    bindObjectActions,
-    bindNumberActions,
-    bindBooleanActions,
-    bindStringActions,
+    generateBindActions,
 
     DEFAULT_CONFIG,
-    createReducer,
+    createCustomCreateReducer,
 };
 module.exports.default = module.exports;
