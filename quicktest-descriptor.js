@@ -7,6 +7,7 @@ const {
 
   createCustomCreateReducer,
   generateBindActions,
+  generateTypeDescriptors,
 } = require('./src/redules');
 
 
@@ -21,15 +22,8 @@ const {
 
 
 
-const descr = (type, initialValue) => ({ type, initialValue, isLeaf: true });
 
-const type = {
-  string: val => descr(TYPE_STRING, val),
-  number: val => descr(TYPE_NUMBER, val),
-  boolean: val => descr(TYPE_BOOLEAN, val),
-  object: val => descr(TYPE_OBJECT, val),
-  array: val => descr(TYPE_ARRAY, val),
-};
+
 
 
 
@@ -58,10 +52,20 @@ const TEST_CUSTOM_CONFIG = {
       capitalize: () => ({ type: 'CAPITALIZE' }),
     },
   },
+  user: {
+    validate: user => (user === null || user.username && user.password),
+    actionHandlers: {
+      CHANGE_PASSWORD: (state, action) => ({ ...state, password: action.payload.newPassword })
+    },
+    actionCreators: {
+      changePassword: newPassword => ({ type: 'CHANGE_PASSWORD', payload: { newPassword } })
+    },
+  },
 };
 
 const createReducer = createCustomCreateReducer(TEST_CUSTOM_CONFIG);
-const bindActions = generateBindActions(TEST_CUSTOM_CONFIG)
+const bindActions = generateBindActions(TEST_CUSTOM_CONFIG);
+const type = generateTypeDescriptors(TEST_CUSTOM_CONFIG);
 
 const getActions = (descr, path = []) => {
   if (descr.isLeaf) {
@@ -160,7 +164,9 @@ const descriptor = {
     ids: type.array([]),
     byId: type.object({}),
   },
-  users: usersDescriptor
+  users: usersDescriptor,
+
+  customUser: type.user({ username: 'valid', password: 'is secret!' }),
 };
 
 
@@ -188,17 +194,18 @@ const addUserIds = () => multiAction(
 );
 
 // nesting multiActions
-const addArticleAndSelectIt = article => multiAction(
-  addArticle(article),
+const doALotOfStuff = article => multiAction(
+  addArticle(article),                       // composing another multiaction
   actions.articles.curId.set(article.id),
-  addUserIds(),
-  actions.articles.curId.capitalize(),
+  addUserIds(),                         // composing another multiaction
+  actions.articles.curId.capitalize(), // custom action on existing type (string)
+  actions.customUser.changePassword('new password!'), // custom type action
 );
 
 
 let state;
 
-state = reducer(state, addArticleAndSelectIt({ id: 'pippo', text: 'hello!' }));
+state = reducer(state, doALotOfStuff({ id: 'pippo', text: 'hello!' }));
 
 
 

@@ -267,12 +267,22 @@ const generateBindActions = (typeConfig = DEFAULT_CONFIG) => type => targetId =>
     return {};
 };
 
+const generateTypeDescriptors = (typeConfig = DEFAULT_CONFIG) => {
+  if (typeConfig !== DEFAULT_CONFIG) {
+    typeConfig = mergeConfigs(DEFAULT_CONFIG, typeConfig);
+  }
+  return Object.keys(typeConfig).reduce((acc, type) => {
+    acc[type] = initialValue => ({ type, initialValue, isLeaf: true });
+    return acc;
+  }, {});
+};
 
 module.exports = {
 
     bindActionCreator, // TODO: rename
 
     generateBindActions,
+    generateTypeDescriptors,
 
     DEFAULT_CONFIG,
     createCustomCreateReducer,
