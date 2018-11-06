@@ -70,42 +70,6 @@ const ahLowercase = state => state && state.toLowerCase();
 
 
 
-const DEFAULT_ACTION_MAP = {
-    [TYPE_ARRAY]: {
-        [ACTION_TYPE_PUSH]: ahPush,
-        [ACTION_TYPE_UNSHIFT]: ahUnshift,
-        [ACTION_TYPE_POP]: ahPop,
-        [ACTION_TYPE_SHIFT]: ahShift,
-    },
-    [TYPE_OBJECT]: {
-        [ACTION_TYPE_ENTRY]: ahEntry,
-        [ACTION_TYPE_REMOVE]: ahRemove,
-    },
-    [TYPE_BOOLEAN]: {
-        [ACTION_TYPE_AND]: ahAnd,
-        [ACTION_TYPE_OR]: ahOr,
-        [ACTION_TYPE_XOR]: ahXor,
-        [ACTION_TYPE_NOT]: ahNot,
-    },
-    [TYPE_NUMBER]: {
-        [ACTION_TYPE_ADD]: ahAdd,
-        [ACTION_TYPE_SUBTRACT]: ahSubtract,
-        [ACTION_TYPE_MULTIPLY]: ahMultiply,
-        [ACTION_TYPE_DIVIDE]: ahDivide,
-        [ACTION_TYPE_MOD]: ahMod,
-        [ACTION_TYPE_NEGATE]: ahNegate,
-        [ACTION_TYPE_BW_AND]: ahBwAnd,
-        [ACTION_TYPE_BW_OR]: ahBwOr,
-        [ACTION_TYPE_BW_XOR]: ahBwXor,
-    },
-    [TYPE_STRING]: {
-        [ACTION_TYPE_UPPERCASE]: ahUppercase,
-        [ACTION_TYPE_LOWERCASE]: ahLowercase,
-    },
-};
-
-
-
 // ============ BINDING ============ //
 
 
@@ -128,79 +92,129 @@ const isNullOrBoolean = val => (val === null || typeof val === TYPE_BOOLEAN);
 const isNullOrNumber = val => (val === null || (typeof val === TYPE_NUMBER && val !== NaN));
 const isNullOrString = val => (val === null || typeof val === TYPE_STRING);
 
-const typeCheckerMap = {
-    [TYPE_ARRAY]: isNullOrArray,
-    [TYPE_OBJECT]: isNullOrObject,
-    [TYPE_BOOLEAN]: isNullOrBoolean,
-    [TYPE_NUMBER]: isNullOrNumber,
-    [TYPE_STRING]: isNullOrString,
+
+
+
+
+// ============ TYPE CONFIG ============ //
+
+const DEFAULT_CONFIG = {
+  [TYPE_ARRAY]: {
+    validate: isNullOrArray,
+    actionHandlers: {
+      [ACTION_TYPE_PUSH]: ahPush,
+      [ACTION_TYPE_UNSHIFT]: ahUnshift,
+      [ACTION_TYPE_POP]: ahPop,
+      [ACTION_TYPE_SHIFT]: ahShift,
+    },
+    actionCreators: { set, push, pop, unshift, shift },
+  },
+  [TYPE_OBJECT]: {
+    validate: isNullOrObject,
+    actionHandlers: {
+      [ACTION_TYPE_ENTRY]: ahEntry,
+      [ACTION_TYPE_REMOVE]: ahRemove,
+    },
+    actionCreators: { set, entry, remove },
+  },
+  [TYPE_BOOLEAN]: {
+    validate: isNullOrBoolean,
+    actionHandlers: {
+      [ACTION_TYPE_AND]: ahAnd,
+      [ACTION_TYPE_OR]: ahOr,
+      [ACTION_TYPE_XOR]: ahXor,
+      [ACTION_TYPE_NOT]: ahNot,
+    },
+    actionCreators: { set, and, or, xor, not },
+  },
+  [TYPE_NUMBER]: {
+    validate: isNullOrNumber,
+    actionHandlers: {
+      [ACTION_TYPE_ADD]: ahAdd,
+      [ACTION_TYPE_SUBTRACT]: ahSubtract,
+      [ACTION_TYPE_MULTIPLY]: ahMultiply,
+      [ACTION_TYPE_DIVIDE]: ahDivide,
+      [ACTION_TYPE_MOD]: ahMod,
+      [ACTION_TYPE_NEGATE]: ahNegate,
+      [ACTION_TYPE_BW_AND]: ahBwAnd,
+      [ACTION_TYPE_BW_OR]: ahBwOr,
+      [ACTION_TYPE_BW_XOR]: ahBwXor,
+    },
+    actionCreators: { set, add, subtract, multiply, divide, mod, negate, bitwiseAnd, bitwiseOr, bitwiseXor },
+  },
+  [TYPE_STRING]: {
+    validate: isNullOrString,
+    actionHandlers: {
+      [ACTION_TYPE_UPPERCASE]: ahUppercase,
+      [ACTION_TYPE_LOWERCASE]: ahLowercase,
+    },
+    actionCreators: { set, uppercase, lowercase },
+  },
 };
 
-const isValidType = type => !!typeCheckerMap[type];
 
 
+const generateIsValidType = typeConfig => type => !!typeConfig[type];
+const generateValidate = typeConfig => type => typeConfig[type].validate;
+const generateHandleAction = typeConfig => type => (state, action) => {
+    return typeConfig[type].actionHandlers[action.type] ?
+        typeConfig[type].actionHandlers[action.type](state, action) :
+        state;
+};
 
-const createCustomCreateReducer = (customActionMap = null) => {
+// ((any -> boolean), ((A, FSA) -> A)) -> (A, FSA) -> A)
+const generateDefaultReducer = (validate, handleAction) => (state, action) => {
+    if (action.type === ACTION_TYPE_SET) {
+        if (validate(action.payload.value)) {
+            return action.payload.value;
+        } else {
+            // FIXME: effect!
+            console.warn(`${action.meta.reduxDebug}: Value ${action.payload.value} is not a valid "${type}" value`);
+        }
+    }
+    return handleAction(state, action);
+};
 
+
+const generateCreateReducer = (defaultReducer, initialValue) => targetId => (state = initialValue, action) => {
+
+    if (!action) return state;
+
+    if (action.type === ACTION_TYPE_MULTIACTION && action.payload.actionsMap[targetId]) {
+        return action.payload.actionsMap[targetId].reduce(defaultReducer, state);
+    }
+
+    if (!action.meta || action.meta.targetId !== targetId) {
+        return state;
+    }
+
+    return defaultReducer(state, action);
+};
+
+const createCustomCreateReducer = (typeConfig = DEFAULT_CONFIG) => {
+
+    const isValidType = generateIsValidType(typeConfig);
+    const generateSpecificValidate = generateValidate(typeConfig);
+    const generateSpecificHandleAction = generateHandleAction(typeConfig);
 
     return (type, initialValue = null) => {
         if (!isValidType(type)) {
             throw new Error(`Type "${type}" is not supported!`);
         }
 
+        const validate = generateSpecificValidate(type);
+
         // check the type of the initial value
-        if (!typeCheckerMap[type](initialValue)) {
+        if (!validate(initialValue)) {
             // FIXME: effects
             console.warn(`"${initialValue}" is not a valid value for type "${type}"`);
             initialValue = null;
         }
 
+        const handleAction = generateSpecificHandleAction(type);
+        const defaultReducer = generateDefaultReducer(validate, handleAction);
 
-        const typeActionMap = DEFAULT_ACTION_MAP[type];
-        const actionMap = customActionMap && customActionMap[type] ?
-            { ...typeActionMap, ...customActionMap[type] } :
-            typeActionMap;
-
-
-        const defaultReducer = (state, action) => {
-
-            if (action.type === ACTION_TYPE_SET) {
-
-                if (typeCheckerMap[type](action.payload.value)) {
-                    return action.payload.value;
-                } else {
-                    // FIXME: effect!
-                    console.warn(`${action.meta.reduxDebug}: Value ${action.payload.value} is not a valid "${type}" value`);
-                }
-
-            }
-
-
-            if (actionMap[action.type]) {
-                return actionMap[action.type](state, action);
-            }
-            return state;
-        };
-
-
-
-
-        return (targetId) => (state = initialValue, action) => {
-
-            if (!action) return state;
-
-            if (action.type === ACTION_TYPE_MULTIACTION) {
-                if (action.payload.actionsMap[targetId]) {
-                    return action.payload.actionsMap[targetId].reduce(defaultReducer, state);
-                }
-            }
-
-            if (!action.meta || action.meta.targetId !== targetId) {
-                return state;
-            }
-
-            return defaultReducer(state, action);
-        };
+        return generateCreateReducer(defaultReducer, initialValue);
     };
 
 };
@@ -239,8 +253,7 @@ module.exports = {
     bindBooleanActions,
     bindStringActions,
 
-
-    DEFAULT_ACTION_MAP,
+    DEFAULT_CONFIG,
     createReducer,
 };
 module.exports.default = module.exports;

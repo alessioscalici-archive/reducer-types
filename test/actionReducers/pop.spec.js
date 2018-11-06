@@ -1,10 +1,10 @@
 
-const { DEFAULT_ACTION_MAP } = require('../../index');
+const { DEFAULT_CONFIG } = require('../../index');
 const { ACTION_TYPE_POP } = require('../../src/actions');
 const { TYPE_ARRAY } = require('../../src/types');
 
 
-const actionReducer = DEFAULT_ACTION_MAP[TYPE_ARRAY][ACTION_TYPE_POP];
+const actionReducer = DEFAULT_CONFIG[TYPE_ARRAY].actionHandlers[ACTION_TYPE_POP];
 
 const oldState = [ { key: 'value' }, { newKey: 'newValue' } ];
 

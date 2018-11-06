@@ -1,10 +1,10 @@
 
-const { DEFAULT_ACTION_MAP } = require('../../index');
+const { DEFAULT_CONFIG } = require('../../index');
 const { ACTION_TYPE_ENTRY } = require('../../src/actions');
 const { TYPE_OBJECT } = require('../../src/types');
 
 
-const actionReducer = DEFAULT_ACTION_MAP[TYPE_OBJECT][ACTION_TYPE_ENTRY];
+const actionReducer = DEFAULT_CONFIG[TYPE_OBJECT].actionHandlers[ACTION_TYPE_ENTRY];
 
 const KEY = 'someKey';
 const VALUE = { hello: 'world' };

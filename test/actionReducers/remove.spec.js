@@ -1,10 +1,10 @@
 
-const { DEFAULT_ACTION_MAP } = require('../../index');
+const { DEFAULT_CONFIG } = require('../../index');
 const { ACTION_TYPE_REMOVE } = require('../../src/actions');
 const { TYPE_OBJECT } = require('../../src/types');
 
 
-const actionReducer = DEFAULT_ACTION_MAP[TYPE_OBJECT][ACTION_TYPE_REMOVE];
+const actionReducer = DEFAULT_CONFIG[TYPE_OBJECT].actionHandlers[ACTION_TYPE_REMOVE];
 
 const KEY = 'someKey';
 
