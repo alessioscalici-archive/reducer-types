@@ -26,7 +26,12 @@ const isNullOrBoolean = val => (val === null || typeof val === TYPE_BOOLEAN);
 
 module.exports = {
     validate: isNullOrBoolean,
-    actionHandlers: { ahAnd, ahOr, ahXor, ahNot },
+    actionHandlers: {
+      [ACTION_TYPE_AND]: ahAnd,
+      [ACTION_TYPE_OR]: ahOr,
+      [ACTION_TYPE_XOR]: ahXor,
+      [ACTION_TYPE_NOT]: ahNot,
+    },
     actionCreators: { and, or, xor, not },
     actionTypes: {
       ACTION_TYPE_AND,

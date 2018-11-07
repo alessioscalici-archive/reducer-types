@@ -20,7 +20,10 @@ const isNullOrString = val => (val === null || typeof val === TYPE_STRING);
 
 module.exports = {
     validate: isNullOrString,
-    actionHandlers: { ahUppercase, ahLowercase },
+    actionHandlers: {
+      [ACTION_TYPE_UPPERCASE]: ahUppercase,
+      [ACTION_TYPE_LOWERCASE]: ahLowercase,
+    },
     actionCreators: { uppercase, lowercase },
     actionTypes: {
       ACTION_TYPE_UPPERCASE,

@@ -1,8 +1,8 @@
 
-const { actionHandlers: { ahRemove }, actionTypes: { ACTION_TYPE_REMOVE } } = require('../../../../src/types/object');
+const { actionHandlers, actionTypes: { ACTION_TYPE_REMOVE } } = require('../../../../src/types/object');
 
 
-const actionReducer = ahRemove;
+const actionReducer = actionHandlers[ACTION_TYPE_REMOVE];
 
 const KEY = 'someKey';
 

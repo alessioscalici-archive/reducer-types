@@ -1,8 +1,8 @@
 
-const { actionHandlers: { ahShift }, actionTypes: { ACTION_TYPE_SHIFT } } = require('../../../../src/types/array');
+const { actionHandlers, actionTypes: { ACTION_TYPE_SHIFT } } = require('../../../../src/types/array');
 
 
-const actionReducer = ahShift;
+const actionReducer = actionHandlers[ACTION_TYPE_SHIFT];
 
 const oldState = [ { key: 'value' }, { newKey: 'newValue' } ];
 

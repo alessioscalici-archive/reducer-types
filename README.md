@@ -13,4 +13,16 @@ A library to write reducer-based state in a concise, readable and efficient way.
 
 ## TODO:
 
-- FIX arrays and objects not updating
+- Rename multiaction
+- Rename bindActionCreator
+
+- Unit test all types
+  - validator
+  - actionHandlers
+  - actionCreators
+  - type structure
+- Unit test multiaction
+- unit test generateCreateReducer
+- unit test mergetypes
+- unit test mergeconfigs
+- unit test typeDescriptor

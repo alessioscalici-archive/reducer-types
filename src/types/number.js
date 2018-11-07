@@ -41,7 +41,17 @@ const isNullOrNumber = val => (val === null || (typeof val === TYPE_NUMBER && va
 
 module.exports = {
     validate: isNullOrNumber,
-    actionHandlers: { ahAdd, ahSubtract, ahMultiply, ahDivide, ahMod, ahNegate, ahBwAnd, ahBwOr, ahBwXor },
+    actionHandlers: {
+      [ACTION_TYPE_ADD]: ahAdd,
+      [ACTION_TYPE_SUBTRACT]: ahSubtract,
+      [ACTION_TYPE_MULTIPLY]: ahMultiply,
+      [ACTION_TYPE_DIVIDE]: ahDivide,
+      [ACTION_TYPE_MOD]: ahMod,
+      [ACTION_TYPE_NEGATE]: ahNegate,
+      [ACTION_TYPE_BW_AND]: ahBwAnd,
+      [ACTION_TYPE_BW_OR]: ahBwOr,
+      [ACTION_TYPE_BW_XOR]: ahBwXor,
+    },
     actionCreators: { add, subtract, multiply, divide, mod, negate, bitwiseAnd, bitwiseOr, bitwiseXor },
     actionTypes: {
       ACTION_TYPE_ADD,

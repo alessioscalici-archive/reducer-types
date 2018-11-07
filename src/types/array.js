@@ -26,12 +26,17 @@ const isNullOrArray = val => (val === null || Array.isArray(val));
 
 module.exports = {
     validate: isNullOrArray,
-    actionHandlers: { ahPush, ahPop, ahShift, ahUnshift },
+    actionHandlers: {
+        [ACTION_TYPE_PUSH]: ahPush,
+        [ACTION_TYPE_POP]: ahPop,
+        [ACTION_TYPE_SHIFT]: ahShift,
+        [ACTION_TYPE_UNSHIFT]: ahUnshift,
+    },
     actionCreators: { push, pop, shift, unshift },
     actionTypes: {
-      ACTION_TYPE_PUSH,
-      ACTION_TYPE_POP,
-      ACTION_TYPE_SHIFT,
-      ACTION_TYPE_UNSHIFT,
+        ACTION_TYPE_PUSH,
+        ACTION_TYPE_POP,
+        ACTION_TYPE_SHIFT,
+        ACTION_TYPE_UNSHIFT,
     },
 };

@@ -1,8 +1,8 @@
 
 
-const { actionHandlers: { ahEntry }, actionTypes: { ACTION_TYPE_ENTRY } } = require('../../../../src/types/object');
+const { actionHandlers, actionTypes: { ACTION_TYPE_ENTRY } } = require('../../../../src/types/object');
 
-const actionReducer = ahEntry;
+const actionReducer = actionHandlers[ACTION_TYPE_ENTRY];
 
 const KEY = 'someKey';
 const VALUE = { hello: 'world' };

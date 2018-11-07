@@ -29,7 +29,10 @@ const isNullOrObject = val => (val === null || (typeof val === TYPE_OBJECT && va
 
 module.exports = {
     validate: isNullOrObject,
-    actionHandlers: { ahEntry, ahRemove },
+    actionHandlers: {
+      [ACTION_TYPE_ENTRY]: ahEntry,
+      [ACTION_TYPE_REMOVE]: ahRemove,
+    },
     actionCreators: { entry, remove },
     actionTypes: {
       ACTION_TYPE_ENTRY,

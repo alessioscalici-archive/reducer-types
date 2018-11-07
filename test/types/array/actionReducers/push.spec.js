@@ -1,8 +1,8 @@
 
-const { actionHandlers: { ahPush }, actionTypes: { ACTION_TYPE_PUSH } } = require('../../../../src/types/array');
+const { actionHandlers, actionTypes: { ACTION_TYPE_PUSH } } = require('../../../../src/types/array');
 
 
-const actionReducer = ahPush;
+const actionReducer = actionHandlers[ACTION_TYPE_PUSH];
 
 const VALUE = { newKey: 'newValue' };
 const oldState = [ { key: 'value' } ];

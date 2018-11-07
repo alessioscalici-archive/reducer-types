@@ -1,9 +1,9 @@
 
 
-const { actionHandlers: { ahPop }, actionTypes: { POP } } = require('../../../../src/types/array');
+const { actionHandlers, actionTypes: { ACTION_TYPE_POP } } = require('../../../../src/types/array');
 
 
-const actionReducer = ahPop;
+const actionReducer = actionHandlers[ACTION_TYPE_POP];
 
 const oldState = [ { key: 'value' }, { newKey: 'newValue' } ];
 
@@ -12,7 +12,7 @@ let newState;
 
 describe('when the state is null', () => {
   beforeEach(() => {
-    newState = actionReducer(null, { type: POP });
+    newState = actionReducer(null, { type: ACTION_TYPE_POP });
   });
 
   it('returns null (does not crash)', () => {
@@ -23,7 +23,7 @@ describe('when the state is null', () => {
 describe('when the state is not an Array', () => {
   const notAnArray = { something: 'is wrong!' };
   beforeEach(() => {
-    newState = actionReducer(notAnArray, { type: POP });
+    newState = actionReducer(notAnArray, { type: ACTION_TYPE_POP });
   });
 
   it('returns the old state (does not crash)', () => {
@@ -34,7 +34,7 @@ describe('when the state is not an Array', () => {
 
 describe('when state is an Array', () => {
   beforeEach(() => {
-    newState = actionReducer(oldState, { type: POP });
+    newState = actionReducer(oldState, { type: ACTION_TYPE_POP });
   });
 
   it('returns a new state (immutability)', () => {
