@@ -13,7 +13,6 @@ A library to write reducer-based state in a concise, readable and efficient way.
 
 ## TODO:
 
-- Rename multiaction
 - Rename bindActionCreator
 
 - Unit test all types

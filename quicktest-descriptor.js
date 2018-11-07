@@ -144,7 +144,7 @@ const generateStateCode = (descr, path = []) => {
 
 
 
-const { push, unshift, shift, entry, multiAction } = require('./src/actions');
+const { push, unshift, shift, entry, compose } = require('./src/actions');
 // import also type
 
 
@@ -181,23 +181,23 @@ generateStateCode(descriptor);
 
 
 const setLoading = actions.loading.set;
-const addArticle = article => multiAction(
+const addArticle = article => compose(
   actions.articles.ids.push(article.id),
   actions.articles.byId.entry(article.id, article),
   setLoading(false),
 );
 
-const addUserIds = () => multiAction(
+const addUserIds = () => compose(
   actions.users.ids.push(1),
   actions.users.ids.push(2),
   actions.users.ids.push(3),
 );
 
-// nesting multiActions
-const doALotOfStuff = article => multiAction(
-  addArticle(article),                       // composing another multiaction
+// nesting composes
+const doALotOfStuff = article => compose(
+  addArticle(article),                       // composing another compose
   actions.articles.curId.set(article.id),
-  addUserIds(),                         // composing another multiaction
+  addUserIds(),                         // composing another compose
   actions.articles.curId.capitalize(), // custom action on existing type (string)
   actions.customUser.changePassword('new password!'), // custom type action
 );

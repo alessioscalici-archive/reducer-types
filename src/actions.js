@@ -8,13 +8,13 @@ const { PREFIX } = require('./types/const');
 const ACTION_TYPE_SET = `${PREFIX}set`;
 
 
-// Multiaction
-const ACTION_TYPE_MULTIACTION = `${PREFIX}multiaction`;
+// compose
+const ACTION_TYPE_COMPOSE = `${PREFIX}compose`;
 
 
 const set = value => ({ type: ACTION_TYPE_SET, payload: { value } });
 
-const multiAction = (...actions) => {
+const compose = (...actions) => {
     const actionsMap = actions.reduce((acc, act) => {
         if (!act) {
           return acc;
@@ -24,7 +24,7 @@ const multiAction = (...actions) => {
                 acc[act.meta.targetId] = [];
             }
             acc[act.meta.targetId].push(act);
-        } else if (act && act.type === ACTION_TYPE_MULTIACTION) {
+        } else if (act && act.type === ACTION_TYPE_COMPOSE) {
             Object.keys(act.payload.actionsMap).forEach((targetId) => {
                 if(!acc[targetId]) {
                     acc[targetId] = [];
@@ -34,11 +34,11 @@ const multiAction = (...actions) => {
         }
         return acc;
     }, {});
-    return { type: ACTION_TYPE_MULTIACTION, payload: { actionsMap } };
+    return { type: ACTION_TYPE_COMPOSE, payload: { actionsMap } };
 };
 
 
 module.exports = {
-    ACTION_TYPE_SET, ACTION_TYPE_MULTIACTION,
-    set, multiAction,
+    ACTION_TYPE_SET, ACTION_TYPE_COMPOSE,
+    set, compose,
 };

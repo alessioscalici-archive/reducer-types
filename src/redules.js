@@ -16,8 +16,8 @@ const stringType = require('./types/string');
 
 
 const {
-    ACTION_TYPE_SET, ACTION_TYPE_MULTIACTION,
-    set, multiAction,
+    ACTION_TYPE_SET, ACTION_TYPE_COMPOSE,
+    set, compose,
 } = require('./actions');
 
 
@@ -115,7 +115,7 @@ const generateCreateReducer = (defaultReducer, initialValue) => targetId => (sta
 
     if (!action) return state;
 
-    if (action.type === ACTION_TYPE_MULTIACTION && action.payload.actionsMap[targetId]) {
+    if (action.type === ACTION_TYPE_COMPOSE && action.payload.actionsMap[targetId]) {
         return action.payload.actionsMap[targetId].reduce(defaultReducer, state);
     }
 

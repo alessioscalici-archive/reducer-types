@@ -1,6 +1,6 @@
 
 const {
-  multiAction, ACTION_TYPE_MULTIACTION,
+  compose, ACTION_TYPE_COMPOSE,
 } = require('../src/actions');
 
 
@@ -12,17 +12,17 @@ const ACTION_2 = { type: 'ACTION_2', meta: { targetId: TARGET_ID_2 }  };
 const ACTION_3 = { type: 'ACTION_3', meta: { targetId: TARGET_ID_1 }  };
 
 
-describe('multiAction(...) creates an action', () => {
+describe('compose(...) creates an action', () => {
 
   let action = null;
 
   beforeEach(() => {
-    action = multiAction(ACTION_1, ACTION_2, ACTION_3);
+    action = compose(ACTION_1, ACTION_2, ACTION_3);
   });
 
   it('with the correct type', () => {
     expect(action).toBeTruthy();
-    expect(action.type).toBe(ACTION_TYPE_MULTIACTION);
+    expect(action.type).toBe(ACTION_TYPE_COMPOSE);
   });
 
   it('with a map of actions in the payload', () => {
