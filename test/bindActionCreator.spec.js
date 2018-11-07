@@ -1,7 +1,7 @@
 
 const {
   bindActionCreator,
-} = require('../index');
+} = require('../src/redules');
 
 
 const TARGET_ID = 'TARGET_ID';

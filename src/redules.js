@@ -5,24 +5,19 @@ const {
     TYPE_BOOLEAN,
     TYPE_OBJECT,
     TYPE_ARRAY,
-} = require('./types');
+} = require('./types/const');
+
+const arrayType = require('./types/array');
+const objectType = require('./types/object');
+const numberType = require('./types/number');
+const booleanType = require('./types/boolean');
+const stringType = require('./types/string');
 
 
 
 const {
-    ACTION_TYPE_SET, ACTION_TYPE_COMPOSED, ACTION_TYPE_MULTIACTION,
-    ACTION_TYPE_ENTRY, ACTION_TYPE_REMOVE,
-    ACTION_TYPE_PUSH, ACTION_TYPE_POP, ACTION_TYPE_UNSHIFT, ACTION_TYPE_SHIFT, ACTION_TYPE_ADD, ACTION_TYPE_SUBTRACT,
-    ACTION_TYPE_MULTIPLY, ACTION_TYPE_DIVIDE, ACTION_TYPE_MOD, ACTION_TYPE_NEGATE, ACTION_TYPE_BW_AND, ACTION_TYPE_BW_OR, ACTION_TYPE_BW_XOR,
-    ACTION_TYPE_AND, ACTION_TYPE_OR, ACTION_TYPE_XOR, ACTION_TYPE_NOT,
-    ACTION_TYPE_UPPERCASE, ACTION_TYPE_LOWERCASE,
-
+    ACTION_TYPE_SET, ACTION_TYPE_MULTIACTION,
     set, multiAction,
-    entry, remove,
-    push, pop, unshift, shift,
-    add, subtract, multiply, divide, mod, negate, bitwiseAnd, bitwiseOr, bitwiseXor,
-    and, or, xor, not,
-    uppercase, lowercase,
 } = require('./actions');
 
 
@@ -40,33 +35,6 @@ const ahRemove = (state, action) => {
   return res;
 };
 
-// Array
-const ahPush = (state, action) => (state && Array.isArray(state) ? [ ...state, action.payload.value ] : state);
-const ahUnshift = (state, action) => (state && Array.isArray(state) ? [ action.payload.value, ...state ] : state);
-const ahPop = state => state && Array.isArray(state) ? state.slice(0, state.length-1) : state;
-const ahShift = state => state && Array.isArray(state) ? state.slice(1) : state;
-
-// FIXME number can be null
-// Number
-const ahAdd = (state, action) => state + action.payload.value;
-const ahSubtract = (state, action) => state - action.payload.value;
-const ahMultiply = (state, action) => state * action.payload.value;
-const ahDivide = (state, action) => state / action.payload.value;
-const ahMod = (state, action) => state % action.payload.value;
-const ahNegate = state => -state;
-const ahBwAnd = (state, action) => state & action.payload.value;
-const ahBwOr = (state, action) => state | action.payload.value;
-const ahBwXor = (state, action) => state ^ action.payload.value;
-
-// Boolean
-const ahAnd = (state, action) => (state === null ? state : state && action.payload.value);
-const ahOr = (state, action) => (state === null ? state : state || action.payload.value);
-const ahXor = (state, action) => (state === null ? state : (action.payload.value ? !state : state));
-const ahNot = state => (state === null ? state : !state);
-
-// String
-const ahUppercase = state => state && state.toUpperCase();
-const ahLowercase = state => state && state.toLowerCase();
 
 
 
@@ -84,72 +52,16 @@ const bindActionCreator = (targetId) => (actionCreator) => (...args) => {
 
 
 
-// ============ TYPE CHECK ============ //
-
-const isNullOrArray = val => (val === null || Array.isArray(val));
-const isNullOrObject = val => (val === null || (typeof val === TYPE_OBJECT && val.constructor === Object));
-const isNullOrBoolean = val => (val === null || typeof val === TYPE_BOOLEAN);
-const isNullOrNumber = val => (val === null || (typeof val === TYPE_NUMBER && val !== NaN));
-const isNullOrString = val => (val === null || typeof val === TYPE_STRING);
-
-
-
 
 
 // ============ TYPE CONFIG ============ //
 
 const DEFAULT_CONFIG = {
-  [TYPE_ARRAY]: {
-    validate: isNullOrArray,
-    actionHandlers: {
-      [ACTION_TYPE_PUSH]: ahPush,
-      [ACTION_TYPE_UNSHIFT]: ahUnshift,
-      [ACTION_TYPE_POP]: ahPop,
-      [ACTION_TYPE_SHIFT]: ahShift,
-    },
-    actionCreators: { set, push, pop, unshift, shift },
-  },
-  [TYPE_OBJECT]: {
-    validate: isNullOrObject,
-    actionHandlers: {
-      [ACTION_TYPE_ENTRY]: ahEntry,
-      [ACTION_TYPE_REMOVE]: ahRemove,
-    },
-    actionCreators: { set, entry, remove },
-  },
-  [TYPE_BOOLEAN]: {
-    validate: isNullOrBoolean,
-    actionHandlers: {
-      [ACTION_TYPE_AND]: ahAnd,
-      [ACTION_TYPE_OR]: ahOr,
-      [ACTION_TYPE_XOR]: ahXor,
-      [ACTION_TYPE_NOT]: ahNot,
-    },
-    actionCreators: { set, and, or, xor, not },
-  },
-  [TYPE_NUMBER]: {
-    validate: isNullOrNumber,
-    actionHandlers: {
-      [ACTION_TYPE_ADD]: ahAdd,
-      [ACTION_TYPE_SUBTRACT]: ahSubtract,
-      [ACTION_TYPE_MULTIPLY]: ahMultiply,
-      [ACTION_TYPE_DIVIDE]: ahDivide,
-      [ACTION_TYPE_MOD]: ahMod,
-      [ACTION_TYPE_NEGATE]: ahNegate,
-      [ACTION_TYPE_BW_AND]: ahBwAnd,
-      [ACTION_TYPE_BW_OR]: ahBwOr,
-      [ACTION_TYPE_BW_XOR]: ahBwXor,
-    },
-    actionCreators: { set, add, subtract, multiply, divide, mod, negate, bitwiseAnd, bitwiseOr, bitwiseXor },
-  },
-  [TYPE_STRING]: {
-    validate: isNullOrString,
-    actionHandlers: {
-      [ACTION_TYPE_UPPERCASE]: ahUppercase,
-      [ACTION_TYPE_LOWERCASE]: ahLowercase,
-    },
-    actionCreators: { set, uppercase, lowercase },
-  },
+  [TYPE_ARRAY]: arrayType,
+  [TYPE_OBJECT]: objectType,
+  [TYPE_BOOLEAN]: booleanType,
+  [TYPE_NUMBER]: numberType,
+  [TYPE_STRING]: stringType,
 };
 
 
@@ -262,7 +174,7 @@ const generateBindActions = (typeConfig = DEFAULT_CONFIG) => type => targetId =>
       return Object.keys(typeConfig[type].actionCreators).reduce((acc, key) => {
           acc[key] = wrap(typeConfig[type].actionCreators[key]);
           return acc;
-      }, {});
+      }, { set: wrap(set) });
     }
     return {};
 };
@@ -284,7 +196,6 @@ module.exports = {
     generateBindActions,
     generateTypeDescriptors,
 
-    DEFAULT_CONFIG,
     createCustomCreateReducer,
 };
 module.exports.default = module.exports;

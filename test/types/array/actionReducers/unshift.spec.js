@@ -1,10 +1,8 @@
 
-const { DEFAULT_CONFIG } = require('../../index');
-const { ACTION_TYPE_PUSH } = require('../../src/actions');
-const { TYPE_ARRAY } = require('../../src/types');
+const { actionHandlers: { ahUnshift }, actionTypes: { ACTION_TYPE_UNSHIFT } } = require('../../../../src/types/array');
 
 
-const actionReducer = DEFAULT_CONFIG[TYPE_ARRAY].actionHandlers[ACTION_TYPE_PUSH];
+const actionReducer = ahUnshift;
 
 const VALUE = { newKey: 'newValue' };
 const oldState = [ { key: 'value' } ];
@@ -14,7 +12,7 @@ let newState;
 
 describe('when the state is null', () => {
   beforeEach(() => {
-    newState = actionReducer(null, { type: ACTION_TYPE_PUSH, payload: { value: VALUE } });
+    newState = actionReducer(null, { type: ACTION_TYPE_UNSHIFT, payload: { value: VALUE } });
   });
 
   it('returns null (does not crash)', () => {
@@ -25,7 +23,7 @@ describe('when the state is null', () => {
 describe('when the state is not an array', () => {
   const notAnArray = { something: 'is wrong!' };
   beforeEach(() => {
-    newState = actionReducer(notAnArray, { type: ACTION_TYPE_PUSH, payload: { value: VALUE } });
+    newState = actionReducer(notAnArray, { type: ACTION_TYPE_UNSHIFT, payload: { value: VALUE } });
   });
 
   it('returns the old state (does not crash)', () => {
@@ -36,7 +34,7 @@ describe('when the state is not an array', () => {
 
 describe('when state is an Array', () => {
   beforeEach(() => {
-    newState = actionReducer(oldState, { type: ACTION_TYPE_PUSH, payload: { value: VALUE } });
+    newState = actionReducer(oldState, { type: ACTION_TYPE_UNSHIFT, payload: { value: VALUE } });
   });
 
   it('returns a new state (immutability)', () => {
@@ -47,11 +45,11 @@ describe('when state is an Array', () => {
     expect(newState.length).toBe(oldState.length + 1);
   });
 
-  it('last element in new state will be the action value', () => {
-    expect(newState[newState.length - 1]).toBe(VALUE);
+  it('first element in new state will be the action value', () => {
+    expect(newState[0]).toBe(VALUE);
   });
 
   it('first part of the new state will equal the old state', () => {
-    expect(newState.slice(0, newState.length-1)).toEqual(oldState);
+    expect(newState.slice(1)).toEqual(oldState);
   });
 });

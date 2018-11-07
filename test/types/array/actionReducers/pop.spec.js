@@ -1,10 +1,9 @@
 
-const { DEFAULT_CONFIG } = require('../../index');
-const { ACTION_TYPE_SHIFT } = require('../../src/actions');
-const { TYPE_ARRAY } = require('../../src/types');
+
+const { actionHandlers: { ahPop }, actionTypes: { POP } } = require('../../../../src/types/array');
 
 
-const actionReducer = DEFAULT_CONFIG[TYPE_ARRAY].actionHandlers[ACTION_TYPE_SHIFT];
+const actionReducer = ahPop;
 
 const oldState = [ { key: 'value' }, { newKey: 'newValue' } ];
 
@@ -13,7 +12,7 @@ let newState;
 
 describe('when the state is null', () => {
   beforeEach(() => {
-    newState = actionReducer(null, { type: ACTION_TYPE_SHIFT });
+    newState = actionReducer(null, { type: POP });
   });
 
   it('returns null (does not crash)', () => {
@@ -24,7 +23,7 @@ describe('when the state is null', () => {
 describe('when the state is not an Array', () => {
   const notAnArray = { something: 'is wrong!' };
   beforeEach(() => {
-    newState = actionReducer(notAnArray, { type: ACTION_TYPE_SHIFT });
+    newState = actionReducer(notAnArray, { type: POP });
   });
 
   it('returns the old state (does not crash)', () => {
@@ -35,7 +34,7 @@ describe('when the state is not an Array', () => {
 
 describe('when state is an Array', () => {
   beforeEach(() => {
-    newState = actionReducer(oldState, { type: ACTION_TYPE_SHIFT });
+    newState = actionReducer(oldState, { type: POP });
   });
 
   it('returns a new state (immutability)', () => {
@@ -46,7 +45,7 @@ describe('when state is an Array', () => {
     expect(newState.length).toBe(oldState.length - 1);
   });
 
-  it('the new state will equal last part of the old state', () => {
-    expect(newState).toEqual(oldState.slice(1));
+  it('the new state will equal first part of the old state', () => {
+    expect(newState).toEqual(oldState.slice(0, oldState.length - 1));
   });
 });

@@ -13,41 +13,4 @@ A library to write reducer-based state in a concise, readable and efficient way.
 
 ## TODO:
 
-- Custom type (providing unique name, type checker, set of actions)
-
-```
-
-
-Custom types:
-{
-  <type name>: {
-    validate: fn any -> boolean,
-    actionHandlers: {
-      <action type>: fn (state, action) -> state,
-    },
-    actionCreators: {
-      <action creator name>: fn any* -> action object
-    }
-  }
-}
-
-const customTypes = {
-  USER: {
-    validate: user => (user === null || user.id && user.username && user.password),
-    actionHandlers: {
-      CHANGE_PASSWORD: (state, action) => ({ ...state, password: action.payload.newPassword })
-    },
-    actionCreators: {
-      changePassword: newPassword => ({ type: CHANGE_PASSWORD, payload: { newPassword } })
-    }
-  }
-};
-
-const functions = setCustomTypes(customTypes);
-
-functions.bindActionCreator
-functions.generateReducer
-function.generateActions
-
-
-```
+- FIX arrays and objects not updating

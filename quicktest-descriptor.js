@@ -18,7 +18,7 @@ const {
     TYPE_BOOLEAN,
     TYPE_OBJECT,
     TYPE_ARRAY,
-} = require('./src/types');
+} = require('./src/types/const');
 
 
 
