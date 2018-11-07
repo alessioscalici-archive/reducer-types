@@ -1,10 +1,4 @@
 const {
-  bindArrayActions,
-  bindObjectActions,
-  bindNumberActions,
-  bindBooleanActions,
-  bindStringActions,
-
   createCustomCreateReducer,
   generateBindActions,
   generateTypeDescriptors,
@@ -144,7 +138,7 @@ const generateStateCode = (descr, path = []) => {
 
 
 
-const { push, unshift, shift, entry, compose } = require('./src/actions');
+const { compose } = require('./src/actions');
 // import also type
 
 

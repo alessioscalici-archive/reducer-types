@@ -23,21 +23,6 @@ const {
 
 
 
-const ahEntry = (state, action) => {
-  const { key, value } = action.payload;
-  return (!state || state[key] === value) ? state : { ...state, [key]: value };
-};
-const ahRemove = (state, action) => {
-  if (!state || !state.hasOwnProperty(action.payload.key)) {
-    return state;
-  }
-  const { [action.payload.key]: val, ...res } = state;
-  return res;
-};
-
-
-
-
 // ============ BINDING ============ //
 
 
@@ -189,6 +174,13 @@ const generateTypeDescriptors = (typeConfig = DEFAULT_CONFIG) => {
   }, {});
 };
 
+
+// default functions
+const bindActions = generateBindActions(DEFAULT_CONFIG);
+const type = generateTypeDescriptors(DEFAULT_CONFIG);
+
+// exports
+
 module.exports = {
 
     bindActionCreator, // TODO: rename
@@ -197,5 +189,9 @@ module.exports = {
     generateTypeDescriptors,
 
     createCustomCreateReducer,
+
+    // default functions
+    bindActions,
+    type,
 };
 module.exports.default = module.exports;
