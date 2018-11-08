@@ -19,25 +19,24 @@ const subtract = value => ({ type: ACTION_TYPE_SUBTRACT, payload: { value } });
 const multiply = value => ({ type: ACTION_TYPE_MULTIPLY, payload: { value } });
 const divide = value => ({ type: ACTION_TYPE_DIVIDE, payload: { value } });
 const mod = value => ({ type: ACTION_TYPE_MOD, payload: { value } });
-const negate = value => ({ type: ACTION_TYPE_NEGATE, payload: { value } });
+const negate = () => ({ type: ACTION_TYPE_NEGATE });
 const bitwiseAnd = value => ({ type: ACTION_TYPE_BW_AND, payload: { value } });
 const bitwiseOr = value => ({ type: ACTION_TYPE_BW_OR, payload: { value } });
 const bitwiseXor = value => ({ type: ACTION_TYPE_BW_XOR, payload: { value } });
 
 // action handlers
-// FIXME number can be null
-const ahAdd = (state, action) => state + action.payload.value;
-const ahSubtract = (state, action) => state - action.payload.value;
-const ahMultiply = (state, action) => state * action.payload.value;
-const ahDivide = (state, action) => state / action.payload.value;
-const ahMod = (state, action) => state % action.payload.value;
-const ahNegate = state => -state;
-const ahBwAnd = (state, action) => state & action.payload.value;
-const ahBwOr = (state, action) => state | action.payload.value;
-const ahBwXor = (state, action) => state ^ action.payload.value;
+const ahAdd = (state, action) => (state === null ? state : state + action.payload.value);
+const ahSubtract = (state, action) => (state === null ? state : state - action.payload.value);
+const ahMultiply = (state, action) => (state === null ? state : state * action.payload.value);
+const ahDivide = (state, action) => (state === null ? state : state / action.payload.value);
+const ahMod = (state, action) => (state === null ? state : state % action.payload.value);
+const ahNegate = state => (state === null ? state : -state);
+const ahBwAnd = (state, action) => (state === null ? state : state & action.payload.value);
+const ahBwOr = (state, action) => (state === null ? state : state | action.payload.value);
+const ahBwXor = (state, action) => (state === null ? state : state ^ action.payload.value);
 
 // validator
-const isNullOrNumber = val => (val === null || (typeof val === TYPE_NUMBER && val !== NaN));
+const isNullOrNumber = val => (val === null || (typeof val === TYPE_NUMBER && !isNaN(val)));
 
 module.exports = {
     validate: isNullOrNumber,
