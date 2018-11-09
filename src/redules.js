@@ -169,7 +169,13 @@ const generateTypeDescriptors = (typeConfig = DEFAULT_CONFIG) => {
     typeConfig = mergeConfigs(DEFAULT_CONFIG, typeConfig);
   }
   return Object.keys(typeConfig).reduce((acc, type) => {
-    acc[type] = initialValue => ({ type, initialValue, isLeaf: true });
+    // TODO: add initialvalue type validation here
+    acc[type] = initialValue => {
+      if (!typeConfig[type].validate(initialValue)) {
+        throw new Error(`Invalid initial value for type "${type}": ${initialValue}`);
+      }
+      return { type, initialValue, isLeaf: true };
+    };
     return acc;
   }, {});
 };
