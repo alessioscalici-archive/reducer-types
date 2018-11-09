@@ -18,9 +18,6 @@ const {
 
 
 
-
-
-
 // Generate ids tree (exercise)
 
 const getIds = (descr, path = []) => {
@@ -171,7 +168,7 @@ const reducer = getReducer(descriptor);
 const selectors = getSelectors(descriptor);
 const selectorNames = getSelectorNames(descriptor);
 
-generateStateCode(descriptor);
+// generateStateCode(descriptor);
 
 
 const setLoading = actions.loading.set;
@@ -201,6 +198,12 @@ let state;
 
 state = reducer(state, doALotOfStuff({ id: 'pippo', text: 'hello!' }));
 
-
-
-console.log(state);
+describe('produces the correct state', () => {
+  it('produces the correct state', () => {
+    expect(state.users.ids).toEqual([1, 2, 3]);
+    expect(state.articles.ids).toEqual(['pippo']);
+    expect(state.articles.byId.pippo).toEqual({ id: 'pippo', text: 'hello!' });
+    expect(state.articles.curId).toEqual('Pippo');
+    expect(state.customUser).toEqual({ username: 'valid', password: 'new password!' });
+  });
+});
