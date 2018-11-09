@@ -3,7 +3,9 @@ const {
   generateTypeDescriptors,
 } = require('../src/redules');
 
-
+const {
+  USERTYPE_CONFIG,
+} = require('./mocks/customConfigs');
 
 
 
@@ -65,21 +67,11 @@ describe('used without any parameter', () => {
 });
 
 
-const MOCK_CONFIG = {
-  userType: {
-    validate: user => user === null || (!!(user.username && user.password)),
-    actionHandlers: {
-      SET_PASSWORD: (state, action) => state ? { ...state, password: action.payload.newPassword } : state,
-    },
-    actionCreators: {
-      setPassword: newPassword => ({ type: SET_PASSWORD, payload: { newPassword } }),
-    },
-  }
-};
+
 
 describe('used with a custom configuration containing new types', () => {
 
-  const type = generateTypeDescriptors(MOCK_CONFIG);
+  const type = generateTypeDescriptors(USERTYPE_CONFIG);
   testDefaultTypeDescriptors(type);  // test if it's containing the default types
 
 

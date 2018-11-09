@@ -145,9 +145,6 @@ const createCustomCreateReducer = (typeConfig = DEFAULT_CONFIG) => {
 
 
 
-
-
-
 // ============ UTILS ============ //
 
 const generateBindActions = (typeConfig = DEFAULT_CONFIG) => type => targetId => {
