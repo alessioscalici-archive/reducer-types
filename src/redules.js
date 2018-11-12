@@ -37,8 +37,6 @@ const bindActionCreator = (targetId) => (actionCreator) => (...args) => {
 
 
 
-
-
 // ============ TYPE CONFIG ============ //
 
 const DEFAULT_CONFIG = {
@@ -54,9 +52,13 @@ const mergeTypes = (...types) => types.reduce((acc, type) => {
   if (type.validate) {
     acc.validate = type.validate;
   }
-  if (type.actionHandlers)
-  acc.actionHandlers = Object.assign({}, acc.actionHandlers, type.actionHandlers);
-  acc.actionCreators = Object.assign({}, acc.actionCreators, type.actionCreators);
+  if (type.actionHandlers) {
+    acc.actionHandlers = Object.assign({}, acc.actionHandlers, type.actionHandlers);
+  }
+  if (type.actionCreators) {
+    acc.actionCreators = Object.assign({}, acc.actionCreators, type.actionCreators);
+  }
+
   return acc;
 }, { validate: () => true, actionHandlers: {}, actionCreators: {} });
 
@@ -89,7 +91,7 @@ const generateDefaultReducer = (validate, handleAction) => (state, action) => {
             return action.payload.value;
         } else {
             // FIXME: effect!
-            console.warn(`${action.meta.reduxDebug}: Value ${action.payload.value} is not a valid "${type}" value`);
+            console.warn(`${action.meta.reduxDebug}: Value ${action.payload.value} is not a valid value for ${action.meta.targetId}`);
         }
     }
     return handleAction(state, action);
@@ -196,5 +198,9 @@ module.exports = {
     // default functions
     bindActions,
     type,
+
+    // utils
+    mergeTypes,
+    mergeConfigs,
 };
 module.exports.default = module.exports;

@@ -16,8 +16,6 @@ const {
 
 
 
-
-
 // Generate ids tree (exercise)
 
 const getIds = (descr, path = []) => {
