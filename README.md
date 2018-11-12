@@ -14,14 +14,4 @@ A library to write reducer-based state in a concise, readable and efficient way.
 ## TODO:
 
 - Rename bindActionCreator
-
-- Unit test all types
-  - validator
-  - actionHandlers
-  - actionCreators
-  - type structure
-- Unit test multiaction
-- unit test generateCreateReducer
-- unit test mergetypes
-- unit test mergeconfigs
-- unit test typeDescriptor
+- Unit test

@@ -4,7 +4,10 @@ const {
   generateTypeDescriptors,
 } = require('./src/redules');
 
-
+const {
+  getTreeReducer,
+  getActionsTree,
+} = require('./src/treeDescriptorMethods');
 
 const {
     TYPE_STRING,
@@ -14,19 +17,6 @@ const {
     TYPE_ARRAY,
 } = require('./src/types/const');
 
-
-
-// Generate ids tree (exercise)
-
-const getIds = (descr, path = []) => {
-  if (descr.isLeaf) {
-    return path.join('.');
-  }
-  return Object.keys(descr).reduce((acc, key) => {
-    acc[key] = getIds(descr[key], [...path, key]);
-    return acc;
-  }, {});
-};
 
 
 
@@ -52,83 +42,10 @@ const TEST_CUSTOM_CONFIG = {
   },
 };
 
+
 const createReducer = createCustomCreateReducer(TEST_CUSTOM_CONFIG);
 const bindActions = generateBindActions(TEST_CUSTOM_CONFIG);
 const type = generateTypeDescriptors(TEST_CUSTOM_CONFIG);
-
-const getActions = (descr, path = []) => {
-  if (descr.isLeaf) {
-    const id = path.join('.');
-    return bindActions(descr.type)(id);
-  }
-  return Object.keys(descr).reduce((acc, key) => {
-    acc[key] = getActions(descr[key], [...path, key]);
-    return acc;
-  }, {});
-};
-
-
-
-// Generate reducers tree
-
-const customCreateReducer = createReducer; // TODO: CUSTOM MAP!!
-
-const getReducer = (descr, path = []) => {
-  if (descr.isLeaf) {
-    const id = path.join('.');
-    return customCreateReducer(descr.type, descr.initialValue)(id);
-  }
-  return (state, action) => Object.keys(descr).reduce((acc, key) => {
-    acc[key] = getReducer(descr[key], [...path, key])(state && state[key], action);
-    return acc;
-  }, {});
-};
-
-
-
-// Generate selectors tree
-
-const get = (obj, path = []) => path.reduce((acc, key) => acc && acc[key], obj);
-const getSelectors = (descr, path = []) => {
-  if (descr.isLeaf) {
-    return state => get(state, path);
-  }
-  return Object.keys(descr).reduce((acc, key) => {
-    acc[key] = getSelectors(descr[key], [...path, key]);
-    return acc;
-  }, {});
-};
-
-// Generate selectors NAMES tree (for static generation)
-
-const getSelectorNames = (descr, path = []) => {
-  if (descr.isLeaf) {
-    return 'get' + path.map(key => key.charAt(0).toUpperCase() + key.slice(1)).join('');
-  }
-  return Object.keys(descr).reduce((acc, key) => {
-    acc[key] = getSelectorNames(descr[key], [...path, key]);
-    return acc;
-  }, {});
-};
-
-
-
-const generateStateCode = (descr, path = []) => {
-  if (descr.isLeaf) {
-
-    const relativePath = path.join('/');
-
-    console.log(`${relativePath}/selectors.js`);
-    console.log(`${relativePath}/reducer.js`);
-    console.log(`${relativePath}/actions.js`);
-
-    return relativePath;
-  }
-  return Object.keys(descr).reduce((acc, key) => {
-    acc[key] = generateStateCode(descr[key], [...path, key]);
-    return acc;
-  }, {});
-};
 
 
 
@@ -160,13 +77,9 @@ const descriptor = {
 
 
 
-const ids = getIds(descriptor);
-const actions = getActions(descriptor);
-const reducer = getReducer(descriptor);
-const selectors = getSelectors(descriptor);
-const selectorNames = getSelectorNames(descriptor);
+const actions = getActionsTree(bindActions)(descriptor);
+const reducer = getTreeReducer(createReducer)(descriptor);
 
-// generateStateCode(descriptor);
 
 
 const setLoading = actions.loading.set;
