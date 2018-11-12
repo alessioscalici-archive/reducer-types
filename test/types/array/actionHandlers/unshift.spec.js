@@ -20,14 +20,14 @@ describe('when the state is null', () => {
   });
 });
 
-describe('when the state is not an array', () => {
-  const notAnArray = { something: 'is wrong!' };
-  beforeEach(() => {
-    newState = actionReducer(notAnArray, { type: ACTION_TYPE_UNSHIFT, payload: { value: VALUE } });
-  });
 
-  it('returns the old state (does not crash)', () => {
-    expect(newState).toBe(notAnArray);
+describe('when the state is not an Array', () => {
+  const notAnArray = { something: 'is wrong!' };
+
+  it('throws an error', () => {
+    expect(() => {
+      actionReducer(notAnArray, { type: ACTION_TYPE_UNSHIFT });
+    }).toThrow();
   });
 });
 

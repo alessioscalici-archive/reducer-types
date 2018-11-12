@@ -15,10 +15,10 @@ const pop = () => ({ type: ACTION_TYPE_POP });
 const shift = () => ({ type: ACTION_TYPE_SHIFT });
 
 // action handlers
-const ahPush = (state, action) => (state && Array.isArray(state) ? [ ...state, action.payload.value ] : state);
-const ahUnshift = (state, action) => (state && Array.isArray(state) ? [ action.payload.value, ...state ] : state);
-const ahPop = state => state && Array.isArray(state) ? state.slice(0, state.length-1) : state;
-const ahShift = state => state && Array.isArray(state) ? state.slice(1) : state;
+const ahPush = (state, action) => state ? [ ...state, action.payload.value ] : state;
+const ahUnshift = (state, action) => state ? [ action.payload.value, ...state ] : state;
+const ahPop = state => state ? state.slice(0, state.length-1) : state;
+const ahShift = state => state ? state.slice(1) : state;
 
 // validator
 const isNullOrArray = val => (val === null || Array.isArray(val));
