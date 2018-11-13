@@ -1,5 +1,6 @@
 
 const { PREFIX, TYPE_OBJECT } = require('./const');
+const { ACTION_TYPE_SET, set } = require('../actions');
 
 
 // action types
@@ -11,6 +12,8 @@ const entry = (key, value) => ({ type: ACTION_TYPE_ENTRY, payload: { key, value 
 const remove = key => ({ type: ACTION_TYPE_REMOVE, payload: { key } });
 
 // action handlers
+const ahSet = (state, action) => (action.payload.value === null || (typeof action.payload.value === TYPE_OBJECT && action.payload.value.constructor === Object)) ? action.payload.value : null;
+
 const ahEntry = (state, action) => {
   const { key, value } = action.payload;
   return (!state || state[key] === value) ? state : { ...state, [key]: value };
@@ -23,18 +26,16 @@ const ahRemove = (state, action) => {
   return res;
 };
 
-// validator
-const isNullOrObject = val => (val === null || (typeof val === TYPE_OBJECT && val.constructor === Object));
-
 
 module.exports = {
-    validate: isNullOrObject,
     actionHandlers: {
+      [ACTION_TYPE_SET]: ahSet,
       [ACTION_TYPE_ENTRY]: ahEntry,
       [ACTION_TYPE_REMOVE]: ahRemove,
     },
-    actionCreators: { entry, remove },
+    actionCreators: { set, entry, remove },
     actionTypes: {
+      ACTION_TYPE_SET,
       ACTION_TYPE_ENTRY,
       ACTION_TYPE_REMOVE,
     },

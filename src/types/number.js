@@ -1,5 +1,6 @@
 
 const { PREFIX, TYPE_NUMBER } = require('./const');
+const { ACTION_TYPE_SET, set } = require('../actions');
 
 
 // action types
@@ -25,6 +26,8 @@ const bitwiseOr = value => ({ type: ACTION_TYPE_BW_OR, payload: { value } });
 const bitwiseXor = value => ({ type: ACTION_TYPE_BW_XOR, payload: { value } });
 
 // action handlers
+const ahSet = (state, action) => (typeof val === TYPE_NUMBER && !isNaN(action.payload.value)) ? action.payload.value : null;
+
 const ahAdd = (state, action) => (state === null ? state : state + action.payload.value);
 const ahSubtract = (state, action) => (state === null ? state : state - action.payload.value);
 const ahMultiply = (state, action) => (state === null ? state : state * action.payload.value);
@@ -35,12 +38,10 @@ const ahBwAnd = (state, action) => (state === null ? state : state & action.payl
 const ahBwOr = (state, action) => (state === null ? state : state | action.payload.value);
 const ahBwXor = (state, action) => (state === null ? state : state ^ action.payload.value);
 
-// validator
-const isNullOrNumber = val => (val === null || (typeof val === TYPE_NUMBER && !isNaN(val)));
 
 module.exports = {
-    validate: isNullOrNumber,
     actionHandlers: {
+      [ACTION_TYPE_SET]: ahSet,
       [ACTION_TYPE_ADD]: ahAdd,
       [ACTION_TYPE_SUBTRACT]: ahSubtract,
       [ACTION_TYPE_MULTIPLY]: ahMultiply,
@@ -51,8 +52,9 @@ module.exports = {
       [ACTION_TYPE_BW_OR]: ahBwOr,
       [ACTION_TYPE_BW_XOR]: ahBwXor,
     },
-    actionCreators: { add, subtract, multiply, divide, mod, negate, bitwiseAnd, bitwiseOr, bitwiseXor },
+    actionCreators: { set, add, subtract, multiply, divide, mod, negate, bitwiseAnd, bitwiseOr, bitwiseXor },
     actionTypes: {
+      ACTION_TYPE_SET,
       ACTION_TYPE_ADD,
       ACTION_TYPE_SUBTRACT,
       ACTION_TYPE_MULTIPLY,

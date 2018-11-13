@@ -49,9 +49,6 @@ const DEFAULT_CONFIG = {
 
 
 const mergeTypes = (...types) => types.reduce((acc, type) => {
-  if (type.validate) {
-    acc.validate = type.validate;
-  }
   if (type.actionHandlers) {
     acc.actionHandlers = Object.assign({}, acc.actionHandlers, type.actionHandlers);
   }
@@ -60,7 +57,7 @@ const mergeTypes = (...types) => types.reduce((acc, type) => {
   }
 
   return acc;
-}, { validate: () => true, actionHandlers: {}, actionCreators: {} });
+}, { actionHandlers: {}, actionCreators: {} });
 
 
 const mergeConfigs = (...configs) => configs.reduce((accConfig, config) => {
@@ -77,7 +74,6 @@ const mergeConfigs = (...configs) => configs.reduce((accConfig, config) => {
 
 
 const generateIsValidType = typeConfig => type => !!typeConfig[type];
-const generateValidate = typeConfig => type => typeConfig[type].validate;
 const generateHandleAction = typeConfig => type => (state, action) => {
     return typeConfig[type].actionHandlers[action.type] ?
         typeConfig[type].actionHandlers[action.type](state, action) :
@@ -85,14 +81,9 @@ const generateHandleAction = typeConfig => type => (state, action) => {
 };
 
 // ((any -> boolean), ((A, FSA) -> A)) -> (A, FSA) -> A)
-const generateDefaultReducer = (validate, handleAction) => (state, action) => {
+const generateDefaultReducer = (handleAction) => (state, action) => {
     if (action.type === ACTION_TYPE_SET) {
-        if (validate(action.payload.value)) {
-            return action.payload.value;
-        } else {
-            // FIXME: effect!
-            console.warn(`${action.meta.reduxDebug}: Value ${action.payload.value} is not a valid value for ${action.meta.targetId}`);
-        }
+        return action.payload.value;
     }
     return handleAction(state, action);
 };
@@ -120,7 +111,6 @@ const createCustomCreateReducer = (typeConfig = DEFAULT_CONFIG) => {
     }
 
     const isValidType = generateIsValidType(typeConfig);
-    const generateSpecificValidate = generateValidate(typeConfig);
     const generateSpecificHandleAction = generateHandleAction(typeConfig);
 
     return (type, initialValue = null) => {
@@ -128,17 +118,8 @@ const createCustomCreateReducer = (typeConfig = DEFAULT_CONFIG) => {
             throw new Error(`Type "${type}" is not supported!`);
         }
 
-        const validate = generateSpecificValidate(type);
-
-        // check the type of the initial value
-        if (!validate(initialValue)) {
-            // FIXME: effects
-            console.warn(`"${initialValue}" is not a valid value for type "${type}"`);
-            initialValue = null;
-        }
-
         const handleAction = generateSpecificHandleAction(type);
-        const defaultReducer = generateDefaultReducer(validate, handleAction);
+        const defaultReducer = generateDefaultReducer(handleAction);
 
         return generateCreateReducer(defaultReducer, initialValue);
     };
@@ -170,9 +151,6 @@ const generateTypeDescriptors = (typeConfig = DEFAULT_CONFIG) => {
   return Object.keys(typeConfig).reduce((acc, type) => {
     // TODO: add initialvalue type validation here
     acc[type] = initialValue => {
-      if (!typeConfig[type].validate(initialValue)) {
-        throw new Error(`Invalid initial value for type "${type}": ${initialValue}`);
-      }
       return { type, initialValue, isLeaf: true };
     };
     return acc;
