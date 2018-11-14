@@ -13,36 +13,31 @@ const generateHandleAction = typeConfig => type => (state, action) => {
 };
 
 
-const generateCreateReducer = (defaultReducer, initialValue) => targetId => (state = initialValue, action) => {
-
-    if (!action) return state;
-
-    if (action.type === ACTION_TYPE_COMPOSE && action.payload.actionsMap[targetId]) {
-        return action.payload.actionsMap[targetId].reduce(defaultReducer, state);
+const generateCreateReducer = (actionHandler, initialValue) => targetId => (state = initialValue, action) => {
+    if (!action) {
+      return state;
     }
-
+    if (action.type === ACTION_TYPE_COMPOSE && action.payload.actionsMap[targetId]) {
+        return action.payload.actionsMap[targetId].reduce(actionHandler, state);
+    }
     if (!action.meta || action.meta.targetId !== targetId) {
         return state;
     }
-
-    return defaultReducer(state, action);
+    return actionHandler(state, action);
 };
 
 const createCustomCreateReducer = (...typeConfigs) => {
-
     const typeConfig = mergeConfigs(...typeConfigs);
-
-    const generateSpecificHandleAction = generateHandleAction(typeConfig);
-
+    const getActionHandlerForType = generateHandleAction(typeConfig);
     return (type, initialValue = null) => {
         if (!typeConfig[type]) {
             throw new Error(`Type "${type}" is not supported!`);
         }
-        const handleAction = generateSpecificHandleAction(type);
-
-        return generateCreateReducer(handleAction, initialValue);
+        return generateCreateReducer(
+          getActionHandlerForType(type),
+          initialValue
+        );
     };
-
 };
 
 
