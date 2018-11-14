@@ -1,4 +1,16 @@
 
+const { mergeConfigs } = require('./redules');
+
+const generateTypeDescriptors = (...typeConfigs) => {
+  const typeConfig = mergeConfigs(...typeConfigs);
+  return Object.keys(typeConfig).reduce((acc, type) => {
+    acc[type] = initialValue => {
+      return { type, initialValue, isLeaf: true };
+    };
+    return acc;
+  }, {});
+};
+
 
 const getTreeReducer = createReducerFunc => (descr, path = []) => {
   if (descr.isLeaf) {
@@ -24,8 +36,6 @@ const getActionsTree = bindActionsFunc => (descr, path = []) => {
     return acc;
   }, {});
 };
-
-
 
 
 const createSelectorFromPath = (path = []) => obj => {
@@ -60,6 +70,7 @@ const getSelectors = (baseSelector = (a => a)) => (descr, path = []) => {
 };
 
 module.exports = {
+  generateTypeDescriptors,
   getTreeReducer,
   getActionsTree,
   getSelectors,

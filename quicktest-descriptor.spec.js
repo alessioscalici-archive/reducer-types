@@ -1,10 +1,10 @@
 const {
   createCustomCreateReducer,
   generateBindActions,
-  generateTypeDescriptors,
 } = require('./src/redules');
 
 const {
+  generateTypeDescriptors,
   getTreeReducer,
   getActionsTree,
   getSelectors,
@@ -33,7 +33,6 @@ const TEST_CUSTOM_CONFIG = {
     },
   },
   user: {
-    validate: user => (user === null || user.username && user.password),
     actionHandlers: {
       CHANGE_PASSWORD: (state, action) => ({ ...state, password: action.payload.newPassword })
     },

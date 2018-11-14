@@ -15,8 +15,11 @@ const stringType = require('./string');
 const {
   createCustomCreateReducer,
   generateBindActions,
-  generateTypeDescriptors,
 } = require('../redules');
+
+const {
+  generateTypeDescriptors,
+} = require('../treeDescriptorMethods');
 
 
 const CONFIG = {

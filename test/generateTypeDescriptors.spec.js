@@ -1,7 +1,7 @@
 
 const {
   generateTypeDescriptors,
-} = require('../src/redules');
+} = require('../src/treeDescriptorMethods');
 
 const {
   USERTYPE_CONFIG,
