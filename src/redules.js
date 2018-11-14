@@ -51,20 +51,12 @@ const mergeConfigs = (...configs) => configs.reduce((accConfig, config) => {
 }, {});
 
 
-
 const generateIsValidType = typeConfig => type => !!typeConfig[type];
+
 const generateHandleAction = typeConfig => type => (state, action) => {
     return typeConfig[type].actionHandlers[action.type] ?
         typeConfig[type].actionHandlers[action.type](state, action) :
         state;
-};
-
-// ((any -> boolean), ((A, FSA) -> A)) -> (A, FSA) -> A)
-const generateDefaultReducer = (handleAction) => (state, action) => {
-    if (action.type === ACTION_TYPE_SET) {
-        return action.payload.value;
-    }
-    return handleAction(state, action);
 };
 
 
@@ -96,9 +88,8 @@ const createCustomCreateReducer = (...typeConfigs) => {
         }
 
         const handleAction = generateSpecificHandleAction(type);
-        const defaultReducer = generateDefaultReducer(handleAction);
 
-        return generateCreateReducer(defaultReducer, initialValue);
+        return generateCreateReducer(handleAction, initialValue);
     };
 
 };
@@ -134,8 +125,6 @@ const generateTypeDescriptors = (...typeConfigs) => {
 
 
 
-
-// exports
 
 module.exports = {
 
