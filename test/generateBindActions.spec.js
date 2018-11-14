@@ -19,7 +19,7 @@ const {
   // myTargetActions is an object of action creators for the string type, and targetId = 'myTarget'
 */
 
-describe('called without custom config', () => {
+describe('called without config', () => {
   let bindActions;
 
   beforeEach(() => {
@@ -46,15 +46,7 @@ describe('called without custom config', () => {
 
       it('takes a target id and returns an object of bound action creators', () => {
         const myTargetActions = bindBooleanActions(MY_TARGET_ID);
-        expect(typeof myTargetActions.and).toBe('function');
-        expect(typeof myTargetActions.or).toBe('function');
-        expect(typeof myTargetActions.xor).toBe('function');
-        expect(typeof myTargetActions.not).toBe('function');
-
-        expect(myTargetActions.and(true).meta.targetId).toBe(MY_TARGET_ID);
-        expect(myTargetActions.or(false).meta.targetId).toBe(MY_TARGET_ID);
-        expect(myTargetActions.xor(true).meta.targetId).toBe(MY_TARGET_ID);
-        expect(myTargetActions.not().meta.targetId).toBe(MY_TARGET_ID);
+        expect(myTargetActions).toEqual({});
       });
     });
   });

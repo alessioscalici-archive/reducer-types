@@ -1,18 +1,4 @@
 
-const {
-    TYPE_STRING,
-    TYPE_NUMBER,
-    TYPE_BOOLEAN,
-    TYPE_OBJECT,
-    TYPE_ARRAY,
-} = require('./types/const');
-
-const arrayType = require('./types/array');
-const objectType = require('./types/object');
-const numberType = require('./types/number');
-const booleanType = require('./types/boolean');
-const stringType = require('./types/string');
-
 
 
 const {
@@ -39,13 +25,6 @@ const bindActionCreator = (targetId) => (actionCreator) => (...args) => {
 
 // ============ TYPE CONFIG ============ //
 
-const DEFAULT_CONFIG = {
-  [TYPE_ARRAY]: arrayType,
-  [TYPE_OBJECT]: objectType,
-  [TYPE_BOOLEAN]: booleanType,
-  [TYPE_NUMBER]: numberType,
-  [TYPE_STRING]: stringType,
-};
 
 
 const mergeTypes = (...types) => types.reduce((acc, type) => {
@@ -104,11 +83,9 @@ const generateCreateReducer = (defaultReducer, initialValue) => targetId => (sta
     return defaultReducer(state, action);
 };
 
-const createCustomCreateReducer = (typeConfig = DEFAULT_CONFIG) => {
+const createCustomCreateReducer = (...typeConfigs) => {
 
-    if (typeConfig !== DEFAULT_CONFIG) {
-        typeConfig = mergeConfigs(DEFAULT_CONFIG, typeConfig);
-    }
+    const typeConfig = mergeConfigs(...typeConfigs);
 
     const isValidType = generateIsValidType(typeConfig);
     const generateSpecificHandleAction = generateHandleAction(typeConfig);
@@ -130,10 +107,10 @@ const createCustomCreateReducer = (typeConfig = DEFAULT_CONFIG) => {
 
 // ============ UTILS ============ //
 
-const generateBindActions = (typeConfig = DEFAULT_CONFIG) => type => targetId => {
-    if (typeConfig !== DEFAULT_CONFIG) {
-      typeConfig = mergeConfigs(DEFAULT_CONFIG, typeConfig);
-    }
+const generateBindActions = (...typeConfigs) => type => targetId => {
+
+    const typeConfig = mergeConfigs(...typeConfigs);
+
     if (typeConfig[type] && typeConfig[type].actionCreators) {
       const wrap = bindActionCreator(targetId);
       return Object.keys(typeConfig[type].actionCreators).reduce((acc, key) => {
@@ -144,10 +121,8 @@ const generateBindActions = (typeConfig = DEFAULT_CONFIG) => type => targetId =>
     return {};
 };
 
-const generateTypeDescriptors = (typeConfig = DEFAULT_CONFIG) => {
-  if (typeConfig !== DEFAULT_CONFIG) {
-    typeConfig = mergeConfigs(DEFAULT_CONFIG, typeConfig);
-  }
+const generateTypeDescriptors = (...typeConfigs) => {
+  const typeConfig = mergeConfigs(...typeConfigs);
   return Object.keys(typeConfig).reduce((acc, type) => {
     // TODO: add initialvalue type validation here
     acc[type] = initialValue => {
@@ -158,9 +133,7 @@ const generateTypeDescriptors = (typeConfig = DEFAULT_CONFIG) => {
 };
 
 
-// default functions
-const bindActions = generateBindActions(DEFAULT_CONFIG);
-const type = generateTypeDescriptors(DEFAULT_CONFIG);
+
 
 // exports
 
@@ -172,10 +145,6 @@ module.exports = {
     generateTypeDescriptors,
 
     createCustomCreateReducer,
-
-    // default functions
-    bindActions,
-    type,
 
     // utils
     mergeTypes,

@@ -44,9 +44,11 @@ const TEST_CUSTOM_CONFIG = {
 };
 
 
-const createReducer = createCustomCreateReducer(TEST_CUSTOM_CONFIG);
-const bindActions = generateBindActions(TEST_CUSTOM_CONFIG);
-const type = generateTypeDescriptors(TEST_CUSTOM_CONFIG);
+const { CONFIG } = require('./src/types');
+
+const createReducer = createCustomCreateReducer(CONFIG, TEST_CUSTOM_CONFIG);
+const bindActions = generateBindActions(CONFIG, TEST_CUSTOM_CONFIG);
+const type = generateTypeDescriptors(CONFIG, TEST_CUSTOM_CONFIG);
 
 
 
