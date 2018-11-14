@@ -7,6 +7,7 @@ const {
 const {
   getTreeReducer,
   getActionsTree,
+  getSelectors,
 } = require('./src/treeDescriptorMethods');
 
 const {
@@ -80,6 +81,9 @@ const descriptor = {
 const actions = getActionsTree(bindActions)(descriptor);
 const reducer = getTreeReducer(createReducer)(descriptor);
 
+const selectors = getSelectors(id => id)(descriptor);
+const usersSelectors = getSelectors(state => state.users)(usersDescriptor);
+
 
 
 const setLoading = actions.loading.set;
@@ -117,4 +121,9 @@ describe('produces the correct state', () => {
     expect(state.articles.curId).toEqual('Pippo');
     expect(state.customUser).toEqual({ username: 'valid', password: 'new password!' });
   });
+});
+
+it('selectors', () => {
+  expect(selectors.getUsersIds(state)).toEqual([1, 2, 3]);
+  expect(usersSelectors.getIds(state)).toEqual([1, 2, 3]);
 });
