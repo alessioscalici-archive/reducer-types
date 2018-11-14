@@ -50,8 +50,6 @@ const bindActions = generateBindActions(CONFIG, TEST_CUSTOM_CONFIG);
 const type = generateTypeDescriptors(CONFIG, TEST_CUSTOM_CONFIG);
 
 
-
-
 const { compose } = require('./src/actions');
 // import also type
 

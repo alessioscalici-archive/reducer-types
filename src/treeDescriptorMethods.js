@@ -1,5 +1,5 @@
 
-const { mergeConfigs } = require('./redules');
+const mergeConfigs = require('./mergeConfigs');
 
 const generateTypeDescriptors = (...typeConfigs) => {
   const typeConfig = mergeConfigs(...typeConfigs);

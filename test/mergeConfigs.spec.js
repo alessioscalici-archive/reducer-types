@@ -1,7 +1,5 @@
 
-const {
-  mergeConfigs,
-} = require('../src/redules');
+const mergeConfigs = require('../src/mergeConfigs');
 
 
 const CONFIG_ARTICLE = {
