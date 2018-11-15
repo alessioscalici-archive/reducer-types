@@ -4,11 +4,15 @@
   "description": "A library to write reducer-based state in a concise, readable and efficient way.",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint ./*.js ./**/*.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "jest": "^23.6.0",
     "redux": "^4.0.1"
   },

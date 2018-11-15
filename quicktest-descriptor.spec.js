@@ -12,11 +12,7 @@ const {
 const generateTypeDescriptors = require('./src/generateTypeDescriptors');
 
 const {
-    TYPE_STRING,
-    TYPE_NUMBER,
-    TYPE_BOOLEAN,
-    TYPE_OBJECT,
-    TYPE_ARRAY,
+  TYPE_STRING,
 } = require('./src/types/const');
 
 
@@ -33,10 +29,10 @@ const TEST_CUSTOM_CONFIG = {
   },
   user: {
     actionHandlers: {
-      CHANGE_PASSWORD: (state, action) => ({ ...state, password: action.payload.newPassword })
+      CHANGE_PASSWORD: (state, action) => ({ ...state, password: action.payload.newPassword }),
     },
     actionCreators: {
-      changePassword: newPassword => ({ type: 'CHANGE_PASSWORD', payload: { newPassword } })
+      changePassword: newPassword => ({ type: 'CHANGE_PASSWORD', payload: { newPassword } }),
     },
   },
 };
@@ -75,13 +71,11 @@ const descriptor = {
 };
 
 
-
 const actions = getActionsTree(bindActions)(descriptor);
 const reducer = getTreeReducer(createReducer)(descriptor);
 
 const selectors = getSelectors(id => id)(descriptor);
 const usersSelectors = getSelectors(state => state.users)(usersDescriptor);
-
 
 
 const setLoading = actions.loading.set;
@@ -99,9 +93,9 @@ const addUserIds = () => compose(
 
 // nesting composes
 const doALotOfStuff = article => compose(
-  addArticle(article),                       // composing another compose
+  addArticle(article), // composing another compose
   actions.articles.curId.set(article.id),
-  addUserIds(),                         // composing another compose
+  addUserIds(), // composing another compose
   actions.articles.curId.capitalize(), // custom action on existing type (string)
   actions.customUser.changePassword('new password!'), // custom type action
 );
@@ -109,6 +103,7 @@ const doALotOfStuff = article => compose(
 
 let state;
 
+// eslint-disable-next-line prefer-const
 state = reducer(state, doALotOfStuff({ id: 'pippo', text: 'hello!' }));
 
 describe('produces the correct state', () => {

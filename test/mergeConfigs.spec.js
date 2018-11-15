@@ -5,10 +5,10 @@ const mergeConfigs = require('../src/mergeConfigs');
 const CONFIG_ARTICLE = {
   article: {
     actionHandlers: {
-      PUBLISH_ARTICLE: state => state ? { ...state, state: 'published' } : state,
+      PUBLISH_ARTICLE: state => (state ? { ...state, state: 'published' } : state),
     },
     actionCreators: {
-      publishArticle: article => ({ type: 'PUBLISH_ARTICLE' }),
+      publishArticle: () => ({ type: 'PUBLISH_ARTICLE' }),
     },
   },
 };
@@ -16,10 +16,10 @@ const CONFIG_ARTICLE = {
 const CONFIG_COMMENT = {
   comment: {
     actionHandlers: {
-      PUBLISH_COMMENT: state => state ? { ...state, state: 'published' } : state,
+      PUBLISH_COMMENT: state => (state ? { ...state, state: 'published' } : state),
     },
     actionCreators: {
-      publishComment: article => ({ type: 'PUBLISH_COMMENT' }),
+      publishComment: () => ({ type: 'PUBLISH_COMMENT' }),
     },
   },
 };
@@ -27,10 +27,10 @@ const CONFIG_COMMENT = {
 const CONFIG_AD = {
   ad: {
     actionHandlers: {
-      PUBLISH_AD: state => state ? { ...state, state: 'published' } : state,
+      PUBLISH_AD: state => (state ? { ...state, state: 'published' } : state),
     },
     actionCreators: {
-      publishComment: article => ({ type: 'PUBLISH_AD' }),
+      publishComment: () => ({ type: 'PUBLISH_AD' }),
     },
   },
 };
@@ -39,10 +39,10 @@ const CONFIG_AD = {
 const CONFIG_ARTICLE_ADD_ACTION = {
   article: {
     actionHandlers: {
-      UNPUBLISH_ARTICLE: state => state ? { ...state, state: 'unpublished' } : state,
+      UNPUBLISH_ARTICLE: state => (state ? { ...state, state: 'unpublished' } : state),
     },
     actionCreators: {
-      unpublishArticle: article => ({ type: 'UNPUBLISH_ARTICLE' }),
+      unpublishArticle: () => ({ type: 'UNPUBLISH_ARTICLE' }),
     },
   },
 };

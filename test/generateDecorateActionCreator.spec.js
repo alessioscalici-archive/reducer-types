@@ -5,8 +5,6 @@ const generateDecorateActionCreator = require('../src/generateDecorateActionCrea
 const TARGET_ID = 'TARGET_ID';
 
 
-
-
 describe('with an action creator which creates an action with no meta', () => {
   const originalActionCreator = () => ({
     type: 'do-something',

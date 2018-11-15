@@ -7,11 +7,11 @@
  *    a new action creator which also adds the targetId to the action.
  */
 const generateDecorateActionCreator = targetId => actionCreator => (...args) => {
-    const action = actionCreator(...args);
-    if (!action) return action;
-    if (!action.meta) action.meta = {};
-    action.meta.targetId = targetId;
-    return action;
+  const action = actionCreator(...args);
+  if (!action) return action;
+  if (!action.meta) action.meta = {};
+  action.meta.targetId = targetId;
+  return action;
 };
 
 module.exports = generateDecorateActionCreator;

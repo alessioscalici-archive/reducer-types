@@ -26,11 +26,11 @@ const getActionsTree = bindActionsFunc => (descr, path = []) => {
 };
 
 
-const createSelectorFromPath = (path = []) => obj => {
+const createSelectorFromPath = (path = []) => (obj) => {
   let ref = obj;
-  for (let key of path) {
+  for (let i = 0; i < path.length; i += 1) {
     if (!ref) return ref;
-    ref = ref[key];
+    ref = ref[path[i]];
   }
   return ref;
 };
@@ -38,22 +38,22 @@ const createSelectorFromPath = (path = []) => obj => {
 const composeSelectors = (...selectors) => obj => selectors.reduce((acc, sel) => sel(acc), obj);
 
 
-const getSelectorIdFromPath = (path = []) => path.reduce((acc, it) => {   return acc + it.charAt(0).toUpperCase() + it.slice(1); }, 'get');
+const getSelectorIdFromPath = (path = []) => path.reduce((acc, it) => acc + it.charAt(0).toUpperCase() + it.slice(1), 'get');
 
 const getSelectors = (baseSelector = (a => a)) => (descr, path = []) => {
   if (descr.isLeaf) {
-    return baseSelector ? composeSelectors(baseSelector, createSelectorFromPath(path)) : createSelectorFromPath(path);
+    return baseSelector
+      ? composeSelectors(baseSelector, createSelectorFromPath(path))
+      : createSelectorFromPath(path);
   }
   return Object.keys(descr).reduce((acc, key) => {
-
     const res = getSelectors(baseSelector)(descr[key], [...path, key]);
     if (typeof res === 'function') {
       const id = getSelectorIdFromPath([...path, key]);
       acc[id] = res;
-    } else {
-      acc = { ...acc, ...res };
+      return acc;
     }
-    return acc;
+    return { ...acc, ...res };
   }, {});
 };
 

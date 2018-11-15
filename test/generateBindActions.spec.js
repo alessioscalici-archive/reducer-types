@@ -65,7 +65,7 @@ describe('called with custom config', () => {
   });
 
   describe('returns a function, which', () => {
-    let bindBooleanActions;
+    let bindUserActions;
 
     beforeEach(() => {
       bindUserActions = bindActions('userType');

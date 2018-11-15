@@ -12,14 +12,15 @@ const mergeTypes = (...types) => types.reduce((acc, type) => {
 
 
 const mergeConfigs = (...configs) => configs.reduce((accConfig, config) => {
+  const res = accConfig;
   Object.keys(config).forEach((key) => {
     if (accConfig[key]) {
-      accConfig[key] = mergeTypes(accConfig[key], config[key]);
+      res[key] = mergeTypes(accConfig[key], config[key]);
     } else {
-      accConfig[key] = config[key];
+      res[key] = config[key];
     }
   });
-  return accConfig;
+  return res;
 }, {});
 
 

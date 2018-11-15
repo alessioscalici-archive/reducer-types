@@ -6,7 +6,6 @@ const {
 } = require('./mocks/customConfigs');
 
 
-
 describe('used without any parameter', () => {
   const type = generateTypeDescriptors();
   expect(type).toEqual({});
@@ -14,7 +13,6 @@ describe('used without any parameter', () => {
 
 
 describe('used with a custom configuration containing new types', () => {
-
   const type = generateTypeDescriptors(USERTYPE_CONFIG);
 
 
