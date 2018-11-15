@@ -56,11 +56,7 @@ const generateBindActions = (...typeConfigs) => type => targetId => {
 };
 
 
-
-
-
 module.exports = {
     generateBindActions,
     createCustomCreateReducer,
 };
-module.exports.default = module.exports;

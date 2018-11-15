@@ -1,16 +1,4 @@
 
-const mergeConfigs = require('./mergeConfigs');
-
-const generateTypeDescriptors = (...typeConfigs) => {
-  const typeConfig = mergeConfigs(...typeConfigs);
-  return Object.keys(typeConfig).reduce((acc, type) => {
-    acc[type] = initialValue => {
-      return { type, initialValue, isLeaf: true };
-    };
-    return acc;
-  }, {});
-};
-
 
 const getTreeReducer = createReducerFunc => (descr, path = []) => {
   if (descr.isLeaf) {
@@ -70,7 +58,6 @@ const getSelectors = (baseSelector = (a => a)) => (descr, path = []) => {
 };
 
 module.exports = {
-  generateTypeDescriptors,
   getTreeReducer,
   getActionsTree,
   getSelectors,

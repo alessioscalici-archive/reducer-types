@@ -1,7 +1,5 @@
 
-const {
-  generateTypeDescriptors,
-} = require('../src/treeDescriptorMethods');
+const generateTypeDescriptors = require('../src/generateTypeDescriptors');
 
 const {
   USERTYPE_CONFIG,

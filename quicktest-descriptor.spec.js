@@ -4,11 +4,12 @@ const {
 } = require('./src/redules');
 
 const {
-  generateTypeDescriptors,
   getTreeReducer,
   getActionsTree,
   getSelectors,
 } = require('./src/treeDescriptorMethods');
+
+const generateTypeDescriptors = require('./src/generateTypeDescriptors');
 
 const {
     TYPE_STRING,
@@ -17,8 +18,6 @@ const {
     TYPE_OBJECT,
     TYPE_ARRAY,
 } = require('./src/types/const');
-
-
 
 
 // Generate actions tree

@@ -17,9 +17,7 @@ const {
   generateBindActions,
 } = require('../redules');
 
-const {
-  generateTypeDescriptors,
-} = require('../treeDescriptorMethods');
+const generateTypeDescriptors = require('../generateTypeDescriptors');
 
 
 const CONFIG = {
