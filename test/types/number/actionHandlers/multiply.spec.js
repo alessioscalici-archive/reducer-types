@@ -9,17 +9,21 @@ describe('when current state is 0', () => {
   const oldState = 0;
 
   it('applying a positive number should return 0', () => {
-    let newState = actionReducer(oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: 42 } });
+    const newState = actionReducer(
+      oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: 42 } },
+    );
     expect(newState).toBe(0);
   });
 
   it('applying a negative number should return -0', () => {
-    let newState = actionReducer(oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: -42 } });
+    const newState = actionReducer(
+      oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: -42 } },
+    );
     expect(newState).toBe(-0);
   });
 
   it('applying zero should return zero', () => {
-    let newState = actionReducer(oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: 0 } });
+    const newState = actionReducer(oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: 0 } });
     expect(newState).toBe(0);
   });
 });
@@ -29,17 +33,21 @@ describe('when current state is a positive number', () => {
   const oldState = 10;
 
   it('applying a positive number should return the multiplied value (state * value)', () => {
-    let newState = actionReducer(oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: 42 } });
+    const newState = actionReducer(
+      oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: 42 } },
+    );
     expect(newState).toBe(420);
   });
 
   it('applying a negative number should return the multiplied value (state * (-value))', () => {
-    let newState = actionReducer(oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: -42 } });
+    const newState = actionReducer(
+      oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: -42 } },
+    );
     expect(newState).toBe(-420);
   });
 
   it('applying zero should return 0', () => {
-    let newState = actionReducer(oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: 0 } });
+    const newState = actionReducer(oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: 0 } });
     expect(newState).toBe(0);
   });
 });
@@ -49,12 +57,14 @@ describe('when current state is NULL', () => {
   const oldState = null;
 
   it('applying a number should return NULL', () => {
-    let newState = actionReducer(oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: 42 } });
+    const newState = actionReducer(
+      oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: 42 } },
+    );
     expect(newState).toBe(null);
   });
 
   it('applying 0 should return NULL', () => {
-    let newState = actionReducer(oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: 0 } });
+    const newState = actionReducer(oldState, { type: ACTION_TYPE_MULTIPLY, payload: { value: 0 } });
     expect(newState).toBe(null);
   });
 });

@@ -18,7 +18,6 @@ const {
 const VALUE = true;
 
 
-
 describe('and', () => {
   it('creates an action with the correct type', () => {
     const action = and(VALUE);

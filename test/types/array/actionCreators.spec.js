@@ -15,7 +15,6 @@ const {
 } = require('../../../src/types/array');
 
 
-
 const VALUE = 'some value';
 
 

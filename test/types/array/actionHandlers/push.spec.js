@@ -5,7 +5,7 @@ const { actionHandlers, actionTypes: { ACTION_TYPE_PUSH } } = require('../../../
 const actionReducer = actionHandlers[ACTION_TYPE_PUSH];
 
 const VALUE = { newKey: 'newValue' };
-const oldState = [ { key: 'value' } ];
+const oldState = [{ key: 'value' }];
 
 let newState;
 
@@ -50,6 +50,6 @@ describe('when state is an Array', () => {
   });
 
   it('first part of the new state will equal the old state', () => {
-    expect(newState.slice(0, newState.length-1)).toEqual(oldState);
+    expect(newState.slice(0, newState.length - 1)).toEqual(oldState);
   });
 });

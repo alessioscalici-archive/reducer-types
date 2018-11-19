@@ -5,7 +5,7 @@ const { actionHandlers, actionTypes: { ACTION_TYPE_UNSHIFT } } = require('../../
 const actionReducer = actionHandlers[ACTION_TYPE_UNSHIFT];
 
 const VALUE = { newKey: 'newValue' };
-const oldState = [ { key: 'value' } ];
+const oldState = [{ key: 'value' }];
 
 let newState;
 

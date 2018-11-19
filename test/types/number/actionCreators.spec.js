@@ -1,15 +1,15 @@
 
 const {
   actionCreators: {
-     add,
-     subtract,
-     multiply,
-     divide,
-     mod,
-     negate,
-     bitwiseAnd,
-     bitwiseOr,
-     bitwiseXor,
+    add,
+    subtract,
+    multiply,
+    divide,
+    mod,
+    negate,
+    bitwiseAnd,
+    bitwiseOr,
+    bitwiseXor,
   },
   actionTypes: {
     ACTION_TYPE_ADD,
@@ -26,7 +26,6 @@ const {
 
 
 const VALUE = 42;
-
 
 
 describe('add', () => {

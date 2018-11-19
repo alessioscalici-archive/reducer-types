@@ -13,7 +13,9 @@ let oldState;
 describe('setting a value on a new key', () => {
   beforeEach(() => {
     oldState = { keyA: 'valueA', keyB: 'valueB' };
-    newState = actionReducer(oldState, { type: ACTION_TYPE_ENTRY, payload: { key: KEY, value: VALUE } });
+    newState = actionReducer(
+      oldState, { type: ACTION_TYPE_ENTRY, payload: { key: KEY, value: VALUE } },
+    );
   });
 
   it('returns a new state (immutability)', () => {
@@ -42,7 +44,9 @@ describe('setting a value on a new key', () => {
 describe('setting a new value to an existing key', () => {
   beforeEach(() => {
     oldState = { keyA: 'valueA', keyB: 'valueB', [KEY]: 'valueC' };
-    newState = actionReducer(oldState, { type: ACTION_TYPE_ENTRY, payload: { key: KEY, value: VALUE } });
+    newState = actionReducer(
+      oldState, { type: ACTION_TYPE_ENTRY, payload: { key: KEY, value: VALUE } },
+    );
   });
 
   it('returns a new state (immutability)', () => {
@@ -72,7 +76,9 @@ describe('setting a new value to an existing key', () => {
 describe('setting an already existing key/value pair', () => {
   beforeEach(() => {
     oldState = { keyA: 'valueA', keyB: 'valueB', [KEY]: VALUE };
-    newState = actionReducer(oldState, { type: ACTION_TYPE_ENTRY, payload: { key: KEY, value: VALUE } });
+    newState = actionReducer(
+      oldState, { type: ACTION_TYPE_ENTRY, payload: { key: KEY, value: VALUE } },
+    );
   });
 
   it('returns the old state', () => {

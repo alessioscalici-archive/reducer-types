@@ -15,7 +15,6 @@ const KEY = 'someKey';
 const VALUE = 'some value';
 
 
-
 describe('entry', () => {
   it('creates an action with the correct type', () => {
     const action = entry(KEY, VALUE);

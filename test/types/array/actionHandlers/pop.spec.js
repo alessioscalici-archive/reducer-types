@@ -5,7 +5,7 @@ const { actionHandlers, actionTypes: { ACTION_TYPE_POP } } = require('../../../.
 
 const actionReducer = actionHandlers[ACTION_TYPE_POP];
 
-const oldState = [ { key: 'value' }, { newKey: 'newValue' } ];
+const oldState = [{ key: 'value' }, { newKey: 'newValue' }];
 
 let newState;
 

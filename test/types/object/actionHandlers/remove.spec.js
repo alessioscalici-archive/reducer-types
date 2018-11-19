@@ -9,7 +9,7 @@ const KEY = 'someKey';
 const oldState = {
   key1: { a: 1 },
   key2: { b: 2 },
-  [KEY]: { please: 'remove me!' }
+  [KEY]: { please: 'remove me!' },
 };
 
 let newState;
@@ -45,6 +45,6 @@ describe('when the key does exist', () => {
   });
 
   it('new state does not contain the key', () => {
-    expect(newState.hasOwnProperty(KEY)).toBe(false);
+    expect(KEY in newState).toBe(false);
   });
 });
