@@ -1,9 +1,9 @@
 const {
-    TYPE_STRING,
-    TYPE_NUMBER,
-    TYPE_BOOLEAN,
-    TYPE_OBJECT,
-    TYPE_ARRAY,
+  TYPE_STRING,
+  TYPE_NUMBER,
+  TYPE_BOOLEAN,
+  TYPE_OBJECT,
+  TYPE_ARRAY,
 } = require('./const');
 
 const arrayType = require('./array');
@@ -36,8 +36,8 @@ const createReducer = createCustomCreateReducer(CONFIG);
 
 
 module.exports = {
-    bindActions,
-    type,
-    createReducer,
-    CONFIG,
+  bindActions,
+  type,
+  createReducer,
+  CONFIG,
 };
