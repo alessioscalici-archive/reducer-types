@@ -1,7 +1,7 @@
 
 const { createStore } = require('redux');
-const { createReducer, type, bindActions } = require('../../src/types');
-const { getTreeReducer, getActionsTree } = require('../../src/treeDescriptorMethods');
+const { createReducer, type, bindActions } = require('../src/types');
+const { getTreeReducer, getActionsTree } = require('../src/treeDescriptorMethods');
 
 
 const model = {
