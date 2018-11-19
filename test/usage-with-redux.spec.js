@@ -1,7 +1,8 @@
 
 const { createStore } = require('redux');
-const { createReducer, type, bindActions } = require('../src/types');
-const { getTreeReducer, getActionsTree } = require('../src/treeDescriptorMethods');
+const {
+  type, getTreeReducer, getActionsTree,
+} = require('../src/types');
 
 
 const model = {
@@ -26,12 +27,12 @@ const model2 = {
 };
 
 
-const reducer = getTreeReducer(createReducer)(model);
-const actions = getActionsTree(bindActions)(model);
+const reducer = getTreeReducer(model);
+const actions = getActionsTree(model);
 
 
-const reducer2 = getTreeReducer(createReducer)(model2);
-const actions2 = getActionsTree(bindActions)(model2);
+const reducer2 = getTreeReducer(model2);
+const actions2 = getActionsTree(model2);
 
 
 describe('must create a store', () => {
