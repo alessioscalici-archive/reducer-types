@@ -1,122 +1,78 @@
+
+const { createStore } = require('redux');
 const {
-  createCustomCreateReducer,
-  generateBindActions,
-} = require('./src/redules');
-
-const {
-  getTreeReducer,
-  getActionsTree,
-  getSelectors,
-} = require('./src/treeDescriptorMethods');
-
-const generateTypeDescriptors = require('./src/generateTypeDescriptors');
-
-const {
-  TYPE_STRING,
-} = require('./src/types/const');
+  type, getTreeReducer, getActionsTree,
+} = require('./basic-types');
 
 
-// Generate actions tree
-
-const TEST_CUSTOM_CONFIG = {
-  [TYPE_STRING]: {
-    actionHandlers: {
-      CAPITALIZE: state => (state ? (state.charAt(0).toUpperCase() + state.slice(1)) : state),
-    },
-    actionCreators: {
-      capitalize: () => ({ type: 'CAPITALIZE' }),
-    },
-  },
-  user: {
-    actionHandlers: {
-      CHANGE_PASSWORD: (state, action) => ({ ...state, password: action.payload.newPassword }),
-    },
-    actionCreators: {
-      changePassword: newPassword => ({ type: 'CHANGE_PASSWORD', payload: { newPassword } }),
-    },
-  },
-};
-
-
-const { CONFIG } = require('./src/types');
-
-const createReducer = createCustomCreateReducer(CONFIG, TEST_CUSTOM_CONFIG);
-const bindActions = generateBindActions(CONFIG, TEST_CUSTOM_CONFIG);
-const type = generateTypeDescriptors(CONFIG, TEST_CUSTOM_CONFIG);
-
-
-const { compose } = require('./src/actions');
-// import also type
-
-
-// splitting descriptors
-const usersDescriptor = {
-  loading: type.boolean(true),
-  curId: type.string(null),
-  ids: type.array([]),
-  byId: type.object({}),
-};
-
-
-const descriptor = {
-  loading: type.boolean(true),
+const model = {
   articles: {
-    curId: type.string(null),
-    ids: type.array([]),
     byId: type.object({}),
+    ids: type.array([]),
+    selectedId: type.string(null),
   },
-  users: usersDescriptor,
+};
 
-  customUser: type.user({ username: 'valid', password: 'is secret!' }),
+const usersModel = {
+  users: {
+    byId: type.object({}),
+    ids: type.array([]),
+    selectedId: type.string(null),
+  },
+};
+
+const model2 = {
+  ...model,
+  ...usersModel,
 };
 
 
-const actions = getActionsTree(bindActions)(descriptor);
-const reducer = getTreeReducer(createReducer)(descriptor);
-
-const selectors = getSelectors(id => id)(descriptor);
-const usersSelectors = getSelectors(state => state.users)(usersDescriptor);
+const reducer = getTreeReducer(model);
+const actions = getActionsTree(model);
 
 
-const setLoading = actions.loading.set;
-const addArticle = article => compose(
-  actions.articles.ids.push(article.id),
-  actions.articles.byId.entry(article.id, article),
-  setLoading(false),
-);
-
-const addUserIds = () => compose(
-  actions.users.ids.push(1),
-  actions.users.ids.push(2),
-  actions.users.ids.push(3),
-);
-
-// nesting composes
-const doALotOfStuff = article => compose(
-  addArticle(article), // composing another compose
-  actions.articles.curId.set(article.id),
-  addUserIds(), // composing another compose
-  actions.articles.curId.capitalize(), // custom action on existing type (string)
-  actions.customUser.changePassword('new password!'), // custom type action
-);
+const reducer2 = getTreeReducer(model2);
+const actions2 = getActionsTree(model2);
 
 
-let state;
+describe('must create a store', () => {
+  let reduxStore;
 
-// eslint-disable-next-line prefer-const
-state = reducer(state, doALotOfStuff({ id: 'pippo', text: 'hello!' }));
+  beforeEach(() => {
+    reduxStore = createStore(reducer);
+  });
 
-describe('produces the correct state', () => {
-  it('produces the correct state', () => {
-    expect(state.users.ids).toEqual([1, 2, 3]);
-    expect(state.articles.ids).toEqual(['pippo']);
-    expect(state.articles.byId.pippo).toEqual({ id: 'pippo', text: 'hello!' });
-    expect(state.articles.curId).toEqual('Pippo');
-    expect(state.customUser).toEqual({ username: 'valid', password: 'new password!' });
+  it('with the correct structure and initial state', () => {
+    const state = reduxStore.getState();
+
+    expect(typeof state.articles).toBe('object');
+    expect(state.articles.byId).toEqual({});
+    expect(state.articles.ids).toEqual([]);
+    expect(state.articles.selectedId).toEqual(null);
+  });
+
+  it('that reacts to the actions', () => {
+    reduxStore.dispatch(actions.articles.byId.entry('myKey', 123));
+    const state = reduxStore.getState();
+    expect(state.articles.byId).toEqual({ myKey: 123 });
   });
 });
 
-it('selectors', () => {
-  expect(selectors.getUsersIds(state)).toEqual([1, 2, 3]);
-  expect(usersSelectors.getIds(state)).toEqual([1, 2, 3]);
+describe('must retain state on replaceReducer', () => {
+  let reduxStore;
+
+  beforeEach(() => {
+    reduxStore = createStore(reducer);
+  });
+
+  it('after dispatching actions', () => {
+    reduxStore.dispatch(actions.articles.byId.entry('myKey', 123));
+    expect(reduxStore.getState().articles.byId).toEqual({ myKey: 123 });
+
+    reduxStore.replaceReducer(reducer2);
+    reduxStore.dispatch(actions2.users.selectedId.set('myUserId'));
+
+    expect(reduxStore.getState().articles.byId).toEqual({ myKey: 123 });
+    expect(reduxStore.getState().users.selectedId).toEqual('myUserId');
+  });
 });

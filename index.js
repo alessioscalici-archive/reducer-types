@@ -1,1 +1,1 @@
-module.exports = require('./src/redules');
+module.exports = require('./dist/redules');
