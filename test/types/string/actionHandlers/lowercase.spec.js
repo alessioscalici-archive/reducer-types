@@ -1,6 +1,6 @@
 
 
-const { actionHandlers, actionTypes: { ACTION_TYPE_LOWERCASE } } = require('../../../../src/types/string');
+const { actionHandlers, actionTypes: { ACTION_TYPE_LOWERCASE } } = require('../../../../src/basic-types/string');
 
 const actionReducer = actionHandlers[ACTION_TYPE_LOWERCASE];
 

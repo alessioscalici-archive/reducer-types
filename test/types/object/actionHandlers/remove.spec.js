@@ -1,5 +1,5 @@
 
-const { actionHandlers, actionTypes: { ACTION_TYPE_REMOVE } } = require('../../../../src/types/object');
+const { actionHandlers, actionTypes: { ACTION_TYPE_REMOVE } } = require('../../../../src/basic-types/object');
 
 
 const actionReducer = actionHandlers[ACTION_TYPE_REMOVE];

@@ -22,7 +22,7 @@ const {
     ACTION_TYPE_BW_OR,
     ACTION_TYPE_BW_XOR,
   },
-} = require('../../../src/types/number');
+} = require('../../../src/basic-types/number');
 
 
 const VALUE = 42;

@@ -8,7 +8,7 @@ const {
     ACTION_TYPE_UPPERCASE,
     ACTION_TYPE_LOWERCASE,
   },
-} = require('../../../src/types/string');
+} = require('../../../src/basic-types/string');
 
 
 describe('uppercase', () => {

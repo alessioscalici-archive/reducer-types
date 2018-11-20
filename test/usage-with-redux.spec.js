@@ -2,7 +2,7 @@
 const { createStore } = require('redux');
 const {
   type, getTreeReducer, getActionsTree,
-} = require('../src/types');
+} = require('../src/basic-types');
 
 
 const model = {

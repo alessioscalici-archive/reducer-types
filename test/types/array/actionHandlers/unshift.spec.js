@@ -1,5 +1,5 @@
 
-const { actionHandlers, actionTypes: { ACTION_TYPE_UNSHIFT } } = require('../../../../src/types/array');
+const { actionHandlers, actionTypes: { ACTION_TYPE_UNSHIFT } } = require('../../../../src/basic-types/array');
 
 
 const actionReducer = actionHandlers[ACTION_TYPE_UNSHIFT];

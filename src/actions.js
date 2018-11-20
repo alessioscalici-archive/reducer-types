@@ -1,5 +1,5 @@
 
-const { PREFIX } = require('./types/const');
+const { PREFIX } = require('./basic-types/const');
 
 
 // ============ ACTIONS ============ //

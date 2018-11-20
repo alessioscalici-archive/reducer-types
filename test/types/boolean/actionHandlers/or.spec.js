@@ -1,6 +1,6 @@
 
 
-const { actionHandlers, actionTypes: { ACTION_TYPE_OR } } = require('../../../../src/types/boolean');
+const { actionHandlers, actionTypes: { ACTION_TYPE_OR } } = require('../../../../src/basic-types/boolean');
 
 const actionReducer = actionHandlers[ACTION_TYPE_OR];
 

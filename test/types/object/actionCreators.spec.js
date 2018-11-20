@@ -8,7 +8,7 @@ const {
     ACTION_TYPE_ENTRY,
     ACTION_TYPE_REMOVE,
   },
-} = require('../../../src/types/object');
+} = require('../../../src/basic-types/object');
 
 
 const KEY = 'someKey';

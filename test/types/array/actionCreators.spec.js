@@ -12,7 +12,7 @@ const {
     ACTION_TYPE_POP,
     ACTION_TYPE_SHIFT,
   },
-} = require('../../../src/types/array');
+} = require('../../../src/basic-types/array');
 
 
 const VALUE = 'some value';

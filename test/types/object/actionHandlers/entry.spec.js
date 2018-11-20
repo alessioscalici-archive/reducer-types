@@ -1,6 +1,6 @@
 
 
-const { actionHandlers, actionTypes: { ACTION_TYPE_ENTRY } } = require('../../../../src/types/object');
+const { actionHandlers, actionTypes: { ACTION_TYPE_ENTRY } } = require('../../../../src/basic-types/object');
 
 const actionReducer = actionHandlers[ACTION_TYPE_ENTRY];
 

@@ -1,6 +1,6 @@
 
 
-const { actionHandlers, actionTypes: { ACTION_TYPE_SUBTRACT } } = require('../../../../src/types/number');
+const { actionHandlers, actionTypes: { ACTION_TYPE_SUBTRACT } } = require('../../../../src/basic-types/number');
 
 const actionReducer = actionHandlers[ACTION_TYPE_SUBTRACT];
 

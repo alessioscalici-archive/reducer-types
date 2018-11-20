@@ -12,7 +12,7 @@ const {
     ACTION_TYPE_XOR,
     ACTION_TYPE_NOT,
   },
-} = require('../../../src/types/boolean');
+} = require('../../../src/basic-types/boolean');
 
 
 const VALUE = true;

@@ -1,6 +1,6 @@
 
 
-const { actionHandlers, actionTypes: { ACTION_TYPE_MULTIPLY } } = require('../../../../src/types/number');
+const { actionHandlers, actionTypes: { ACTION_TYPE_MULTIPLY } } = require('../../../../src/basic-types/number');
 
 const actionReducer = actionHandlers[ACTION_TYPE_MULTIPLY];
 
