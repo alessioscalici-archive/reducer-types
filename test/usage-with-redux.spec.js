@@ -1,7 +1,7 @@
 
 const { createStore, combineReducers } = require('redux');
 const {
-  type, getTreeReducer, getActionsTree,
+  type, getTreeReducer, getActionsTree, getSelectorsTree,
 } = require('../src/basic-types');
 
 
@@ -82,6 +82,7 @@ describe('must work with mountpoints', () => {
   const MOUNT_POINT = 'myPlugin';
   const mountedReducer = getTreeReducer(model)([MOUNT_POINT]);
   const mountedActions = getActionsTree(model)([MOUNT_POINT]);
+  const mountedSelectors = getSelectorsTree(model)([MOUNT_POINT]);
 
   let reduxStore;
 
@@ -106,5 +107,11 @@ describe('must work with mountpoints', () => {
     const rootState = reduxStore.getState();
     const state = rootState[MOUNT_POINT];
     expect(state.articles.byId).toEqual({ myKey: 123 });
+  });
+
+  it('that works with selectors', () => {
+    const rootState = reduxStore.getState();
+    expect(mountedSelectors.articles.byId(rootState))
+      .toEqual(rootState[MOUNT_POINT].articles.byId);
   });
 });

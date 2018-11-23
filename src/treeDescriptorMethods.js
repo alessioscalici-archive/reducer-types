@@ -57,8 +57,19 @@ const getSelectors = (baseSelector = (a => a)) => (descr, path = []) => {
   }, {});
 };
 
+const getSelectorsTree = descr => (path = []) => {
+  if (descr.isLeaf) {
+    return createSelectorFromPath(path);
+  }
+  return Object.keys(descr).reduce((acc, key) => {
+    acc[key] = getSelectorsTree(descr[key])([...path, key]);
+    return acc;
+  }, {});
+};
+
 module.exports = {
   getTreeReducer,
   getActionsTree,
   getSelectors,
+  getSelectorsTree,
 };
