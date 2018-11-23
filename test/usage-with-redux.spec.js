@@ -1,5 +1,5 @@
 
-const { createStore } = require('redux');
+const { createStore, combineReducers } = require('redux');
 const {
   type, getTreeReducer, getActionsTree,
 } = require('../src/basic-types');
@@ -74,5 +74,37 @@ describe('must retain state on replaceReducer', () => {
 
     expect(reduxStore.getState().articles.byId).toEqual({ myKey: 123 });
     expect(reduxStore.getState().users.selectedId).toEqual('myUserId');
+  });
+});
+
+
+describe('must work with mountpoints', () => {
+  const MOUNT_POINT = 'myPlugin';
+  const mountedReducer = getTreeReducer(model)([MOUNT_POINT]);
+  const mountedActions = getActionsTree(model)([MOUNT_POINT]);
+
+  let reduxStore;
+
+  beforeEach(() => {
+    reduxStore = createStore(combineReducers({
+      [MOUNT_POINT]: mountedReducer,
+    }));
+  });
+
+  it('with the correct structure and initial state', () => {
+    const rootState = reduxStore.getState();
+    const state = rootState[MOUNT_POINT];
+
+    expect(typeof state.articles).toBe('object');
+    expect(state.articles.byId).toEqual({});
+    expect(state.articles.ids).toEqual([]);
+    expect(state.articles.selectedId).toEqual(null);
+  });
+
+  it('that reacts to the actions', () => {
+    reduxStore.dispatch(mountedActions.articles.byId.entry('myKey', 123));
+    const rootState = reduxStore.getState();
+    const state = rootState[MOUNT_POINT];
+    expect(state.articles.byId).toEqual({ myKey: 123 });
   });
 });
