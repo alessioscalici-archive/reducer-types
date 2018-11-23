@@ -27,12 +27,12 @@ const model2 = {
 };
 
 
-const reducer = getTreeReducer(model);
-const actions = getActionsTree(model);
+const reducer = getTreeReducer(model)();
+const actions = getActionsTree(model)();
 
 
-const reducer2 = getTreeReducer(model2);
-const actions2 = getActionsTree(model2);
+const reducer2 = getTreeReducer(model2)();
+const actions2 = getActionsTree(model2)();
 
 
 describe('must create a store', () => {
