@@ -35,41 +35,54 @@ const createSelectorFromPath = (path = []) => (obj) => {
   return ref;
 };
 
-const composeSelectors = (...selectors) => obj => selectors.reduce((acc, sel) => sel(acc), obj);
+const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
+const sanitize = str => str.replace(/[^a-zA-Z0-9]/g, '');
 
+const transformKey = str => capitalize(sanitize(str));
 
-const getSelectorIdFromPath = (path = []) => path.reduce((acc, it) => acc + it.charAt(0).toUpperCase() + it.slice(1), 'get');
-
-const getSelectors = (baseSelector = (a => a)) => (descr, path = []) => {
-  if (descr.isLeaf) {
-    return baseSelector
-      ? composeSelectors(baseSelector, createSelectorFromPath(path))
-      : createSelectorFromPath(path);
+const createSelectorNameFromPath = (path = []) => {
+  let res = 'get';
+  for (let i = 0; i < path.length; i += 1) {
+    res += transformKey(path[i]);
   }
-  return Object.keys(descr).reduce((acc, key) => {
-    const res = getSelectors(baseSelector)(descr[key], [...path, key]);
-    if (typeof res === 'function') {
-      const id = getSelectorIdFromPath([...path, key]);
-      acc[id] = res;
-      return acc;
-    }
-    return { ...acc, ...res };
-  }, {});
+  return res;
 };
 
-const getSelectorsTree = descr => (path = []) => {
+const getSelectorsTree = descr => (mountpoint = [], path = []) => {
   if (descr.isLeaf) {
-    return createSelectorFromPath(path);
+    return {
+      selector: createSelectorFromPath([...mountpoint, ...path]),
+      name: createSelectorNameFromPath(path),
+    };
   }
   return Object.keys(descr).reduce((acc, key) => {
-    acc[key] = getSelectorsTree(descr[key])([...path, key]);
+    acc[key] = getSelectorsTree(descr[key])(mountpoint, [...path, key]);
     return acc;
   }, {});
 };
+
+const getSelectorsArray = (obj) => {
+  if (obj.selector && obj.name) {
+    return { [obj.name]: obj.selector };
+  }
+  return Object.keys(obj).reduce((acc, key) => {
+    // eslint-disable-next-line no-param-reassign
+    acc = {
+      ...acc,
+      ...getSelectorsArray(obj[key]),
+    };
+    return acc;
+  }, {});
+};
+
+const getSelectors = descr => (path = []) => {
+  const selectorsTree = getSelectorsTree(descr)(path);
+  return getSelectorsArray(selectorsTree);
+};
+
 
 module.exports = {
   getTreeReducer,
   getActionsTree,
   getSelectors,
-  getSelectorsTree,
 };

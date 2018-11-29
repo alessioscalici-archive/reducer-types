@@ -18,7 +18,7 @@ const {
 } = require('../redules');
 
 const generateTypeDescriptors = require('../generateTypeDescriptors');
-const { getTreeReducer, getActionsTree, getSelectorsTree } = require('../treeDescriptorMethods');
+const { getTreeReducer, getActionsTree, getSelectors } = require('../treeDescriptorMethods');
 
 
 const CONFIG = {
@@ -43,5 +43,5 @@ module.exports = {
   CONFIG,
   getTreeReducer: getTreeReducer(createReducer),
   getActionsTree: getActionsTree(bindActions),
-  getSelectorsTree,
+  getSelectors,
 };
