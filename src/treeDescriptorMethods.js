@@ -1,4 +1,7 @@
-
+const {
+  generateBindActions,
+  createCustomCreateReducer,
+} = require('./redules');
 
 const getTreeReducer = createReducerFunc => descr => (path = []) => {
   if (descr.isLeaf) {
@@ -81,8 +84,16 @@ const getSelectors = descr => (path = []) => {
 };
 
 
+const buildModule = config => model => (path = []) => ({
+  selectors: getSelectors(model)(path),
+  reducer: getTreeReducer(createCustomCreateReducer(config))(model)(path),
+  actions: getActionsTree(generateBindActions(config))(model)(path),
+});
+
+
 module.exports = {
   getTreeReducer,
   getActionsTree,
   getSelectors,
+  buildModule,
 };

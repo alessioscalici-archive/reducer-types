@@ -1,5 +1,5 @@
 {
-  "name": "redules",
+  "name": "reducer-types",
   "version": "0.1.0",
   "description": "A library to write reducer-based state in a concise, readable and efficient way.",
   "main": "index.js",
