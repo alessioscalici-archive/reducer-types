@@ -12,3 +12,9 @@ A library to write reducer-based state in a concise, readable and efficient way.
 - Create new actions by grouping many actions into one. Execute the reducer only once!
 - Usable with existing reducer-based states (e.g. existing Redux code)
 - Allows to create dynamically pluggable modules easily
+
+## Todo
+- Custom action type for composed action
+- Splitting functions in different files, renaming
+- rename redules file
+- model distribution of types (separate npm packages exporting types)
