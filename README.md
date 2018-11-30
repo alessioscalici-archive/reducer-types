@@ -8,21 +8,22 @@ A library to write reducer-based state in a concise, readable and efficient way.
 ## Features
 
 - Allows to define a reducer, and many actions to interact with it, simply calling a function
+- Zero dependencies
 - Extremely easy to integrate
 - Create new actions by grouping many actions into one. Execute the reducer only once!
-- Usable with existing reducer-based states (e.g. existing Redux code)
+- Pluggable to existing reducer-based states (e.g. existing Redux code)
 - Allows to create dynamically pluggable modules easily
 
 
 ## Concepts
 
-- *Action*: an object describing an operation on the state. It's serializable and it conforms to the FSA format.
-- *Action creator*: a function returning an action.
-- *Action handler*: ( *reducer*) a function that takes the old state and the action as arguments, and returns a new state.
-- *Type*: a set of action creators and action handlers.
-- *Type set*: a set of types which are part of the system, and used to build reducers and action creators.
-- *Type instance*: an object describing the type and the initial state of an instance.
-- *Model*: a description of a state. It's a tree, and its leaves are *type instances*.
+- **Action**: an object describing an operation on the state. It's serializable and it conforms to the FSA format.
+- **Action creator**: a function returning an action.
+- **Action handler**: (**reducer**) a function that takes the old state and the action as arguments, and returns a new state.
+- **Type**: a set of action creators and action handlers.
+- **Type set**: a set of types which are part of the system, and used to build reducers and action creators.
+- **Type instance**: an object describing the type and the initial state of an instance.
+- **Model**: a description of a state. It's a tree, and its leaves are **type instances**.
 
 
 ## Creating a model
