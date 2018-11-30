@@ -52,3 +52,33 @@ describe('must work with multiple mountpoints', () => {
       .toEqual(rootState[MOUNT_POINT_1].articles.byId);
   });
 });
+
+
+describe('must work with a single type', () => {
+  const MOUNT_POINT_1 = 'myNumber';
+  const m1 = buildModule(type.number(3))([MOUNT_POINT_1]);
+  let reduxStore;
+
+  beforeEach(() => {
+    reduxStore = createStore(combineReducers({
+      [MOUNT_POINT_1]: m1.reducer,
+    }));
+  });
+
+  it('with the correct initial state', () => {
+    const rootState = reduxStore.getState();
+    const state = rootState[MOUNT_POINT_1];
+    expect(state).toBe(3);
+  });
+
+  it('that reacts to the actions', () => {
+    reduxStore.dispatch(m1.actions.add(123));
+    const rootState = reduxStore.getState();
+    expect(rootState[MOUNT_POINT_1]).toBe(126);
+  });
+
+  it('creates the selector', () => {
+    const rootState = reduxStore.getState();
+    expect(m1.selectors.get(rootState)).toBe(3);
+  });
+});
