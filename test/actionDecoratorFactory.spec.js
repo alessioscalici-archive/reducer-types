@@ -1,5 +1,5 @@
 
-const generateDecorateActionCreator = require('../src/generateDecorateActionCreator');
+const actionDecoratorFactory = require('../src/actionDecoratorFactory');
 
 
 const TARGET_ID = 'TARGET_ID';
@@ -9,7 +9,7 @@ describe('with an action creator which creates an action with no meta', () => {
   const originalActionCreator = () => ({
     type: 'do-something',
   });
-  const actionCreator = generateDecorateActionCreator(TARGET_ID)(originalActionCreator);
+  const actionCreator = actionDecoratorFactory(TARGET_ID)(originalActionCreator);
 
 
   it('adds the meta to the action', () => {
@@ -30,7 +30,7 @@ describe('with an action creator which creates an action with meta', () => {
       some: 'metadata',
     },
   });
-  const actionCreator = generateDecorateActionCreator(TARGET_ID)(originalActionCreator);
+  const actionCreator = actionDecoratorFactory(TARGET_ID)(originalActionCreator);
 
 
   it('adds the targetId to the meta', () => {
@@ -54,7 +54,7 @@ describe('with an action creator which creates an action with meta and targetId'
       targetId: 'some-other-id',
     },
   });
-  const actionCreator = generateDecorateActionCreator(TARGET_ID)(originalActionCreator);
+  const actionCreator = actionDecoratorFactory(TARGET_ID)(originalActionCreator);
 
 
   it('overwrites the targetId in the meta', () => {

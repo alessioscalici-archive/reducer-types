@@ -1,5 +1,5 @@
 
-const generateTypeDescriptors = require('../src/generateTypeDescriptors');
+const initTypeDescriptors = require('../src/initTypeDescriptors');
 
 const {
   USERTYPE_CONFIG,
@@ -7,13 +7,13 @@ const {
 
 
 describe('used without any parameter', () => {
-  const type = generateTypeDescriptors();
+  const type = initTypeDescriptors();
   expect(type).toEqual({});
 });
 
 
 describe('used with a custom configuration containing new types', () => {
-  const type = generateTypeDescriptors(USERTYPE_CONFIG);
+  const type = initTypeDescriptors(USERTYPE_CONFIG);
 
 
   it('should define the custom types', () => {

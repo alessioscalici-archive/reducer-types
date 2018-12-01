@@ -1,16 +1,14 @@
-const {
-  generateBindActions,
-} = require('../src/redules');
+const initActionDecoratorFactory = require('../src/initActionDecoratorFactory');
 
 const {
   USERTYPE_CONFIG,
 } = require('./mocks/customConfigs');
 
 /*
-  generateBindActions
+  initActionDecoratorFactory
 
   Usage:
-  generateBindActions(optionalCustomConfig)(typeName)(targetId)
+  initActionDecoratorFactory(optionalCustomConfig)(typeName)(targetId)
 
   Example:
   const bindActions = generateBindActions();
@@ -23,7 +21,7 @@ describe('called without config', () => {
   let bindActions;
 
   beforeEach(() => {
-    bindActions = generateBindActions();
+    bindActions = initActionDecoratorFactory();
   });
 
   it('returns a function', () => {
@@ -57,7 +55,7 @@ describe('called with custom config', () => {
   let bindActions;
 
   beforeEach(() => {
-    bindActions = generateBindActions(USERTYPE_CONFIG);
+    bindActions = initActionDecoratorFactory(USERTYPE_CONFIG);
   });
 
   it('returns a function', () => {

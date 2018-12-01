@@ -61,7 +61,6 @@ This model describes an object
 
 ## Todo
 - Custom action type for composed action
-- Splitting functions in different files, renaming
-- rename redules file
+- Splitting functions in different files, placing private ones in a subfolder
 - model distribution of types (separate npm packages exporting types)
 - passing data/functions to the action handlers

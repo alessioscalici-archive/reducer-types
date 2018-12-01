@@ -1,7 +1,5 @@
-const {
-  generateBindActions,
-  createCustomCreateReducer,
-} = require('./redules');
+const initActionDecoratorFactory = require('./initActionDecoratorFactory');
+const initReducerFactory = require('./initReducerFactory');
 
 const getTreeReducer = createReducerFunc => descr => (path = []) => {
   if (descr.isLeaf) {
@@ -86,14 +84,9 @@ const getSelectors = descr => (path = []) => {
 
 const buildModule = config => model => (path = []) => ({
   selectors: getSelectors(model)(path),
-  reducer: getTreeReducer(createCustomCreateReducer(config))(model)(path),
-  actions: getActionsTree(generateBindActions(config))(model)(path),
+  reducer: getTreeReducer(initReducerFactory(config))(model)(path),
+  actions: getActionsTree(initActionDecoratorFactory(config))(model)(path),
 });
 
 
-module.exports = {
-  getTreeReducer,
-  getActionsTree,
-  getSelectors,
-  buildModule,
-};
+module.exports = buildModule;

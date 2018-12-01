@@ -1,8 +1,5 @@
-
-
 const { ACTION_TYPE_COMPOSE } = require('./actions');
 const mergeConfigs = require('./mergeConfigs');
-const generateDecorateActionCreator = require('./generateDecorateActionCreator');
 
 
 const generateHandleAction = typeConfig => type => (state, action) => (
@@ -12,7 +9,7 @@ const generateHandleAction = typeConfig => type => (state, action) => (
 );
 
 
-const generateCreateReducer = (actionHandler, initialValue) => targetId => (
+const getReducerFactory = (actionHandler, initialValue) => targetId => (
   (state = initialValue, action) => {
     if (!action) {
       return state;
@@ -27,36 +24,18 @@ const generateCreateReducer = (actionHandler, initialValue) => targetId => (
   }
 );
 
-const createCustomCreateReducer = (...typeConfigs) => {
+const initReducerFactory = (...typeConfigs) => {
   const typeConfig = mergeConfigs(...typeConfigs);
   const getActionHandlerForType = generateHandleAction(typeConfig);
   return (type, initialValue = null) => {
     if (!typeConfig[type]) {
       throw new Error(`Type "${type}" is not supported!`);
     }
-    return generateCreateReducer(
+    return getReducerFactory(
       getActionHandlerForType(type),
       initialValue,
     );
   };
 };
 
-
-const generateBindActions = (...typeConfigs) => type => (targetId) => {
-  const typeConfig = mergeConfigs(...typeConfigs);
-
-  if (typeConfig[type] && typeConfig[type].actionCreators) {
-    const decorateActionCreator = generateDecorateActionCreator(targetId);
-    return Object.keys(typeConfig[type].actionCreators).reduce((acc, key) => {
-      acc[key] = decorateActionCreator(typeConfig[type].actionCreators[key]);
-      return acc;
-    }, {});
-  }
-  return {};
-};
-
-
-module.exports = {
-  generateBindActions,
-  createCustomCreateReducer,
-};
+module.exports = initReducerFactory;

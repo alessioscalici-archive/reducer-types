@@ -1,11 +1,11 @@
 
 const { createStore, combineReducers } = require('redux');
 const {
-  type, getTreeReducer, getActionsTree, getSelectors,
+  type, buildModule,
 } = require('../src/basic-types');
 
 
-const model = {
+const model1 = {
   articles: {
     byId: type.object({}),
     ids: type.array([]),
@@ -22,17 +22,18 @@ const usersModel = {
 };
 
 const model2 = {
-  ...model,
+  ...model1,
   ...usersModel,
 };
 
 
-const reducer = getTreeReducer(model)();
-const actions = getActionsTree(model)();
+const mod1 = buildModule(model1)();
+const { actions } = mod1;
+const { reducer } = mod1;
 
-
-const reducer2 = getTreeReducer(model2)();
-const actions2 = getActionsTree(model2)();
+const mod2 = buildModule(model2)();
+const actions2 = mod2.actions;
+const reducer2 = mod2.reducer;
 
 
 describe('must create a store', () => {
@@ -80,15 +81,13 @@ describe('must retain state on replaceReducer', () => {
 
 describe('must work with mountpoints', () => {
   const MOUNT_POINT = 'myPlugin';
-  const mountedReducer = getTreeReducer(model)([MOUNT_POINT]);
-  const mountedActions = getActionsTree(model)([MOUNT_POINT]);
-  const mountedSelectors = getSelectors(model)([MOUNT_POINT]);
+  const m1 = buildModule(model1)([MOUNT_POINT]);
 
   let reduxStore;
 
   beforeEach(() => {
     reduxStore = createStore(combineReducers({
-      [MOUNT_POINT]: mountedReducer,
+      [MOUNT_POINT]: m1.reducer,
     }));
   });
 
@@ -103,7 +102,7 @@ describe('must work with mountpoints', () => {
   });
 
   it('that reacts to the actions', () => {
-    reduxStore.dispatch(mountedActions.articles.byId.entry('myKey', 123));
+    reduxStore.dispatch(m1.actions.articles.byId.entry('myKey', 123));
     const rootState = reduxStore.getState();
     const state = rootState[MOUNT_POINT];
     expect(state.articles.byId).toEqual({ myKey: 123 });
@@ -111,7 +110,7 @@ describe('must work with mountpoints', () => {
 
   it('that works with selectors', () => {
     const rootState = reduxStore.getState();
-    expect(mountedSelectors.getArticlesById(rootState))
+    expect(m1.selectors.getArticlesById(rootState))
       .toEqual(rootState[MOUNT_POINT].articles.byId);
   });
 });
