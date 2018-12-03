@@ -4,8 +4,8 @@ const { ACTION_TYPE_SET, set } = require('../actions');
 
 
 // action types
-const ACTION_TYPE_UPPERCASE = `${PREFIX}uppercase`;
-const ACTION_TYPE_LOWERCASE = `${PREFIX}lowercase`;
+const ACTION_TYPE_UPPERCASE = `${PREFIX}string.uppercase`;
+const ACTION_TYPE_LOWERCASE = `${PREFIX}string.lowercase`;
 
 // action creators
 const uppercase = () => ({ type: ACTION_TYPE_UPPERCASE });

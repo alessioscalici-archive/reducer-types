@@ -4,10 +4,10 @@ const { ACTION_TYPE_SET, set } = require('../actions');
 
 
 // action types
-const ACTION_TYPE_AND = `${PREFIX}and`;
-const ACTION_TYPE_OR = `${PREFIX}or`;
-const ACTION_TYPE_XOR = `${PREFIX}xor`;
-const ACTION_TYPE_NOT = `${PREFIX}not`;
+const ACTION_TYPE_AND = `${PREFIX}boolean.and`;
+const ACTION_TYPE_OR = `${PREFIX}boolean.or`;
+const ACTION_TYPE_XOR = `${PREFIX}boolean.xor`;
+const ACTION_TYPE_NOT = `${PREFIX}boolean.not`;
 
 // action creators
 const and = value => ({ type: ACTION_TYPE_AND, payload: { value } });

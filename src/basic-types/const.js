@@ -1,5 +1,5 @@
 
-const PREFIX = 'rd:';
+const PREFIX = 'rt:';
 
 const TYPE_STRING = 'string';
 const TYPE_NUMBER = 'number';

@@ -5,6 +5,12 @@ This library is still not released and its API is still unstable. It's not recom
 A library to write reducer-based state in a concise, readable and efficient way.
 
 
+## Why
+
+State managers based on reducers and actions (like [redux](https://github.com/reduxjs/redux)) are very powerful,
+but writing action and reducers for each part of the state can be very annoying and error prone.
+
+
 ## Features
 
 - Allows to define a reducer, and many actions to interact with it, simply calling a function

@@ -3,10 +3,10 @@ const { PREFIX } = require('./const');
 const { ACTION_TYPE_SET, set } = require('../actions');
 
 // action types
-const ACTION_TYPE_PUSH = `${PREFIX}push`;
-const ACTION_TYPE_POP = `${PREFIX}pop`;
-const ACTION_TYPE_UNSHIFT = `${PREFIX}unshift`;
-const ACTION_TYPE_SHIFT = `${PREFIX}shift`;
+const ACTION_TYPE_PUSH = `${PREFIX}array.push`;
+const ACTION_TYPE_POP = `${PREFIX}array.pop`;
+const ACTION_TYPE_UNSHIFT = `${PREFIX}array.unshift`;
+const ACTION_TYPE_SHIFT = `${PREFIX}array.shift`;
 
 // action creators
 const push = value => ({ type: ACTION_TYPE_PUSH, payload: { value } });

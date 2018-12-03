@@ -4,15 +4,15 @@ const { ACTION_TYPE_SET, set } = require('../actions');
 
 
 // action types
-const ACTION_TYPE_ADD = `${PREFIX}add`;
-const ACTION_TYPE_SUBTRACT = `${PREFIX}subtract`;
-const ACTION_TYPE_MULTIPLY = `${PREFIX}multiply`;
-const ACTION_TYPE_DIVIDE = `${PREFIX}divide`;
-const ACTION_TYPE_MOD = `${PREFIX}mod`;
-const ACTION_TYPE_NEGATE = `${PREFIX}negate`;
-const ACTION_TYPE_BW_AND = `${PREFIX}bw_and`;
-const ACTION_TYPE_BW_OR = `${PREFIX}bw_or`;
-const ACTION_TYPE_BW_XOR = `${PREFIX}bw_xor`;
+const ACTION_TYPE_ADD = `${PREFIX}number.add`;
+const ACTION_TYPE_SUBTRACT = `${PREFIX}number.subtract`;
+const ACTION_TYPE_MULTIPLY = `${PREFIX}number.multiply`;
+const ACTION_TYPE_DIVIDE = `${PREFIX}number.divide`;
+const ACTION_TYPE_MOD = `${PREFIX}number.mod`;
+const ACTION_TYPE_NEGATE = `${PREFIX}number.negate`;
+const ACTION_TYPE_BW_AND = `${PREFIX}number.and`;
+const ACTION_TYPE_BW_OR = `${PREFIX}number.or`;
+const ACTION_TYPE_BW_XOR = `${PREFIX}number.xor`;
 
 // action creators
 const add = value => ({ type: ACTION_TYPE_ADD, payload: { value } });

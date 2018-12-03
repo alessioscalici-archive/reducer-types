@@ -4,8 +4,8 @@ const { ACTION_TYPE_SET, set } = require('../actions');
 
 
 // action types
-const ACTION_TYPE_ENTRY = `${PREFIX}entry`;
-const ACTION_TYPE_REMOVE = `${PREFIX}remove`;
+const ACTION_TYPE_ENTRY = `${PREFIX}object.entry`;
+const ACTION_TYPE_REMOVE = `${PREFIX}object.remove`;
 
 // action creators
 const entry = (key, value) => ({ type: ACTION_TYPE_ENTRY, payload: { key, value } });
