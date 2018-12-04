@@ -7,6 +7,9 @@ script:
 - npm run lint
 - npm test
 - npm run build
+branches:
+  only:
+  - /^\d+\.\d+\.\d+$/
 deploy:
   provider: npm
   email: alessio.scalici@gmail.com
