@@ -9,6 +9,15 @@ A library to write reducer-based state in a concise, readable and efficient way.
 
 State managers based on reducers and actions (like [redux](https://github.com/reduxjs/redux)) are very powerful,
 but writing action and reducers for each part of the state can be very annoying and error prone.
+Usually, it's possible to find common patterns in different reducers, like:
+- Setting a new value
+- Pushing a new value in an array
+- Adding a new key-value pair in an object
+- ... many more!
+
+`reducer-types` offers a different approach for this: define common actions only once, and instantiate many reducers
+which can handle the same set of actions. In this approach, a set of common actions defines a type: for example,
+The "array" type might handle the "push" and the "pop" actions, and you can use those actions without repeating the code for every single array in the state.
 
 
 ## Features
@@ -70,3 +79,8 @@ This model describes an object
 - Splitting functions in different files, placing private ones in a subfolder
 - model distribution of types (separate npm packages exporting types)
 - passing data/functions to the action handlers
+- refactor types to be optimizable
+- unit test type setters
+- add string.replace
+- create datetime basic type
+- create a runtime typechecked types collection

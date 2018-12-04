@@ -26,8 +26,7 @@ const bitwiseOr = value => ({ type: ACTION_TYPE_BW_OR, payload: { value } });
 const bitwiseXor = value => ({ type: ACTION_TYPE_BW_XOR, payload: { value } });
 
 // action handlers
-// eslint-disable-next-line no-restricted-globals
-const ahSet = (state, action) => ((typeof val === 'number' && !isNaN(action.payload.value)) ? action.payload.value : null);
+const ahSet = (state, action) => ((typeof action.payload.value === 'number' && !Number.isNaN(action.payload.value)) ? action.payload.value : null);
 
 const ahAdd = (state, action) => (state === null ? state : state + action.payload.value);
 const ahSubtract = (state, action) => (state === null ? state : state - action.payload.value);
