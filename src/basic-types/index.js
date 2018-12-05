@@ -15,6 +15,9 @@ const stringType = require('./string');
 
 const initTypeDescriptors = require('../initTypeDescriptors');
 const buildModule = require('../buildModule');
+const buildModuleActions = require('../buildModuleActions');
+const buildModuleReducer = require('../buildModuleReducer');
+const buildModuleSelectors = require('../buildModuleSelectors');
 
 
 const CONFIG = {
@@ -30,4 +33,7 @@ module.exports = {
   CONFIG,
   type: initTypeDescriptors(CONFIG),
   buildModule: buildModule(CONFIG),
+  buildModuleActions: buildModuleActions(CONFIG),
+  buildModuleReducer: buildModuleReducer(CONFIG),
+  buildModuleSelectors,
 };

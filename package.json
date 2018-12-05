@@ -1,6 +1,6 @@
 {
   "name": "reducer-types",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A library to write reducer-based state in a concise, readable and efficient way.",
   "main": "index.js",
   "scripts": {

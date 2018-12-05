@@ -1,6 +1,7 @@
 # Work in progress
 
 This library is still not released and its API is still unstable. It's not recommended to use yet.
+Currently consolidating the API.
 
 A library to write reducer-based state in a concise, readable and efficient way.
 
