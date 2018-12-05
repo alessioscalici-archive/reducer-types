@@ -85,3 +85,4 @@ This model describes an object
 - add string.replace
 - create datetime basic type
 - create a runtime typechecked types collection
+- fix issue: When creating a single-type module, with no mountpoint (root), and composing the action, due to its id being '', the action is not included in the composed action
