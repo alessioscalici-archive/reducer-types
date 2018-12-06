@@ -2,6 +2,7 @@
 /test
 /coverage
 /scripts
+/src
 .babelrc
 .eslintrc.js
 .travis.yml

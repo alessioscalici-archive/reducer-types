@@ -1,12 +1,13 @@
 {
   "name": "reducer-types",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A library to write reducer-based state in a concise, readable and efficient way.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "lint": "eslint \"./src/*.js\" \"./src/**/*.js\" \"./test/*.js\" \"./test/**/*.js\"",
-    "build": "babel src -d dist"
+    "build": "babel src -d dist",
+    "prepublishOnly": "mv ./dist/* ./"
   },
   "author": "",
   "license": "ISC",
