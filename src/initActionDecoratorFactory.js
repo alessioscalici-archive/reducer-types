@@ -1,6 +1,6 @@
 
 
-const mergeConfigs = require('./mergeConfigs');
+const mergeConfigs = require('./lib/mergeConfigs');
 const actionDecoratorFactory = require('./actionDecoratorFactory');
 
 

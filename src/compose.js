@@ -1,18 +1,6 @@
 
-const { PREFIX } = require('./basic-types/const');
+const { ACTION_TYPE_COMPOSE } = require('./lib/actions');
 
-
-// ============ ACTIONS ============ //
-
-// Generic
-const ACTION_TYPE_SET = `${PREFIX}set`;
-
-
-// compose
-const ACTION_TYPE_COMPOSE = `${PREFIX}compose`;
-
-
-const set = value => ({ type: ACTION_TYPE_SET, payload: { value } });
 
 const compose = (...actions) => {
   const actionsMap = actions.reduce((acc, act) => {
@@ -38,9 +26,4 @@ const compose = (...actions) => {
 };
 
 
-module.exports = {
-  ACTION_TYPE_SET,
-  ACTION_TYPE_COMPOSE,
-  set,
-  compose,
-};
+module.exports = compose;

@@ -1,5 +1,5 @@
 
-const mergeConfigs = require('./mergeConfigs');
+const mergeConfigs = require('./lib/mergeConfigs');
 
 const initTypeDescriptors = (...typeConfigs) => {
   const typeConfig = mergeConfigs(...typeConfigs);

@@ -1,6 +1,6 @@
 
 
-const { ACTION_TYPE_SET } = require('../../../../src/actions');
+const { ACTION_TYPE_SET } = require('../../../../src/lib/actions');
 const { actionHandlers } = require('../../../../src/basic-types/number');
 
 const actionReducer = actionHandlers[ACTION_TYPE_SET];

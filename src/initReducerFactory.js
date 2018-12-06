@@ -1,5 +1,5 @@
-const { ACTION_TYPE_COMPOSE } = require('./actions');
-const mergeConfigs = require('./mergeConfigs');
+const { ACTION_TYPE_COMPOSE } = require('./lib/actions');
+const mergeConfigs = require('./lib/mergeConfigs');
 
 
 const generateHandleAction = typeConfig => type => (state, action) => (

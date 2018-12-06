@@ -1,7 +1,6 @@
 
-const {
-  compose, ACTION_TYPE_COMPOSE,
-} = require('../src/actions');
+const { ACTION_TYPE_COMPOSE } = require('../src/lib/actions');
+const compose = require('../src/compose');
 
 
 const TARGET_ID_1 = 'TARGET_ID_1';

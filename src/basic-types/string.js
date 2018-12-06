@@ -1,6 +1,6 @@
 
 const { PREFIX } = require('./const');
-const { ACTION_TYPE_SET, set } = require('../actions');
+const { ACTION_TYPE_SET, set } = require('../lib/actions');
 
 
 // action types
