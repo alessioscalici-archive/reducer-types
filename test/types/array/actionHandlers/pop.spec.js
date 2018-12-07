@@ -1,9 +1,9 @@
 
 
-const { actionHandlers, actionTypes: { ACTION_TYPE_POP } } = require('../../../../src/basic-types/array');
+const { actionHandlers, actionTypes } = require('../../../../src/basic-types/array');
 
 
-const actionReducer = actionHandlers[ACTION_TYPE_POP];
+const actionReducer = actionHandlers[actionTypes.pop];
 
 const oldState = [{ key: 'value' }, { newKey: 'newValue' }];
 
@@ -12,7 +12,7 @@ let newState;
 
 describe('when the state is null', () => {
   beforeEach(() => {
-    newState = actionReducer(null, { type: ACTION_TYPE_POP });
+    newState = actionReducer(null, { type: actionTypes.pop });
   });
 
   it('returns null (does not crash)', () => {
@@ -25,7 +25,7 @@ describe('when the state is not an Array', () => {
 
   it('throws an error', () => {
     expect(() => {
-      actionReducer(notAnArray, { type: ACTION_TYPE_POP });
+      actionReducer(notAnArray, { type: actionTypes.pop });
     }).toThrow();
   });
 });
@@ -33,7 +33,7 @@ describe('when the state is not an Array', () => {
 
 describe('when state is an Array', () => {
   beforeEach(() => {
-    newState = actionReducer(oldState, { type: ACTION_TYPE_POP });
+    newState = actionReducer(oldState, { type: actionTypes.pop });
   });
 
   it('returns a new state (immutability)', () => {

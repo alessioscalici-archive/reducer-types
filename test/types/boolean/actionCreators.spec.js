@@ -6,12 +6,7 @@ const {
     xor,
     not,
   },
-  actionTypes: {
-    ACTION_TYPE_AND,
-    ACTION_TYPE_OR,
-    ACTION_TYPE_XOR,
-    ACTION_TYPE_NOT,
-  },
+  actionTypes,
 } = require('../../../src/basic-types/boolean');
 
 
@@ -22,7 +17,7 @@ describe('and', () => {
   it('creates an action with the correct type', () => {
     const action = and(VALUE);
     expect(action).toBeTruthy();
-    expect(action.type).toBe(ACTION_TYPE_AND);
+    expect(action.type).toBe(actionTypes.and);
   });
 
   it('creates an action with the correct properties', () => {
@@ -38,7 +33,7 @@ describe('or', () => {
   it('creates an action with the correct type', () => {
     const action = or(VALUE);
     expect(action).toBeTruthy();
-    expect(action.type).toBe(ACTION_TYPE_OR);
+    expect(action.type).toBe(actionTypes.or);
   });
 
   it('creates an action with the correct properties', () => {
@@ -54,7 +49,7 @@ describe('xor', () => {
   it('creates an action with the correct type', () => {
     const action = xor(VALUE);
     expect(action).toBeTruthy();
-    expect(action.type).toBe(ACTION_TYPE_XOR);
+    expect(action.type).toBe(actionTypes.xor);
   });
 
   it('creates an action with the correct properties', () => {
@@ -70,7 +65,7 @@ describe('not', () => {
   it('creates an action with the correct type', () => {
     const action = not();
     expect(action).toBeTruthy();
-    expect(action.type).toBe(ACTION_TYPE_NOT);
+    expect(action.type).toBe(actionTypes.not);
   });
 
   it('creates an action with the correct properties', () => {

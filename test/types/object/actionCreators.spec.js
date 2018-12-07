@@ -4,10 +4,7 @@ const {
     entry,
     remove,
   },
-  actionTypes: {
-    ACTION_TYPE_ENTRY,
-    ACTION_TYPE_REMOVE,
-  },
+  actionTypes,
 } = require('../../../src/basic-types/object');
 
 
@@ -19,7 +16,7 @@ describe('entry', () => {
   it('creates an action with the correct type', () => {
     const action = entry(KEY, VALUE);
     expect(action).toBeTruthy();
-    expect(action.type).toBe(ACTION_TYPE_ENTRY);
+    expect(action.type).toBe(actionTypes.entry);
   });
 
   it('creates an action with the correct properties', () => {
@@ -35,7 +32,7 @@ describe('remove', () => {
   it('creates an action with the correct type', () => {
     const action = remove(KEY);
     expect(action).toBeTruthy();
-    expect(action.type).toBe(ACTION_TYPE_REMOVE);
+    expect(action.type).toBe(actionTypes.remove);
   });
 
   it('creates an action with the correct properties', () => {

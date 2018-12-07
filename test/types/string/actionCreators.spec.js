@@ -4,10 +4,7 @@ const {
     uppercase,
     lowercase,
   },
-  actionTypes: {
-    ACTION_TYPE_UPPERCASE,
-    ACTION_TYPE_LOWERCASE,
-  },
+  actionTypes,
 } = require('../../../src/basic-types/string');
 
 
@@ -15,7 +12,7 @@ describe('uppercase', () => {
   it('creates an action with the correct type', () => {
     const action = uppercase();
     expect(action).toBeTruthy();
-    expect(action.type).toBe(ACTION_TYPE_UPPERCASE);
+    expect(action.type).toBe(actionTypes.uppercase);
   });
 
   it('creates an action with the correct properties', () => {
@@ -30,7 +27,7 @@ describe('lowercase', () => {
   it('creates an action with the correct type', () => {
     const action = lowercase();
     expect(action).toBeTruthy();
-    expect(action.type).toBe(ACTION_TYPE_LOWERCASE);
+    expect(action.type).toBe(actionTypes.lowercase);
   });
 
   it('creates an action with the correct properties', () => {

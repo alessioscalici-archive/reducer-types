@@ -1,8 +1,8 @@
 
 
-const { actionHandlers, actionTypes: { ACTION_TYPE_ENTRY } } = require('../../../../src/basic-types/object');
+const { actionHandlers, actionTypes } = require('../../../../src/basic-types/object');
 
-const actionReducer = actionHandlers[ACTION_TYPE_ENTRY];
+const actionReducer = actionHandlers[actionTypes.entry];
 
 const KEY = 'someKey';
 const VALUE = { hello: 'world' };
@@ -14,7 +14,7 @@ describe('setting a value on a new key', () => {
   beforeEach(() => {
     oldState = { keyA: 'valueA', keyB: 'valueB' };
     newState = actionReducer(
-      oldState, { type: ACTION_TYPE_ENTRY, payload: { key: KEY, value: VALUE } },
+      oldState, { type: actionTypes.entry, payload: { key: KEY, value: VALUE } },
     );
   });
 
@@ -45,7 +45,7 @@ describe('setting a new value to an existing key', () => {
   beforeEach(() => {
     oldState = { keyA: 'valueA', keyB: 'valueB', [KEY]: 'valueC' };
     newState = actionReducer(
-      oldState, { type: ACTION_TYPE_ENTRY, payload: { key: KEY, value: VALUE } },
+      oldState, { type: actionTypes.entry, payload: { key: KEY, value: VALUE } },
     );
   });
 
@@ -77,7 +77,7 @@ describe('setting an already existing key/value pair', () => {
   beforeEach(() => {
     oldState = { keyA: 'valueA', keyB: 'valueB', [KEY]: VALUE };
     newState = actionReducer(
-      oldState, { type: ACTION_TYPE_ENTRY, payload: { key: KEY, value: VALUE } },
+      oldState, { type: actionTypes.entry, payload: { key: KEY, value: VALUE } },
     );
   });
 

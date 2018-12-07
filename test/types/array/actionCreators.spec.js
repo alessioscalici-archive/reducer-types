@@ -6,12 +6,7 @@ const {
     pop,
     shift,
   },
-  actionTypes: {
-    ACTION_TYPE_PUSH,
-    ACTION_TYPE_UNSHIFT,
-    ACTION_TYPE_POP,
-    ACTION_TYPE_SHIFT,
-  },
+  actionTypes,
 } = require('../../../src/basic-types/array');
 
 
@@ -22,7 +17,7 @@ describe('push', () => {
   it('creates an action with the correct type', () => {
     const action = push(VALUE);
     expect(action).toBeTruthy();
-    expect(action.type).toBe(ACTION_TYPE_PUSH);
+    expect(action.type).toBe(actionTypes.push);
   });
 
   it('creates an action with the correct value', () => {
@@ -38,7 +33,7 @@ describe('unshift', () => {
   it('creates an action with the correct type', () => {
     const action = unshift(VALUE);
     expect(action).toBeTruthy();
-    expect(action.type).toBe(ACTION_TYPE_UNSHIFT);
+    expect(action.type).toBe(actionTypes.unshift);
   });
 
   it('creates an action with the correct value', () => {
@@ -53,7 +48,7 @@ describe('pop', () => {
   it('creates an action with the correct type', () => {
     const action = pop();
     expect(action).toBeTruthy();
-    expect(action.type).toBe(ACTION_TYPE_POP);
+    expect(action.type).toBe(actionTypes.pop);
   });
 
   it('creates an action with no payload', () => {
@@ -67,7 +62,7 @@ describe('shift', () => {
   it('creates an action with the correct type', () => {
     const action = shift();
     expect(action).toBeTruthy();
-    expect(action.type).toBe(ACTION_TYPE_SHIFT);
+    expect(action.type).toBe(actionTypes.shift);
   });
 
   it('creates an action with no payload', () => {
