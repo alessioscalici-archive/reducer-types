@@ -42,47 +42,18 @@ The "array" type might handle the "push" and the "pop" actions, and you can use 
 - **Model**: a description of a state. It's a tree, and its leaves are **type instances**.
 
 
-## Creating a model
+## Documentation
 
-`reducer-types` offers a basic configuration to help getting started. This can be found in `reducer-types/basic-types`.
+- [Models](docs/models.md)
 
-```javascript
-
-const { type } = require('reducer-types/basic-types');
-
-// a very simple model, sescribing a number
-const myNumberModel = type.number(0);
-
-// a model describing a collection
-const myCollectionModel = {
-  byId: type.object({}),
-  ids: type.array([]),
-};
-
-// extending a model
-const myExtendedCollectionModel = {
-  ...myCollectionModel,
-  selectedId: type.string(null),
-};
-
-// combining models
-const myStateModel = {
-  someCounter: myNumberModel,
-  someCollection: myExtendedCollectionModel,
-};
-
-```
-This model describes an object
 
 
 ## Todo
 - Custom action type for composed action
-- Splitting functions in different files, placing private ones in a subfolder
 - model distribution of types (separate npm packages exporting types)
 - passing data/functions to the action handlers
-- refactor types to be optimizable
 - unit test type setters
 - add string.replace
-- create datetime basic type
+- create datetime type
 - create a runtime typechecked types collection
 - fix issue: When creating a single-type module, with no mountpoint (root), and composing the action, due to its id being '', the action is not included in the composed action
