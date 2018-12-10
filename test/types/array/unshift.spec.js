@@ -61,7 +61,7 @@ describe('action handler', () => {
   });
 });
 
-describe('unshift', () => {
+describe('action creator', () => {
   it('creates an action with the correct type', () => {
     const action = creator(VALUE);
     expect(action).toBeTruthy();
