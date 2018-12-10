@@ -1,8 +1,8 @@
 
 const { actionHandlers, actionTypes } = require('../../../../src/basic-types/object');
 
-
-const actionReducer = actionHandlers[actionTypes.remove];
+const type = actionTypes.remove;
+const actionReducer = actionHandlers[type];
 
 const KEY = 'someKey';
 
@@ -16,7 +16,7 @@ let newState;
 
 describe('when the key does not exist', () => {
   beforeEach(() => {
-    newState = actionReducer(oldState, { type: actionTypes.remove, payload: { key: 'NOT_EXISTING' } });
+    newState = actionReducer(oldState, { type, payload: { key: 'NOT_EXISTING' } });
   });
 
   it('returns the old state (immutability)', () => {
@@ -26,7 +26,7 @@ describe('when the key does not exist', () => {
 
 describe('when the state is null', () => {
   beforeEach(() => {
-    newState = actionReducer(null, { type: actionTypes.remove, payload: { key: 'NOT_EXISTING' } });
+    newState = actionReducer(null, { type, payload: { key: 'NOT_EXISTING' } });
   });
 
   it('returns the old state (immutability)', () => {
@@ -37,7 +37,7 @@ describe('when the state is null', () => {
 
 describe('when the key does exist', () => {
   beforeEach(() => {
-    newState = actionReducer(oldState, { type: actionTypes.remove, payload: { key: KEY } });
+    newState = actionReducer(oldState, { type, payload: { key: KEY } });
   });
 
   it('returns a new state (immutability)', () => {

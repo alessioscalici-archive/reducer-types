@@ -1,8 +1,8 @@
 
 const { actionHandlers, actionTypes } = require('../../../../src/basic-types/array');
 
-
-const actionReducer = actionHandlers[actionTypes.shift];
+const type = actionTypes.shift;
+const actionReducer = actionHandlers[type];
 
 const oldState = [{ key: 'value' }, { newKey: 'newValue' }];
 
@@ -11,7 +11,7 @@ let newState;
 
 describe('when the state is null', () => {
   beforeEach(() => {
-    newState = actionReducer(null, { type: actionTypes.shift });
+    newState = actionReducer(null, { type });
   });
 
   it('returns null (does not crash)', () => {
@@ -25,7 +25,7 @@ describe('when the state is not an Array', () => {
 
   it('throws an error', () => {
     expect(() => {
-      actionReducer(notAnArray, { type: actionTypes.shift });
+      actionReducer(notAnArray, { type });
     }).toThrow();
   });
 });
@@ -33,7 +33,7 @@ describe('when the state is not an Array', () => {
 
 describe('when state is an Array', () => {
   beforeEach(() => {
-    newState = actionReducer(oldState, { type: actionTypes.shift });
+    newState = actionReducer(oldState, { type });
   });
 
   it('returns a new state (immutability)', () => {
