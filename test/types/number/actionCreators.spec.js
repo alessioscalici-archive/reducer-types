@@ -6,22 +6,12 @@ const {
     multiply,
     divide,
     mod,
-    negate,
-    bitwiseAnd,
-    bitwiseOr,
-    bitwiseXor,
+    not,
+    and,
+    or,
+    xor,
   },
-  actionTypes: {
-    ACTION_TYPE_ADD,
-    ACTION_TYPE_SUBTRACT,
-    ACTION_TYPE_MULTIPLY,
-    ACTION_TYPE_DIVIDE,
-    ACTION_TYPE_MOD,
-    ACTION_TYPE_NEGATE,
-    ACTION_TYPE_BW_AND,
-    ACTION_TYPE_BW_OR,
-    ACTION_TYPE_BW_XOR,
-  },
+  actionTypes,
 } = require('../../../src/basic-types/number');
 
 
@@ -31,7 +21,7 @@ const VALUE = 42;
 describe('add', () => {
   it('creates an action with the correct type', () => {
     const action = add(VALUE);
-    expect(action.type).toBe(ACTION_TYPE_ADD);
+    expect(action.type).toBe(actionTypes.add);
   });
 
   it('creates an action with the correct properties', () => {
@@ -45,7 +35,7 @@ describe('add', () => {
 describe('subtract', () => {
   it('creates an action with the correct type', () => {
     const action = subtract(VALUE);
-    expect(action.type).toBe(ACTION_TYPE_SUBTRACT);
+    expect(action.type).toBe(actionTypes.subtract);
   });
 
   it('creates an action with the correct properties', () => {
@@ -59,7 +49,7 @@ describe('subtract', () => {
 describe('multiply', () => {
   it('creates an action with the correct type', () => {
     const action = multiply(VALUE);
-    expect(action.type).toBe(ACTION_TYPE_MULTIPLY);
+    expect(action.type).toBe(actionTypes.multiply);
   });
 
   it('creates an action with the correct properties', () => {
@@ -73,7 +63,7 @@ describe('multiply', () => {
 describe('divide', () => {
   it('creates an action with the correct type', () => {
     const action = divide(VALUE);
-    expect(action.type).toBe(ACTION_TYPE_DIVIDE);
+    expect(action.type).toBe(actionTypes.divide);
   });
 
   it('creates an action with the correct properties', () => {
@@ -87,7 +77,7 @@ describe('divide', () => {
 describe('mod', () => {
   it('creates an action with the correct type', () => {
     const action = mod(VALUE);
-    expect(action.type).toBe(ACTION_TYPE_MOD);
+    expect(action.type).toBe(actionTypes.mod);
   });
 
   it('creates an action with the correct properties', () => {
@@ -98,55 +88,55 @@ describe('mod', () => {
 });
 
 
-describe('negate', () => {
+describe('not', () => {
   it('creates an action with the correct type', () => {
-    const action = negate();
-    expect(action.type).toBe(ACTION_TYPE_NEGATE);
+    const action = not();
+    expect(action.type).toBe(actionTypes.not);
   });
 
   it('creates an action with no payload', () => {
-    const action = negate();
+    const action = not();
     expect(action.payload).toBeUndefined();
   });
 });
 
 
-describe('bitwiseAnd', () => {
+describe('and', () => {
   it('creates an action with the correct type', () => {
-    const action = bitwiseAnd(VALUE);
-    expect(action.type).toBe(ACTION_TYPE_BW_AND);
+    const action = and(VALUE);
+    expect(action.type).toBe(actionTypes.and);
   });
 
   it('creates an action with the correct properties', () => {
-    const action = bitwiseAnd(VALUE);
+    const action = and(VALUE);
     expect(action.payload).toBeTruthy();
     expect(action.payload.value).toBe(VALUE);
   });
 });
 
 
-describe('bitwiseOr', () => {
+describe('or', () => {
   it('creates an action with the correct type', () => {
-    const action = bitwiseOr(VALUE);
-    expect(action.type).toBe(ACTION_TYPE_BW_OR);
+    const action = or(VALUE);
+    expect(action.type).toBe(actionTypes.or);
   });
 
   it('creates an action with the correct properties', () => {
-    const action = bitwiseOr(VALUE);
+    const action = or(VALUE);
     expect(action.payload).toBeTruthy();
     expect(action.payload.value).toBe(VALUE);
   });
 });
 
 
-describe('bitwiseXor', () => {
+describe('xor', () => {
   it('creates an action with the correct type', () => {
-    const action = bitwiseXor(VALUE);
-    expect(action.type).toBe(ACTION_TYPE_BW_XOR);
+    const action = xor(VALUE);
+    expect(action.type).toBe(actionTypes.xor);
   });
 
   it('creates an action with the correct properties', () => {
-    const action = bitwiseXor(VALUE);
+    const action = xor(VALUE);
     expect(action.payload).toBeTruthy();
     expect(action.payload.value).toBe(VALUE);
   });

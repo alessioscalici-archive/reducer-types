@@ -7,8 +7,8 @@ module.exports = buildType(
   require('./multiply'),
   require('./divide'),
   require('./mod'),
-  require('./negate'),
-  require('./bitwiseAnd'),
-  require('./bitwiseOr'),
-  require('./bitwiseXor'),
+  require('./not'),
+  require('./and'),
+  require('./or'),
+  require('./xor'),
 );
