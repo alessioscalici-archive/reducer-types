@@ -1,5 +1,5 @@
 
-const mergeConfigs = require('../src/lib/mergeConfigs');
+const mergeConfigs = require('../../src/lib/mergeConfigs');
 
 
 const CONFIG_ARTICLE = {

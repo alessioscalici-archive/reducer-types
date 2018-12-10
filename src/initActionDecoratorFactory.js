@@ -1,7 +1,7 @@
 
 
 const mergeConfigs = require('./lib/mergeConfigs');
-const actionDecoratorFactory = require('./actionDecoratorFactory');
+const actionDecoratorFactory = require('./lib/actionDecoratorFactory');
 
 
 const initActionDecoratorFactory = (...typeConfigs) => type => (targetId) => {

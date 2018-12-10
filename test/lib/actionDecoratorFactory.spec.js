@@ -1,5 +1,5 @@
 
-const actionDecoratorFactory = require('../src/actionDecoratorFactory');
+const actionDecoratorFactory = require('../../src/lib/actionDecoratorFactory');
 
 
 const TARGET_ID = 'TARGET_ID';
