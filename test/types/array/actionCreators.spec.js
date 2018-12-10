@@ -7,7 +7,7 @@ const {
     shift,
   },
   actionTypes,
-} = require('../../../src/basic-types/array');
+} = require('../../../src/types/array');
 
 
 const VALUE = 'some value';

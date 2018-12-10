@@ -5,7 +5,7 @@ const {
     lowercase,
   },
   actionTypes,
-} = require('../../../src/basic-types/string');
+} = require('../../../src/types/string');
 
 
 describe('uppercase', () => {

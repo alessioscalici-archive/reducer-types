@@ -7,7 +7,7 @@ const {
     not,
   },
   actionTypes,
-} = require('../../../src/basic-types/boolean');
+} = require('../../../src/types/boolean');
 
 
 const VALUE = true;

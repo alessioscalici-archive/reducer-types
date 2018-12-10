@@ -12,7 +12,7 @@ const {
     xor,
   },
   actionTypes,
-} = require('../../../src/basic-types/number');
+} = require('../../../src/types/number');
 
 
 const VALUE = 42;

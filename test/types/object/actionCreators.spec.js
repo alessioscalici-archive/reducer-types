@@ -5,7 +5,7 @@ const {
     remove,
   },
   actionTypes,
-} = require('../../../src/basic-types/object');
+} = require('../../../src/types/object');
 
 
 const KEY = 'someKey';

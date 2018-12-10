@@ -2,7 +2,7 @@
 const { createStore, combineReducers } = require('redux');
 const {
   type, buildModule,
-} = require('../src/basic-types');
+} = require('../src/types');
 
 
 const model = {

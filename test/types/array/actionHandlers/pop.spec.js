@@ -1,6 +1,6 @@
 
 
-const { actionHandlers, actionTypes } = require('../../../../src/basic-types/array');
+const { actionHandlers, actionTypes } = require('../../../../src/types/array');
 
 const type = actionTypes.pop;
 const actionReducer = actionHandlers[type];
