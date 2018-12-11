@@ -1,6 +1,6 @@
 require('../../mocks/jestMatchers');
 
-const actionObject = require('../../../src/types/number/set');
+const actionObject = require('../../../src/types/array/set');
 
 const { type, handler, creator } = actionObject;
 const actionReducer = handler;
@@ -12,7 +12,7 @@ it('exports a valid action object', () => {
 
 
 describe('action handler', () => {
-  describe('when trying to set a non-numeric type', () => {
+  describe('when trying to set a non Array type', () => {
     const oldState = 0;
 
     it('string, should set null', () => {
@@ -37,23 +37,19 @@ describe('action handler', () => {
   });
 
 
-  describe('when trying to set a numeric type', () => {
+  describe('when trying to set an Array type', () => {
     const oldState = null;
+    const ARRAY = [1, 2, 3];
 
-    it('applying a number should set the state to the new value', () => {
-      const newState = actionReducer(oldState, { type, payload: { value: 42 } });
-      expect(newState).toBe(42);
-    });
-
-    it('applying 0 should set the state to 0', () => {
-      const newState = actionReducer(oldState, { type, payload: { value: 0 } });
-      expect(newState).toBe(0);
+    it('should set the state', () => {
+      const newState = actionReducer(oldState, { type, payload: { value: ARRAY } });
+      expect(newState).toBe(ARRAY);
     });
   });
 });
 
 describe('action creator', () => {
-  const VALUE = 42;
+  const VALUE = [];
 
   it('creates an action with the correct type', () => {
     const action = creator(VALUE);

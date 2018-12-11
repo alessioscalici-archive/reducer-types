@@ -1,6 +1,6 @@
 require('../../mocks/jestMatchers');
 
-const actionObject = require('../../../src/types/number/set');
+const actionObject = require('../../../src/types/boolean/set');
 
 const { type, handler, creator } = actionObject;
 const actionReducer = handler;
@@ -12,7 +12,7 @@ it('exports a valid action object', () => {
 
 
 describe('action handler', () => {
-  describe('when trying to set a non-numeric type', () => {
+  describe('when trying to set a non-boolean type', () => {
     const oldState = 0;
 
     it('string, should set null', () => {
@@ -37,23 +37,23 @@ describe('action handler', () => {
   });
 
 
-  describe('when trying to set a numeric type', () => {
+  describe('when trying to set a boolean type', () => {
     const oldState = null;
 
-    it('applying a number should set the state to the new value', () => {
-      const newState = actionReducer(oldState, { type, payload: { value: 42 } });
-      expect(newState).toBe(42);
+    it('applying true should set the state to true', () => {
+      const newState = actionReducer(oldState, { type, payload: { value: true } });
+      expect(newState).toBe(true);
     });
 
-    it('applying 0 should set the state to 0', () => {
-      const newState = actionReducer(oldState, { type, payload: { value: 0 } });
-      expect(newState).toBe(0);
+    it('applying false should set the state to false', () => {
+      const newState = actionReducer(oldState, { type, payload: { value: false } });
+      expect(newState).toBe(false);
     });
   });
 });
 
 describe('action creator', () => {
-  const VALUE = 42;
+  const VALUE = true;
 
   it('creates an action with the correct type', () => {
     const action = creator(VALUE);

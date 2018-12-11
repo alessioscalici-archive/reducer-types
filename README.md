@@ -1,3 +1,8 @@
+
+[![Build Status](https://travis-ci.org/alessioscalici/redux-router-lite.svg?branch=master)](https://travis-ci.org/alessioscalici/reducer-types)
+[![npm version](https://badge.fury.io/js/reducer-types.svg)](https://badge.fury.io/js/reducer-types)
+---
+
 # Work in progress
 
 This library is still not released and its API is still unstable. It's not recommended to use yet.
