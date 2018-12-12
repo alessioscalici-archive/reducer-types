@@ -49,8 +49,9 @@ The "array" type might handle the "push" and the "pop" actions, and you can use 
 
 ## Documentation
 
+- [Type sets](docs/type-sets.md)
 - [Models](docs/models.md)
-
+- [Reducers](docs/reducers.md)
 
 
 ## Todo

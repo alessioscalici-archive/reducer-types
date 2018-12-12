@@ -10,10 +10,10 @@ Ingredients:
 
 ```javascript
 // import the buildModuleReducer using the built-in types
-const { buildModuleReducer } = require('reducer-types/types');
+import { buildModuleReducer } from 'reducer-types/types';
 
 // we'll need a model
-const myModel = require('./path/to/my-model');
+import myModel from './path/to/my-model';
 
 // create a reducer from the model
 const myModelReducer = buildModuleReducer(myModel);
@@ -24,13 +24,13 @@ const myModelReducer = buildModuleReducer(myModel);
 
 ```javascript
 // import the buildModuleReducer factory function
-const buildModuleReducer = require('reducer-types');
+import buildModuleReducer from 'reducer-types';
 
 // we'll need a custom type set...
-const myTypeSet = require('./path/to/my-typ');
+import myTypeSet from './path/to/my-typ';
 
 // ... and a model
-const myModel = require('./path/to/my-model');
+import myModelfrom './path/to/my-model';
 
 // create a reducer from the model, using the custom type set
 const myModelReducer = buildModuleReducer(myTypeSet)(myModel);
