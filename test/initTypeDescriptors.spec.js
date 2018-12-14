@@ -6,9 +6,8 @@ const {
 } = require('./mocks/customConfigs');
 
 
-describe('used without any parameter', () => {
-  const type = initTypeDescriptors();
-  expect(type).toEqual({});
+describe('used without any parameter should throw an error', () => {
+  expect(() => initTypeDescriptors()).toThrow();
 });
 
 

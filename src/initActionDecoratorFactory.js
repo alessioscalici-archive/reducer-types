@@ -1,12 +1,9 @@
 
 
-const mergeConfigs = require('./lib/mergeConfigs');
 const actionDecoratorFactory = require('./lib/actionDecoratorFactory');
 
 
-const initActionDecoratorFactory = (...typeConfigs) => type => (targetId) => {
-  const typeConfig = mergeConfigs(...typeConfigs);
-
+const initActionDecoratorFactory = (typeConfig = {}) => type => (targetId) => {
   if (typeConfig[type] && typeConfig[type].actionCreators) {
     const decorateActionCreator = actionDecoratorFactory(targetId);
     return Object.keys(typeConfig[type].actionCreators).reduce((acc, key) => {
