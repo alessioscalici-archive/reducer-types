@@ -1,7 +1,6 @@
 const { PREFIX } = require('../const');
 
-const id = 'mod';
-const type = `${PREFIX}number.${id}`;
+const type = `${PREFIX}number.mod`;
 
 const creator = value => ({ type, payload: { value } });
 
@@ -9,7 +8,6 @@ const handler = (state, action) => (state === null ? state : state % action.payl
 
 
 module.exports = {
-  id,
   type,
   creator,
   handler,

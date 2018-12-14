@@ -1,7 +1,6 @@
 const { PREFIX } = require('../const');
 
-const id = 'or';
-const type = `${PREFIX}boolean.${id}`;
+const type = `${PREFIX}boolean.or`;
 
 const creator = value => ({ type, payload: { value } });
 
@@ -9,7 +8,6 @@ const handler = (state, action) => (state === null ? state : state || action.pay
 
 
 module.exports = {
-  id,
   type,
   creator,
   handler,

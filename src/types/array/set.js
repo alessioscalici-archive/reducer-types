@@ -1,7 +1,8 @@
 const { PREFIX } = require('../const');
 
-const id = 'set';
-const type = `${PREFIX}array.${id}`;
+const type = `${PREFIX}array.set`;
+
+const creator = value => ({ type, payload: { value } });
 
 const handler = (state, action) => (
   action.payload.value === null || Array.isArray(action.payload.value)
@@ -9,11 +10,8 @@ const handler = (state, action) => (
     : null
 );
 
-const creator = value => ({ type, payload: { value } });
-
 
 module.exports = {
-  id,
   type,
   creator,
   handler,

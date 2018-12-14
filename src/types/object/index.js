@@ -1,7 +1,10 @@
 const buildType = require('../../lib/buildType');
 
-module.exports = buildType(
-  require('./set'),
-  require('./entry'),
-  require('./remove'),
-);
+const set = require('./set');
+const entry = require('./entry');
+const remove = require('./remove');
+
+
+module.exports = buildType({
+  set, entry, remove,
+});

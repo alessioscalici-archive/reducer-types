@@ -1,7 +1,6 @@
 const { PREFIX } = require('../const');
 
-const id = 'or';
-const type = `${PREFIX}number.${id}`;
+const type = `${PREFIX}number.or`;
 
 const creator = value => ({ type, payload: { value } });
 
@@ -9,7 +8,6 @@ const creator = value => ({ type, payload: { value } });
 const handler = (state, action) => (state === null ? state : state | action.payload.value);
 
 module.exports = {
-  id,
   type,
   creator,
   handler,

@@ -53,10 +53,6 @@ expect.extend({
       return fail('Action object must be an object');
     }
 
-    if (typeof received.id !== 'string') {
-      return fail('Action object must define string "id"');
-    }
-
     if (typeof received.type !== 'string') {
       return fail('Action object must define string "type"');
     }

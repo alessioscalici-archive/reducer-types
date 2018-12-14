@@ -1,15 +1,13 @@
 const { PREFIX } = require('../const');
 
-const id = 'set';
-const type = `${PREFIX}string.${id}`;
-
-const handler = (state, action) => (typeof action.payload.value === 'string' ? action.payload.value : null);
+const type = `${PREFIX}string.set`;
 
 const creator = value => ({ type, payload: { value } });
 
+const handler = (state, action) => (typeof action.payload.value === 'string' ? action.payload.value : null);
+
 
 module.exports = {
-  id,
   type,
   creator,
   handler,

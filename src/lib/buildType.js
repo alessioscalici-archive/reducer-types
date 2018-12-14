@@ -1,9 +1,10 @@
 
-module.exports = (...actions) => actions.reduce((acc, action) => {
-  acc.actionTypes[action.id] = action.type;
-  acc.actionCreators[action.id] = action.creator;
+module.exports = actions => Object.keys(actions).reduce((acc, actionId) => {
+  const action = actions[actionId];
+  acc.actionTypes[actionId] = action.type;
+  acc.actionCreators[actionId] = action.creator;
   acc.actionHandlers[action.type] = action.handler;
-  acc.actionIds.push(action.id);
+  acc.actionIds.push(actionId);
   return acc;
 }, {
   actionHandlers: {},

@@ -1,7 +1,6 @@
 const { PREFIX } = require('../const');
 
-const id = 'set';
-const type = `${PREFIX}object.${id}`;
+const type = `${PREFIX}object.set`;
 
 const creator = value => ({ type, payload: { value } });
 
@@ -9,7 +8,6 @@ const handler = (state, action) => ((action.payload.value === null || (typeof ac
 
 
 module.exports = {
-  id,
   type,
   creator,
   handler,

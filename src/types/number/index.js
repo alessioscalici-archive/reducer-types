@@ -1,14 +1,17 @@
 const buildType = require('../../lib/buildType');
 
-module.exports = buildType(
-  require('./set'),
-  require('./add'),
-  require('./subtract'),
-  require('./multiply'),
-  require('./divide'),
-  require('./mod'),
-  require('./not'),
-  require('./and'),
-  require('./or'),
-  require('./xor'),
-);
+const set = require('./set');
+const add = require('./add');
+const subtract = require('./subtract');
+const multiply = require('./multiply');
+const divide = require('./divide');
+const mod = require('./mod');
+const not = require('./not');
+const and = require('./and');
+const or = require('./or');
+const xor = require('./xor');
+
+
+module.exports = buildType({
+  set, add, subtract, multiply, divide, mod, not, and, or, xor,
+});

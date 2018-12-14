@@ -1,7 +1,6 @@
 const { PREFIX } = require('../const');
 
-const id = 'entry';
-const type = `${PREFIX}object.${id}`;
+const type = `${PREFIX}object.entry`;
 
 const creator = (key, value) => ({ type, payload: { key, value } });
 
@@ -12,7 +11,6 @@ const handler = (state, action) => {
 
 
 module.exports = {
-  id,
   type,
   creator,
   handler,

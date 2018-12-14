@@ -1,7 +1,6 @@
 const { PREFIX } = require('../const');
 
-const id = 'xor';
-const type = `${PREFIX}boolean.${id}`;
+const type = `${PREFIX}boolean.xor`;
 
 const creator = value => ({ type, payload: { value } });
 
@@ -12,7 +11,6 @@ const handler = (state, action) => {
 
 
 module.exports = {
-  id,
   type,
   creator,
   handler,

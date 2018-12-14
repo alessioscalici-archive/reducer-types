@@ -1,16 +1,13 @@
-
 const { PREFIX } = require('../const');
 
-const id = 'uppercase';
-const type = `${PREFIX}string.${id}`;
-
-const handler = state => state && state.toUpperCase();
+const type = `${PREFIX}string.uppercase`;
 
 const creator = () => ({ type });
 
+const handler = state => state && state.toUpperCase();
+
 
 module.exports = {
-  id,
   type,
   creator,
   handler,
