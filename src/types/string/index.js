@@ -1,10 +1,9 @@
-const buildType = require('../../lib/buildType');
 
 const set = require('./set');
 const uppercase = require('./uppercase');
 const lowercase = require('./lowercase');
 
 
-module.exports = buildType({
+module.exports = {
   set, uppercase, lowercase,
-});
+};

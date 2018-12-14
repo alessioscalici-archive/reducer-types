@@ -1,12 +1,11 @@
 const USERTYPE_CONFIG = {
   userType: {
-    actionHandlers: {
-      SET_PASSWORD: (state, action) => (state
+    setPassword: {
+      type: 'SET_PASSWORD',
+      creator: newPassword => ({ type: 'SET_PASSWORD', payload: { newPassword } }),
+      handler: (state, action) => (state
         ? { ...state, password: action.payload.newPassword }
         : state),
-    },
-    actionCreators: {
-      setPassword: newPassword => ({ type: 'SET_PASSWORD', payload: { newPassword } }),
     },
   },
 };

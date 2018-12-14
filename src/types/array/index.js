@@ -1,4 +1,3 @@
-const buildType = require('../../lib/buildType');
 
 const set = require('./set');
 const push = require('./push');
@@ -7,6 +6,6 @@ const shift = require('./shift');
 const unshift = require('./unshift');
 
 
-module.exports = buildType({
+module.exports = {
   set, push, pop, shift, unshift,
-});
+};

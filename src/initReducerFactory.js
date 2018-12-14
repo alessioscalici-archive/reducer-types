@@ -1,9 +1,9 @@
 const { ACTION_TYPE_COMPOSE } = require('./lib/actions');
 
 
-const generateHandleAction = typeConfig => type => (state, action) => (
-  typeConfig[type].actionHandlers[action.type]
-    ? typeConfig[type].actionHandlers[action.type](state, action)
+const generateHandleAction = actionHandlersMap => type => (state, action) => (
+  actionHandlersMap[type] && actionHandlersMap[type][action.type]
+    ? actionHandlersMap[type][action.type](state, action)
     : state
 );
 
@@ -23,8 +23,20 @@ const getReducerFactory = (actionHandler, initialValue) => targetId => (
   }
 );
 
+/* eslint-disable no-param-reassign */
+const getActionHandlersMap = typeConfig => Object.keys(typeConfig)
+  .reduce((typeSetAcc, typeName) => {
+    typeSetAcc[typeName] = Object.keys(typeConfig[typeName]).reduce((typeAcc, actionName) => {
+      typeAcc[typeConfig[typeName][actionName].type] = typeConfig[typeName][actionName].handler;
+      return typeAcc;
+    }, {});
+    return typeSetAcc;
+  }, {});
+/* eslint-enable no-param-reassign */
+
 const initReducerFactory = (typeConfig) => {
-  const getActionHandlerForType = generateHandleAction(typeConfig);
+  const actionHandlersMap = getActionHandlersMap(typeConfig);
+  const getActionHandlerForType = generateHandleAction(actionHandlersMap);
   return (type, initialValue = null) => {
     if (!typeConfig[type]) {
       throw new Error(`Type "${type}" is not supported!`);

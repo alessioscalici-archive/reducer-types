@@ -39,6 +39,7 @@ describe('must work with multiple mountpoints', () => {
   });
 
   it('that reacts to the actions', () => {
+    debugger;
     reduxStore.dispatch(m1.actions.articles.byId.entry('myKey', 123));
     reduxStore.dispatch(m2.actions.articles.byId.entry('myKey', 456));
     const rootState = reduxStore.getState();

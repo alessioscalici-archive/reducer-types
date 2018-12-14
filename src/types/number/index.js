@@ -1,4 +1,3 @@
-const buildType = require('../../lib/buildType');
 
 const set = require('./set');
 const add = require('./add');
@@ -12,6 +11,6 @@ const or = require('./or');
 const xor = require('./xor');
 
 
-module.exports = buildType({
+module.exports = {
   set, add, subtract, multiply, divide, mod, not, and, or, xor,
-});
+};
