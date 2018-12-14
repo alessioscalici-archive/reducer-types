@@ -1,10 +1,4 @@
-const {
-  TYPE_STRING,
-  TYPE_NUMBER,
-  TYPE_BOOLEAN,
-  TYPE_OBJECT,
-  TYPE_ARRAY,
-} = require('./const');
+
 
 const arrayType = require('./array');
 const objectType = require('./object');
@@ -21,11 +15,11 @@ const buildModuleSelectors = require('../buildModuleSelectors');
 
 
 const CONFIG = {
-  [TYPE_ARRAY]: arrayType,
-  [TYPE_OBJECT]: objectType,
-  [TYPE_BOOLEAN]: booleanType,
-  [TYPE_NUMBER]: numberType,
-  [TYPE_STRING]: stringType,
+  array: arrayType,
+  object: objectType,
+  boolean: booleanType,
+  number: numberType,
+  string: stringType,
 };
 
 
