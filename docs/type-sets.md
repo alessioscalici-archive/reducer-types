@@ -31,37 +31,58 @@ This is contained in the `reducer-types/types` sub-module.
 
 It contains the following types and related actions:
 
-- **array**
-  - `set(value)`: sets a new value (must be an Array)
-  - `push(value)`: adds a new element at the end of the array
-  - `pop()`: removes an element from the end of the array
-  - `shift()`: removes an element from the beginning of the array
-  - `unshift(value)`: adds a new element at the beginning of the array
-- **boolean**
-  - `set(value)`: sets a new value (must be a boolean)
-  - `and`
-  - `or`
-  - `xor`
-  - `not`
-- **number**
-  - `set(value)`: sets a new value (must be a number)
-  - `add`
-  - `subtract`
-  - `multiply`
-  - `divide`
-  - `mod`
-  - `not`
-  - `and`
-  - `or`
-  - `xor`
-- **object**
-  - `set(value)`: sets a new value (must be an object)
-  - `entry`
-  - `remove`
-- **string**
-  - `set(value)`: sets a new value (must be a string)
-  - `uppercase`
-  - `lowercase`
+
+### array
+
+| Action         | Mutable equivalent    | Description |
+| ----------     | ------------------    | ----------- |
+| set(value)     | state = value;        | sets a new value (must be an Array, or `null` will be set) |
+| push(value)    | state.push(value);    | adds a new element at the end of the array |
+| pop()          | state.pop();          | removes an element from the end of the array |
+| shift()        | state.shift();        | removes an element from the beginning of the array |
+| unshift(value) | state.unshift(value); | adds a new element at the beginning of the array |
+
+### boolean
+
+| Action         | Mutable equivalent                | Description |
+| ----------     | ------------------                | ----------- |
+| set(value)     | state = value;                    | sets a new value (must be a boolean, or `null` will be set) |
+| and(value)     | state = state && value;           | applies logical AND operator to the current state |
+| or(value)      | state = state &#124;&#124; value; | applies logical OR operator to the current state |
+| xor(value)     | state = state ? !value : value;   | applies logical XOR operator to the current state |
+| not()          | state = !state;                   | applies logical NOT operator to the current state |
+
+### number
+
+| Action          | Mutable equivalent               | Description |
+| ----------      | ------------------               | ----------- |
+| set(value)      | state = value;                   | sets a new value (must be a number, or `null` will be set) |
+| add(value)      | state = state + value;           | adds value to the current state |
+| subtract(value) | state = state - value;           | subtracts value from the current state |
+| multiply(value) | state = state * value;           | multiplies the current state by value |
+| divide(value)   | state = state / value;           | divides the current state by value |
+| mod(value)      | state = state % value;           | applies the module operator to the current state |
+| not()           | state = -state;                  | negates the current state |
+| and(value)      | state = state & value;           | applies the bitwise AND operator to the current state |
+| or(value)       | state = state &#124; value;      | applies the bitwise OR operator to the current state |
+| xor(value)      | state = state ^ value;           | applies the bitwise XOR operator to the current state |
+
+### object
+
+| Action            | Mutable equivalent             | Description |
+| ----------        | ------------------             | ----------- |
+| set(value)        | state = value;                 | sets a new value (must be an Object, or `null` will be set) |
+| entry(key, value) | state[key] = value;            | sets a new property to the current state |
+| remove(key)       | delete state[key];             | deletes a property from the current state |
+
+### string
+
+| Action            | Mutable equivalent             | Description |
+| ----------        | ------------------             | ----------- |
+| set(value)        | state = value;                 | sets a new value (must be a string, or `null` will be set) |
+| uppercase()       | state = state.toUpperCase();   | transforms the current state to an upper case string |
+| lowercase()       | state = state.toLowerCase();   | transforms the current state to a lower case string |
+
 
 ## Custom type sets
 

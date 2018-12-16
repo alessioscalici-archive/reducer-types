@@ -39,7 +39,6 @@ describe('must work with multiple mountpoints', () => {
   });
 
   it('that reacts to the actions', () => {
-    debugger;
     reduxStore.dispatch(m1.actions.articles.byId.entry('myKey', 123));
     reduxStore.dispatch(m2.actions.articles.byId.entry('myKey', 456));
     const rootState = reduxStore.getState();
@@ -49,7 +48,7 @@ describe('must work with multiple mountpoints', () => {
 
   it('that works with selectors', () => {
     const rootState = reduxStore.getState();
-    expect(m1.selectors.getArticlesById(rootState))
+    expect(m1.selectors.articles.byId(rootState))
       .toEqual(rootState[MOUNT_POINT_1].articles.byId);
   });
 });
@@ -80,6 +79,6 @@ describe('must work with a single type', () => {
 
   it('creates the selector', () => {
     const rootState = reduxStore.getState();
-    expect(m1.selectors.get(rootState)).toBe(3);
+    expect(m1.selectors(rootState)).toBe(3);
   });
 });

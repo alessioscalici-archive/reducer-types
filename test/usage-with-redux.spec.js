@@ -110,7 +110,7 @@ describe('must work with mountpoints', () => {
 
   it('that works with selectors', () => {
     const rootState = reduxStore.getState();
-    expect(m1.selectors.getArticlesById(rootState))
+    expect(m1.selectors.articles.byId(rootState))
       .toEqual(rootState[MOUNT_POINT].articles.byId);
   });
 });
