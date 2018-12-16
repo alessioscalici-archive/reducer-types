@@ -14,7 +14,7 @@ const buildModuleReducer = require('../buildModuleReducer');
 const buildModuleSelectors = require('../buildModuleSelectors');
 
 
-const CONFIG = {
+const TYPE_SET = {
   array: arrayType,
   object: objectType,
   boolean: booleanType,
@@ -24,10 +24,10 @@ const CONFIG = {
 
 
 module.exports = {
-  CONFIG,
-  type: initTypeDescriptors(CONFIG),
-  buildModule: buildModule(CONFIG),
-  buildModuleActions: buildModuleActions(CONFIG),
-  buildModuleReducer: buildModuleReducer(CONFIG),
+  TYPE_SET,
+  type: initTypeDescriptors(TYPE_SET),
+  buildModule: buildModule(TYPE_SET),
+  buildModuleActions: buildModuleActions(TYPE_SET),
+  buildModuleReducer: buildModuleReducer(TYPE_SET),
   buildModuleSelectors,
 };
